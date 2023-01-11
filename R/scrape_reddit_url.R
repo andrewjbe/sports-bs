@@ -7,9 +7,6 @@
 #' @returns A dataframe of the reddit comments
 #' @export
 
-# save_locally = TRUE
-# save_local_directory = "./data/"
-# thread_url <- "https://old.reddit.com/r/OnePiece/comments/104w9rl/one_piece_chapter_1071_official_release_discussion/"
 
 scrape_reddit_url <- function(save_locally = FALSE, save_local_directory, thread_url) {
 
