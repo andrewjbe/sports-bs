@@ -1,0 +1,5 @@
+^requirements\.txt$
+^renv$
+^renv\.lock$
+^sportsBs\.Rproj$
+^\.Rproj\.user$
