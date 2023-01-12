@@ -39,7 +39,7 @@ submission = r.submission(url = chosen_url)
 n_comments = submission.num_comments
 
 t.tic()
-while True:RedditExtractoR
+while True:
       try:
           submission.comments.replace_more(limit=None)
           break
