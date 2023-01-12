@@ -7,18 +7,23 @@
 #' @returns A dataframe of the reddit comments
 #' @export
 
-
 scrape_reddit_url <- function(save_locally = FALSE, save_local_directory, thread_url) {
 
   library(reticulate)
   library(dplyr)
   library(readr)
+  # library(cli)
 
   python_scraping_script <- paste0("
 import praw
 import csv
 from datetime import date
 import pandas as pd
+from typing import ContextManager, Optional
+from alive_progress import alive_bar
+from pytictoc import TicToc
+
+t = TicToc()
 
 chosen_url = '", thread_url, "'
 current_date = date.today().strftime('%b-%d-%Y')
@@ -31,15 +36,19 @@ r = praw.Reddit(
 
 submission = r.submission(url = chosen_url)
 
-while True:
-    try:
-        submission.comments.replace_more(limit=None)
-        break
-    except PossibleExceptions:
-        print('Handling replace_more exception')
-        sleep(1)
+n_comments = submission.num_comments
+
+t.tic()
+while True:RedditExtractoR
+      try:
+          submission.comments.replace_more(limit=None)
+          break
+      except PossibleExceptions:
+          print('Handling replace_more exception')
+          sleep(0.1)
 
 comments = submission.comments.list()
+t.toc()
 
 df = pd.DataFrame()
 for comment in comments:
@@ -52,10 +61,13 @@ for comment in comments:
 final = df.rename(columns = {0: 'body', 1: 'author', 2: 'flair', 3: 'time_unix', 4: 'score'})")
 
 tictoc::tic()
+# cli::cli_progress_message(paste0("Scraping ", thread_url, "..."))
 py_run_string(python_scraping_script)
+# cli::cli_progress_done()
 tictoc::toc()
 
-ds <- suppressWarnings(py$final)
+ds <- suppressWarnings(py$final) |>
+  as_tibble()
 
 # Save locally
 if(save_locally){
