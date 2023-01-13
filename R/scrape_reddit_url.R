@@ -7,74 +7,28 @@
 #' @returns A dataframe of the reddit comments
 #' @export
 
-scrape_reddit_url <- function(save_locally = FALSE, save_local_directory, thread_url) {
+scrape_reddit_url <- function(thread_url, save_locally = FALSE, save_local_directory) {
 
-  library(reticulate)
-  library(dplyr)
-  library(readr)
-  # library(cli)
+  thread_short_name <- gsub("https://old.reddit.com/", "", thread_url)
+  cli::cli_h1(paste0("Scraping comments from ", substr(thread_short_name, 1, 60), "..."))
 
-  python_scraping_script <- paste0("
-import praw
-import csv
-from datetime import date
-import pandas as pd
-from typing import ContextManager, Optional
-from alive_progress import alive_bar
-from pytictoc import TicToc
+  tictoc::tic()
+  thread_url <<- thread_url
+  reticulate::py_run_file("./R/reddit_scraper.py")
 
-t = TicToc()
+  ds <- suppressWarnings(reticulate::py$final) |>
+    dplyr::as_tibble()
 
-chosen_url = '", thread_url, "'
-current_date = date.today().strftime('%b-%d-%Y')
+  cli::cli_alert_success("Thread scraped successfully!")
+  tictoc::toc()
 
-r = praw.Reddit(
-    client_id='bETczEve7sdlcfdvZ92lrw',
-    client_secret='4NojRSIkkTYZRuFMArPDrxOsKe1-aQ',
-    user_agent='test_agent',
-)
+  # Save locally
+  if(save_locally){
+    readr::write_rds(ds, file = paste0(save_local_directory, reticulate::py$submission$title, "-", lubridate::today(), ".rds"))
+    cli::cli_alert_success(paste0("Saved '", reticulate::py$submission$title,  ".RDS' to ", save_local_directory))
+  }
 
-submission = r.submission(url = chosen_url)
-
-n_comments = submission.num_comments
-
-t.tic()
-while True:
-      try:
-          submission.comments.replace_more(limit=None)
-          break
-      except PossibleExceptions:
-          print('Handling replace_more exception')
-          sleep(0.1)
-
-comments = submission.comments.list()
-t.toc()
-
-df = pd.DataFrame()
-for comment in comments:
-  auth = comment.author
-  if auth != None:
-    name = auth.name
-  a = pd.DataFrame([[comment.body, name, comment.author_flair_text, comment.created_utc, comment.score]])
-  df = pd.concat([df, a])
-
-final = df.rename(columns = {0: 'body', 1: 'author', 2: 'flair', 3: 'time_unix', 4: 'score'})")
-
-tictoc::tic()
-# cli::cli_progress_message(paste0("Scraping ", thread_url, "..."))
-py_run_string(python_scraping_script)
-# cli::cli_progress_done()
-tictoc::toc()
-
-ds <- suppressWarnings(py$final) |>
-  as_tibble()
-
-# Save locally
-if(save_locally){
-  write_rds(ds, file = paste0(save_local_directory, py$submission$title))
-  print(paste0("Saved local RDS to ", save_local_directory))
-}
-
-return(ds)
+  rm(thread_url)
+  return(ds)
 
 }

@@ -1,5 +1,8 @@
+about-time==4.2.1
+alive-progress==3.0.1
 certifi==2022.12.7
 charset-normalizer==2.1.1
+grapheme==0.6.0
 idna==3.4
 numpy==1.24.1
 pandas==1.5.2
