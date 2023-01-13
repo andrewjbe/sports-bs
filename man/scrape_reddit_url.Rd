@@ -4,14 +4,14 @@
 \alias{scrape_reddit_url}
 \title{Scrape the comments from a reddit thread by URL}
 \usage{
-scrape_reddit_url(save_locally = FALSE, save_local_directory, thread_url)
+scrape_reddit_url(thread_url, save_locally = FALSE, save_local_directory)
 }
 \arguments{
+\item{thread_url}{The URL you want to scrape}
+
 \item{save_locally}{TRUE or FALSE; whether or not to save an RDS of the results locally}
 
 \item{save_local_directory}{a string; the directory where the RDS file should be saved}
-
-\item{thread_url}{The URL you want to scrape}
 }
 \value{
 A dataframe of the reddit comments
