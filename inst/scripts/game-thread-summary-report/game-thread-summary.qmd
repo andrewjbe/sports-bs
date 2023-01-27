@@ -1,0 +1,390 @@
+---
+title: "🏈 r/CFB Game Thread Summary"
+title-block-banner: www/turf-wide-dark.png
+format: html
+editor: visual
+params:
+  home_team: TCU
+  alt_color: FALSE
+  yr: 2022
+  wk: 15
+  date: bowl-games
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, echo=FALSE, message=FALSE, warning=FALSE}
+library(cfbfastR)
+library(tidyverse)
+library(janitor)
+library(ggthemes)
+library(lubridate)
+library(htmltools)
+library(tidytext)
+# library(wordcloud)
+library(stringr)
+
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, 
+                      out.width="85%", fig.align = "center")
+
+# yr <- 2022
+# wk <- 13
+# date <- "Nov-26-2022"
+
+path_start <- "~/"
+
+team_info <- cfbd_team_info() |>
+  mutate(
+    school = case_when(
+      school == "East Carolina" ~ "ECU",
+      TRUE ~ school
+    )
+  )
+
+# Read locally saved data ------------------------------------------------------
+file_list <- list.files(path = paste0(path_start, params$date, "/"), pattern = "*.csv")
+# comments_ <- lapply(paste0(path_start, date, "/", file_list), read_csv)
+# names(comments_) <- gsub(file_list, pattern = "\\..*", replacement = "")
+# comments_ <- bind_rows(comments_, .id = "id") |>
+#   select(!`...1`) |>
+#   rename(title = id, body = `0`, flair = `1`, time_unix = `2`, score = `3`)
+
+thread_name <- file_list[grep(paste0("@ ", params$home_team, " \\("), file_list)]
+
+if(length(thread_name) == 0) { 
+  stop("No matching game thread data found! Try again.")
+}
+#print("Game thread data found!")
+comments_ <- read_csv(paste0(path_start, params$date, "/", thread_name)) |>
+  mutate(id = str_remove(thread_name, ".csv")) |>
+  select(!`...1`) |>
+  rename(title = id, body = `0`, flair = `1`, time_unix = `2`, score = `3`)
+#print("Game thread data loaded successfuly!")
+
+# Analysis ---------------------------------------------------------------------
+comments_clean <- comments_ |>
+  mutate(
+    time = as_datetime(time_unix),
+    ref_complaint = if_else(grepl(
+      " REF | REFS|REFS |REFFING|REFEREE|OFFICIAL|OFFICIATING|OFFICIATED|REFFING|REFBALL|RIGGED|RIGGING|THE FIX|FUCKING FLAG|DAMN FLAG|TERRIBLE FLAG|BAD FLAG|BULLSHIT FLAG|AWFUL FLAG|BS FLAG|FUCKING CALL|DAMN CALL|TERRIBLE CALL|BAD CALL|BULLSHIT CALL|AWFUL CALL|BS CALL|FUCKING SPOT|DAMN SPOT|TERRIBLE SPOT|BAD SPOT|BULLSHIT SPOT|AWFUL SPOT|BS SPOT|THAT SPOT|HOSED|ROBBED",
+      body, ignore.case = TRUE), 
+      TRUE, FALSE),
+    salt_detected = if_else(grepl("SALT|🧂|TEARS", toupper(body)), TRUE, FALSE),
+    flair = trimws(str_remove(flair, "\\:[^()]*\\:"))
+  ) |>
+  separate(col = flair, sep = " • ", into = c("flair_one", "flair_two")) |>
+  separate(col = title, sep = " @ ", into = c("away", "home"), remove = FALSE) |>
+  mutate(
+    away = str_remove(away, "\\[Game Thread]"),
+    away = trimws(str_replace_all(away, pattern = "[^a-zA-Z ]", "")),
+    home = str_remove(home, " \\s*\\([^\\)]+\\)"),
+    home = trimws(str_replace_all(home, pattern = "[^a-zA-Z ]", "")),
+  ) |>
+  # FLAIR FIXES ===
+  mutate(
+    home = case_when(
+      home == "Texas AM" ~ "Texas A&M",
+      TRUE ~ home
+    )
+  ) |>
+  group_by(title) |>
+  mutate(
+    faction = case_when(
+      flair_one == home ~ "Home Team Fan",
+      flair_one == away ~ "Away Team Fan",
+      TRUE ~ "Neutral / Both / Neither"
+    ),
+    flair_one = if_else(is.na(flair_one), "No Flair", flair_one)
+  ) |>
+  ungroup()
+
+sched <- cfbfastR::espn_cfb_schedule(year = params$yr,
+                                     week = params$wk) |>
+  select(game_date, home_team_location, start_date) |>
+  mutate(
+    home_team_location = case_when(
+      home_team_location == "South Florida" ~ "USF",
+      TRUE ~ home_team_location
+    )
+  ) |>
+  filter(home_team_location %in% comments_clean$home)
+
+# Final Dataset ---
+
+comments <- comments_clean |>
+  left_join(sched, by = c("home" = "home_team_location")) |>
+  mutate(start_date = parse_datetime(start_date),
+         end_date = start_date + hours(4) + minutes(30)) 
+
+# QOL dataframes ---
+home_team_name <- comments |> distinct(home) |> pull(var = home)
+home_team_logo <- team_info[which(team_info$school == home_team_name), ]$logo
+
+if(params$alt_color){
+  home_team_color <- team_info[which(team_info$school == home_team_name), ]$alt_color
+} else {
+  home_team_color <- team_info[which(team_info$school == home_team_name), ]$color
+}
+
+ 
+away_team_name <- comments |> distinct(away) |> pull(var = away)
+away_team_logo <- team_info[which(team_info$school == away_team_name), ]$logo
+
+away_team_color <- team_info[which(team_info$school == away_team_name), ]$alt_color
+# away_team_color_alt <- team_info[which(team_info$school == away_team_name), ]$alt_color
+ 
+top_flair_summary <- comments |> count(flair_one) |> slice_max(order_by = n, n = 1)
+top_flair_logo <- team_info[which(team_info$school == top_flair_summary |> pull(var = flair_one)), ]$logo
+if(top_flair_summary |> pull(var = flair_one) == "No Flair"){
+  top_flair_logo <- "./www/clown.png"
+}
+
+total_ref_complaints <- comments |> 
+  filter(ref_complaint) |> 
+  nrow() 
+  
+percent_ref_complaints <- (total_ref_complaints / nrow(comments)) |>
+  round(2)
+
+top_ref_complainer_data <- comments |>
+  filter(ref_complaint) |>
+  group_by(flair_one) |>
+  summarize(
+    n_complaints = n()
+  ) |>
+  slice_max(order_by = n_complaints, n = 1)
+
+top_ref_complainer <- top_ref_complainer_data |> pull(var = flair_one)
+if(length(top_ref_complainer) > 1){
+  top_ref_complainer <- paste(top_ref_complainer, collapse = "/")
+}
+
+top_ref_complainer_logo <- team_info[which(team_info$school == top_ref_complainer), ]$logo
+if(top_ref_complainer == "No Flair"){
+  top_ref_complainer_logo <- "./www/clown.png"
+}
+if(is_empty(top_ref_complainer_logo)){
+  top_ref_complainer_logo <- "./www/cfb-imp-map-logo-dark.png"
+}
+
+
+# Ref complaint index
+ref_complaint_rating <- case_when(
+  percent_ref_complaints < 0.025 ~ "Clear",
+  percent_ref_complaints >= 0.025 & percent_ref_complaints < 0.05 ~ "Mild",
+  percent_ref_complaints >= 0.05 & percent_ref_complaints < 0.075 ~ "Moderate",
+  percent_ref_complaints >= 0.075 & percent_ref_complaints < .1 ~ "High",
+  percent_ref_complaints >= .1 & percent_ref_complaints < .125 ~ "Extreme",
+  percent_ref_complaints >= .125 ~ "Oh Shit!",
+)
+
+```
+
+```{css}
+h1 {
+  margin-top: -20px;
+}
+```
+
+# `r str_remove_all(bowl_name, "\\[Game Thread\\]|.csv") |> trimws()`
+
+------------------------------------------------------------------------
+
+## 📈 Summary Statistics
+
+<!-- -   **Game Start Time:** `r comments |> distinct(start_date) |> pull(var = start_date)` (UTC) -->
+
+-   **Total Comments at time of data collection:** `r comments |> nrow() |> format(big.mark = ",")`
+
+
+
+-   **Most Common Primary Flair:** `r top_flair_summary |> pull(var = flair_one)` ![](`r top_flair_logo`){style="height: 25px; width: 25px;"} (`r top_flair_summary |> pull(var = n) |> format(big.mark = ",")` comments)
+
+-   **Total Comments from:**
+
+    -   **Neutral / No Flairs:** `r comments |> filter(faction == "Neutral / Both / Neither") |> nrow() |> format(big.mark = ",")` (`r ( 100 * comments |> filter(faction == "Neutral / Both / Neither") |> nrow() / nrow(comments) ) |> round(2)`%)
+
+    -   **`r home_team_name` flairs:** 
+    ![](`r home_team_logo`){style="height: 25px; width: 25px;"} 
+    `r comments |> filter(faction == "Home Team Fan") |> nrow() |> format(big.mark = ",")` 
+    (`r ( 100 * comments |> filter(faction == "Home Team Fan") |> nrow() / nrow(comments) ) |> round(2)`%)
+
+    -   **`r away_team_name` flairs:** 
+    ![](`r away_team_logo`){style="height: 25px; width: 25px;"} 
+    `r comments |> filter(faction == "Away Team Fan") |> nrow() |> format(big.mark = ",")` 
+    (`r ( 100 * comments |> filter(faction == "Away Team Fan") |> nrow() / nrow(comments) ) |> round(2)`%)
+
+## ⌚ Thread Timeline
+
+```{r thread_timeline}
+thread_timeline_data <- comments |> 
+  filter(home == home_team_name) |>
+  count(
+    min = floor_date(time, "10 minutes"),
+    title,
+    faction,
+  # DISABLED DUE TO LACK OF BOWL GAME SCHEDULES
+    # start_date, end_date
+    ) # |> 
+  # filter(min > start_date - minutes(30),
+  #        min < end_date)
+
+thread_timeline_data |>
+  filter(n > 10) |>   # ENABLED DUE TO LACK OF BOWL GAME SCHEDULES
+  ggplot(aes(x = min, y = n, 
+             fill = faction, 
+             # color = faction
+             )) +
+  geom_col() +
+  # DISABLED DUE TO LACK OF BOWL GAME SCHEDULES
+    # expand_limits(x = c(thread_timeline_data$start_date - minutes(30), 
+    #                     thread_timeline_data$end_date)) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(title = paste0(str_remove_all(thread_name, "\\[Game Thread\\]|.csv"), "\n Game Thread Timeline"),
+       subtitle = "Total comments posted per 10 minute interval, by commenter's primary flair",
+       x = "Comment time (10 minute chunks)",
+       y = "Total comments",
+       fill = "Commenter Faction") +
+  theme_fivethirtyeight() +
+  scale_fill_manual(labels = c(away_team_name, home_team_name, "Neutral / No Flair"),
+                    values = c(away_team_color, home_team_color, "#D3D3D3")) +
+  # scale_color_manual(breaks = c("Away Team Fan", "Home Team Man", "Neutral / Both / Neither"),
+  #                    values = c(away_team_color_alt, home_team_color_alt, "#D3D3D3")) +
+  guides(color = "none") +
+  theme(legend.direction = "horizontal",
+        legend.position = "bottom",
+        axis.text.y = element_text(size = 13),
+        axis.title = element_text(),
+        plot.title.position = "plot",
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+# comments |>
+#   filter(faction != "Neutral / Both / Neither") |>
+#   count(time = floor_date(time, "10 minutes"), faction) |>
+#   ggplot(aes(x = time, y = n, color = faction)) +
+#   geom_line(size = 2) +
+#   theme_fivethirtyeight() +
+#   scale_color_manual(labels = c(away_team_name, home_team_name, "Neutral / No Flair"),
+#                    values = c(away_team_color, home_team_color, "#D3D3D3")) +
+#   labs(title = "r/CFB game thread",
+#        subtitle = "Comments per 10 minutes",
+#        x = "Time",
+#        y = "Comments / 10 minutes")
+
+```
+
+## 🤡 Referee Complaint Analysis
+
+-   **Total Complaints:** `r total_ref_complaints |> format(big.mark = ",")` (`r 100 * percent_ref_complaints`% of all comments) -- RATING: \[`r ref_complaint_rating`\]
+
+-   **Top Complainers:** `r top_ref_complainer` ![](`r top_ref_complainer_logo`){style="height: 25px; width: 25px;"} (`r (100 * top_ref_complainer_data |> pull(var = n_complaints) / comments |> filter(ref_complaint) |> nrow()) |> round(2)`% of all complaints and `r (100 * top_ref_complainer_data |> pull(var = n_complaints) / nrow(comments)) |> round(2)`% of all comments)
+
+```{r ref_complaint_timeline}
+ref_timeline_data <- comments |> 
+  filter(home == home_team_name,
+         ref_complaint) |>
+  count(
+    min = floor_date(time, "10 minutes"),
+    title,
+    faction,
+    start_date, end_date
+    ) # |> 
+  # filter(min > start_date - minutes(30),
+  #        min < end_date) 
+
+ref_timeline_data |>
+ggplot(aes(x = min, y = n, 
+             fill = faction, 
+             # color = faction
+             )) +
+  geom_col() +
+  scale_y_continuous(labels = scales::comma) +
+  expand_limits(x = c(ref_timeline_data$start_date - minutes(30), 
+                      ref_timeline_data$end_date)) +
+  labs(title = paste0(str_remove_all(thread_name, "\\[Game Thread\\]|.csv"), "\nRef Complaint Timeline"),
+       subtitle = "Total ref complaints posted per 10 minute interval, by commenter's primary flair",
+       x = "Comment time (10 minute chunks)",
+       y = "Total comments\ncomplaining about refs",
+       fill = "Commenter Faction") +
+  theme_fivethirtyeight() +
+  scale_fill_manual(labels = c(away_team_name, home_team_name, "Neutral / No Flair"),
+                    values = c(away_team_color, home_team_color, "#D3D3D3")) +
+  # scale_color_manual(breaks = c("Away Team Fan", "Home Team Man", "Neutral / Both / Neither"),
+  #                    values = c(away_team_color_alt, home_team_color_alt, "#D3D3D3")) +
+  guides(color = "none") +
+  theme(legend.direction = "horizontal",
+        legend.position = "bottom",
+        axis.text.y = element_text(size = 13),
+        axis.title = element_text(),
+        plot.title.position = "plot",
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+```
+
+## 🗣 Most Common Words Analysis
+
+```{r, fig.height=6, out.width='90%'}
+
+top_words <- comments |>
+  # filter(
+  #   flair_one == chosen_flair,
+  #   home == "Ohio State",
+  #   # faction != "Away Team Fan"
+  # ) |>
+  mutate(text = body,
+         text = str_remove_all(text, "&amp;|&lt;|&gt;"),
+         text = str_remove_all(text, "\\s?(f|ht)(tp)(s?)(://)([^\\.]*)[\\.|/](\\S*)"),
+         text = str_remove_all(text, "[^\x01-\x7F]")) |>
+  unnest_tokens(word, text, token = "words") |>
+  filter(!word %in% stop_words$word,
+         !word %in% str_remove_all(stop_words$word, "'"),
+         str_detect(word, "[a-z]"),
+         !str_detect(word, "^#"),
+         !str_detect(word, "@\\S+")) |>
+  group_by(faction) |>
+  count(word, sort = TRUE) |>
+  filter(
+    word != "game",
+    # word != tolower(home_team_name),
+    # word != tolower(away_team_name)
+  ) |>
+  slice_max(order_by = n, n = 10,
+            with_ties = FALSE) |>
+  mutate(reorder_word = reorder_within(word, n, faction))
+
+top_words |>
+  filter(faction != "Neutral / Both / Neither") |>
+  ggplot(aes(x = reorder_word,
+             y = n,
+             fill = faction)) +
+  geom_col(position = "dodge") +
+  geom_text(aes(label = word),
+            color = "white",
+            size = 6,
+            hjust = 1,
+            fontface = "bold"
+            ) +
+  coord_flip() +
+  scale_x_reordered() +
+  labs(title = "Top 10 Most Used Words",
+       subtitle = "by commenter faction",
+       x = "", y = "") +
+  facet_wrap(~faction,
+             nrow = 1,
+             scales = "free") +
+  theme_fivethirtyeight() +
+  guides(fill = "none") +
+  scale_fill_manual(labels = c(away_team_name, home_team_name, "Neutral / No Flair"),
+                    values = c(away_team_color, home_team_color, "#D3D3D3")) +
+  theme(legend.direction = "horizontal",
+        legend.position = "bottom",
+        # axis.text.y = element_text(size = 13),
+        # axis.text.x. = element_blank(),
+        axis.text.y = element_blank(), 
+        axis.title = element_text(),
+        plot.title.position = "plot",
+        plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+  
+```

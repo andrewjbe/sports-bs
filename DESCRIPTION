@@ -1,8 +1,8 @@
 Package: sportsBs
-Title: What the Package Does (One Line, Title Case)
+Title: A package for all of Drew's sports BS
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+    person("Drew", "B", , "first.last@example.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: What the package does (one paragraph).
 License: MIT + file LICENSE

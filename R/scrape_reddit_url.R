@@ -9,7 +9,9 @@
 
 scrape_reddit_url <- function(thread_url, save_locally = FALSE, save_local_directory) {
 
-  thread_short_name <- gsub("https://old.reddit.com/", "", thread_url)
+  # TODO: add check to see if the file already exists at save_local_directory?
+
+  thread_short_name <- gsub(".*/r/", "r/", thread_url) # TODO: make this better regex'd -- ".*/r/"?
   cli::cli_h1(paste0("Scraping comments from ", substr(thread_short_name, 1, 60), "..."))
 
   tictoc::tic()

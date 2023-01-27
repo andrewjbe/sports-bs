@@ -20,20 +20,21 @@ while True:
       try:
           submission.comments.replace_more(limit=None)
           break
-      except PossibleExceptions:
+      except:
           print('Handling replace_more exception')
           sleep(0.1)
 
 comments = submission.comments.list()
 
 df = pd.DataFrame()
+name = "NULL"
 for comment in comments:
   auth = comment.author
   if auth != None:
     name = auth.name
-  a = pd.DataFrame([[comment.body, name, comment.author_flair_text, comment.created_utc, comment.score]])
+  a = pd.DataFrame([[submission.title, comment.body, name, comment.author_flair_text, comment.created_utc, comment.score]])
   df = pd.concat([df, a])
 
-final = df.rename(columns = {0: 'body', 1: 'author', 2: 'flair', 3: 'time_unix', 4: 'score'})
+final = df.rename(columns = {0: 'title', 1: 'body', 2: 'author', 3: 'flair', 4: 'time_unix', 5: 'score'})
 
 # df.to_csv("./data/" + submission.title + "-" + current_date + ".csv")
