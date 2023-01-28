@@ -71,9 +71,56 @@ generate_report_cbb <- function(thread_data, alt_color = FALSE) {
 #' @returns A dataframe of the reddit comments
 #' @export
 
-generate_report_nfl <- function(thread_data, alt_color = FALSE) {
+generate_report_nfl <- function(thread_data, alt_color = FALSE, output_file) {
 
+  library(webshot2)
+  library(htmlwidgets)
+  library(png)
+  library(ggimage)
+  library(quarto)
 
+  cli::cli_alert("Rendering report...")
+
+  # Rendering Quarto -----------------------------------------------------------
+  quarto_render(input = "./inst/reports/nfl/game-thread-summary-nfl.qmd",
+                execute_params = list(
+                  data = thread_data,
+                  # alt_color = alt_color,
+                  yr = year)
+  )
+
+  cli::cli_alert("Report rendered successfully! Saving as image and optimizing...")
+
+  # Saving image ------
+  webshot2::webshot(url = "./inst/reports/nfl/game-thread-summary-nfl.html",
+                    file = output_file,
+                    zoom = 1.3)
+
+  system(paste0("convert ",
+                output_file,
+                " -shave 75x0 ",
+                output_file
+  ))
+  system(paste0("optipng ", output_file)) # lossless compression to get < 1Mb
+
+  cli::cli_alert_success(paste0("Image saved to ", output_file, "!"))
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
