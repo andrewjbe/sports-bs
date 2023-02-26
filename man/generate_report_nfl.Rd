@@ -4,7 +4,7 @@
 \alias{generate_report_nfl}
 \title{Generate a report based on a single game thread from r/NFL ==================}
 \usage{
-generate_report_nfl(thread_data, alt_color = FALSE, output_file)
+generate_report_nfl(thread_data, alt_color = FALSE, output_file, year)
 }
 \arguments{
 \item{thread_data}{a locally saved .RDS file of reddit comment data}

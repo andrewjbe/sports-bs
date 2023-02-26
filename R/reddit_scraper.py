@@ -1,5 +1,6 @@
 import praw
 import csv
+import time
 from datetime import date
 import pandas as pd
 
@@ -22,7 +23,7 @@ while True:
           break
       except:
           print('Handling replace_more exception')
-          sleep(0.1)
+          time.sleep(0.1)
 
 comments = submission.comments.list()
 

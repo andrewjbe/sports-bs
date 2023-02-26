@@ -5,16 +5,16 @@
 #' @param output_file the file to save the resulting image
 #' @param year the cfb season during which the game took place
 #'
+#' @import webshot2
+#' @import htmlwidgets
+#' @import png
+#' @import ggimage
+#' @import quarto
+#'
 #' @returns A dataframe of the reddit comments
 #' @export
 
 generate_report_cfb <- function(thread_data, alt_color = FALSE, year, output_file) {
-
-  library(webshot2)
-  library(htmlwidgets)
-  library(png)
-  library(ggimage)
-  library(quarto)
 
   cli::cli_alert("Rendering report...")
 
@@ -51,6 +51,12 @@ generate_report_cfb <- function(thread_data, alt_color = FALSE, year, output_fil
 #' @param output_file the file to save the resulting image
 #' @param year the cbb season during which the game took place
 #'
+#' @import webshot2
+#' @import htmlwidgets
+#' @import png
+#' @import ggimage
+#' @import quarto
+#'
 #' @returns A dataframe of the reddit comments
 #' @export
 
@@ -68,16 +74,16 @@ generate_report_cbb <- function(thread_data, alt_color = FALSE) {
 #' @param output_file the file to save the resulting image
 #' @param year the nfl season during which the game took place
 #'
+#' @import webshot2
+#' @import htmlwidgets
+#' @import png
+#' @import ggimage
+#' @import quarto
+#'
 #' @returns A dataframe of the reddit comments
 #' @export
 
-generate_report_nfl <- function(thread_data, alt_color = FALSE, output_file) {
-
-  library(webshot2)
-  library(htmlwidgets)
-  library(png)
-  library(ggimage)
-  library(quarto)
+generate_report_nfl <- function(thread_data, alt_color = FALSE, output_file, year) {
 
   cli::cli_alert("Rendering report...")
 

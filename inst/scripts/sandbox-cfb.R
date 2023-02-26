@@ -9,7 +9,7 @@ devtools::load_all()
 # Gonna scrape some r/CBB threads for posterity
 
 urls <- find_thread_urls(
-  keywords = "[Game Thread]",
+  keywords = "[Game Thread]", # try adding @ to get rid of post game threads
   sort_by = "relevance",
   subreddit = "cfb",
   period = "year"

@@ -1,6 +1,6 @@
 ---
 title: "🏈 r/NFL Game Thread Summary"
-subtitle: "made by u/CaptainScuttleBottom"
+subtitle: ""
 title-block-banner: www/turf-wide-dark.png
 format: html
 editor: visual
