@@ -11,11 +11,14 @@ scrape_reddit_url <- function(thread_url, save_locally = FALSE, save_local_direc
 
   # TODO: add check to see if the file already exists at save_local_directory?
 
-  thread_short_name <- gsub(".*/r/", "r/", thread_url) # TODO: make this better regex'd -- ".*/r/"?
+  thread_short_name <- gsub(".*/r/", "r/", thread_url)
   cli::cli_h1(paste0("Scraping comments from ", substr(thread_short_name, 1, 60), "..."))
 
   tictoc::tic()
   thread_url <<- thread_url
+  client_id <<- Sys.getenv("REDDIT_CLIENT_ID")
+  secret <<- Sys.getenv("REDDIT_SECRET")
+
   reticulate::py_run_file("./R/reddit_scraper.py")
 
   ds <- suppressWarnings(reticulate::py$final) |>

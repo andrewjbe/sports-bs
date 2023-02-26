@@ -27,8 +27,8 @@ chosen_url = "https://old.reddit.com/r/CollegeBasketball/comments/tuzhan/post_ga
 current_date = date.today().strftime("%b-%d-%Y")
 
 r = praw.Reddit(
-    client_id="bETczEve7sdlcfdvZ92lrw",
-    client_secret="4NojRSIkkTYZRuFMArPDrxOsKe1-aQ",
+    client_id="",
+    client_secret="",
     user_agent="test_agent",
 )
 

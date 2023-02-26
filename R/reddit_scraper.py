@@ -8,8 +8,8 @@ chosen_url = r.thread_url # r is the current R environment via {reticulate}
 current_date = date.today().strftime('%b-%d-%Y')
 
 reddit = praw.Reddit(
-    client_id='bETczEve7sdlcfdvZ92lrw',
-    client_secret='4NojRSIkkTYZRuFMArPDrxOsKe1-aQ',
+    client_id=r.client_id,
+    client_secret=r.secret,
     user_agent='test_agent',
 )
 
