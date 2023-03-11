@@ -2,4 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
-data/reddit-comment-data/.
+data/reddit-comment-data/
+temp.html
+temp_files
+test.png
