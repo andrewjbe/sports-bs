@@ -22,5 +22,5 @@ There are two main tasks I'm accomplishing with this code:
 
 1. I need to finish porting all my random scripts over. Including:
     - **CFB:** 1) a function to generate the CFB Power Projection map, and 2) a function to generate the CFB "Closest Undefeated" map
-    - **CBB:** 1) Functions to create all three maps for College Basketball? and 2) a function to generate game thread reports from comment data
+    - **CBB:** 1) Functions to create all three maps for College Basketball? 
     - **Dashboards:** 1) I need to clean up all my code on the map dashboards, and create seperate repos for those.
