@@ -60,9 +60,33 @@ generate_report_cfb <- function(thread_data, alt_color = FALSE, year, output_fil
 #' @returns A dataframe of the reddit comments
 #' @export
 
-generate_report_cbb <- function(thread_data, alt_color = FALSE) {
+generate_report_cbb <- function(thread_data, alt_color = FALSE, year, output_file) {
 
+  cli::cli_alert("Rendering report...")
 
+  # Rendering Quarto -----------------------------------------------------------
+  quarto_render(input = "./inst/reports/cbb/game-thread-summary-cbb.qmd",
+                execute_params = list(
+                  data = thread_data,
+                  # alt_color = alt_color,
+                  yr = year)
+  )
+
+  cli::cli_alert("Report rendered successfully! Saving as image and optimizing...")
+
+  # Saving image ------
+  webshot2::webshot(url = "./inst/reports/cbb/game-thread-summary-cbb.html",
+                    file = output_file,
+                    zoom = 1.3)
+
+  system(paste0("convert ",
+                output_file,
+                " -shave 75x0 ",
+                output_file
+  ))
+  system(paste0("optipng ", output_file)) # lossless compression to get < 1Mb
+
+  cli::cli_alert_success(paste0("Image saved to ", output_file, "!"))
 
 
 }
