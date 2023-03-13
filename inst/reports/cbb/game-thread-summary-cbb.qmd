@@ -6,7 +6,7 @@ title-block-banner-color: "black"
 format: html
 editor: visual
 params:
-  data: "./data/reddit-comment-data/collegebasketball/2022-2023/[Game Thread] #2 Kansas @ #13 Kansas State (07:00 PM ET)-2023-01-19.rds"
+  data:
   alternate_color: FALSE
   yr: 2023
 editor_options: 
