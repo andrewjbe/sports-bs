@@ -22,7 +22,8 @@ scrape_reddit_url <- function(thread_url, save_locally = FALSE, save_local_direc
   reticulate::py_run_file("./R/reddit_scraper.py")
 
   ds <- suppressWarnings(reticulate::py$final) |>
-    dplyr::as_tibble()
+    dplyr::as_tibble() |>
+    dplyr::mutate(flair = as.character(flair))
   # TODO: add validation here, the flairs are causing some weird errors
 
   cli::cli_alert_success("Thread scraped successfully!")

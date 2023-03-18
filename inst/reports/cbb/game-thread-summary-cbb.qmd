@@ -6,7 +6,7 @@ title-block-banner-color: "black"
 format: html
 editor: visual
 params:
-  data:
+  data: "/home/andrew/Documents/GitHub/sportsBs/data/reddit-comment-data/collegebasketball/ncaa-tournament-2023/[Game Thread] #16 Fairleigh Dickinson @ #1 Purdue (06:50 PM ET)-2023-03-17.rds"
   alternate_color: FALSE
   yr: 2023
 editor_options: 
@@ -201,10 +201,10 @@ h1 {
 
 ```{r thread_timeline}
 thread_timeline_data <- comments |> 
-  filter(home == home_team_name) |>
+  # filter(home == home_team_name) |>
   count(
     min = floor_date(time, "10 minutes"),
-    title,
+    # title,
     faction
     # start_date, end_date
     ) |>
@@ -227,11 +227,13 @@ thread_timeline_data |>
        y = "Total comments",
        fill = "Commenter Faction") +
   theme_fivethirtyeight() +
-  scale_fill_manual(labels = c(away_team_name, home_team_name, "Neutral / No Flair"),
-                    values = c(away_team_color, home_team_color, "#D3D3D3")) +
+  # scale_fill_manual(labels = c(away_team_name, home_team_name, "Neutral / No Flair"),
+  #                   values = c(away_team_color, home_team_color, "#D3D3D3")) +
+  scale_fill_manual(labels = c("Away Team Fan", "Home Team Fan", "Neutral / No Flair"),
+                    values = c("#008FD5", "#FF2700", "#D3D3D3")) +
   # scale_color_manual(breaks = c("Away Team Fan", "Home Team Man", "Neutral / Both / Neither"),
   #                    values = c(away_team_color_alt, home_team_color_alt, "#D3D3D3")) +
-  guides(color = "none") +
+  # guides(color = "none") +
   theme(legend.direction = "horizontal",
         legend.position = "bottom",
         axis.text.y = element_text(size = 13),

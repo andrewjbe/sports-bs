@@ -7,12 +7,13 @@ team_info <- hoopR::espn_mbb_teams() |>
     team = if_else(team == "Miami", "Miami FL", team),
     team = if_else(team == "Texas A&M-Corpus Christi", "Texas A&M Corpus Chris", team),
     team = str_replace_all(team, "State", "St."),
-    team = if_else(team == "NC St.", "N.C. State", team),
+    team = if_else(team == "NC St.", "N.C. State", team)
   )
 
 all_teams <- hoopR::kp_teamstats(min_year = 2023) |>
   left_join(team_info,
-            by = c("team"))
+  by = c("team"))
+
 
 tourney_teams <- all_teams |>
   filter(!is.na(ncaa_seed)) |>
@@ -36,7 +37,8 @@ tourney_teams <- all_teams |>
                   ) ~ "Midwest Region",
       TRUE ~ "West Region"
     )
-  )
+  ) |>
+  select(team, conf, ncaa_seed, year, mascot, logo)
 
 # Region summaries:
 tourney_teams |>
@@ -78,7 +80,7 @@ p <- tourney_teams |>
   geom_hline(aes(yintercept = mean(-adj_d)),
              linetype = "dashed") +
   facet_wrap(~region,
-             scales = "free") +
+             scales = "fixed") +
   labs(title = "NCAA Tournament Regions",
        subtitle = "by Kenpom Scores",
        x = "Adj. O",
@@ -87,10 +89,11 @@ p <- tourney_teams |>
        "Farther to the right on the X-axis means good offense.\n",
        "Dashed lines are tournament-wide averages.")) +
   theme_clean()
+p
 
-ggsave(filename = "./kenpom-region-scores.png",
-       plot = p,
-       device = "png", width = 3000, height = 3000, units = "px")
+# ggsave(filename = "./kenpom-region-scores.png",
+#        plot = p,
+#        device = "png", width = 3000, height = 3000, units = "px")
 
 
 
