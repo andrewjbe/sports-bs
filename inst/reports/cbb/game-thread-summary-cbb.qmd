@@ -6,7 +6,7 @@ title-block-banner-color: "black"
 format: html
 editor: visual
 params:
-  data: "/home/andrew/Documents/GitHub/sportsBs/data/reddit-comment-data/collegebasketball/ncaa-tournament-2023/[Game Thread] #16 Fairleigh Dickinson @ #1 Purdue (06:50 PM ET)-2023-03-17.rds"
+  data: 
   alternate_color: FALSE
   yr: 2023
 editor_options: 

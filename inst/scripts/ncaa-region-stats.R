@@ -96,7 +96,10 @@ p
 #        device = "png", width = 3000, height = 3000, units = "px")
 
 
+# =-===========================================================================
 
+ds <- read_csv("~/Downloads/NCAATournamentBracket.csv") |>
+  janitor::clean_names()
 
 
 

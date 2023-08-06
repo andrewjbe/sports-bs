@@ -4,16 +4,6 @@
 #' @param week the week of the map you want to generate
 #' @param output_file the file you want to save the map image to, ends with .png
 #'
-#' @import leaflet
-#' @import cfbfastR
-#' @import sf
-#' @import data.table
-#' @import webshot2
-#' @import ggimage
-#' @import png
-#' @import htmlwidgets
-#' @importFrom ggthemes theme_map
-#'
 #' @returns An image of the CFB "Classic" Imperialism Map
 #' @export
 

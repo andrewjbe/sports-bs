@@ -5,11 +5,6 @@
 #' @param output_file the file to save the resulting image
 #' @param year the cfb season during which the game took place
 #'
-#' @import webshot2
-#' @import htmlwidgets
-#' @import png
-#' @import ggimage
-#' @import quarto
 #'
 #' @returns A dataframe of the reddit comments
 #' @export

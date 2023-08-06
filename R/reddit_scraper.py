@@ -39,3 +39,16 @@ for comment in comments:
 final = df.rename(columns = {0: 'title', 1: 'body', 2: 'author', 3: 'flair', 4: 'time_unix', 5: 'score'})
 
 # df.to_csv("./data/" + submission.title + "-" + current_date + ".csv")
+
+# Testing
+# 
+# user = reddit.redditor("tomdawg0022")
+# 
+# posts = list(user.submissions.new())
+# 
+# current_time = int(time.time())
+# past_fifteen = current_time - 900
+# 
+# posts_past_fifteen_minutes = [post for post in posts if post.created_utc > past_fifteen and post.subreddit.display_name.lower() == "cfb"]
+# 
+# filtered_n = len(posts_past_fifteen_minutes)

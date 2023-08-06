@@ -13,6 +13,7 @@ scrape_reddit_url <- function(thread_url, save_locally = FALSE, save_local_direc
 
   thread_short_name <- gsub(".*/r/", "r/", thread_url)
   cli::cli_h1(paste0("Scraping comments from ", substr(thread_short_name, 1, 60), "..."))
+  cli::cli_alert_info(paste0("N comments: ", reticulate::py$n_comments))
 
   tictoc::tic()
   thread_url <<- thread_url
@@ -32,7 +33,13 @@ scrape_reddit_url <- function(thread_url, save_locally = FALSE, save_local_direc
   # Save locally
   if(save_locally){
     # TODO: change today() to date of thread posting (I think it would be like py$submission$date or something)
-    readr::write_rds(ds, file = paste0(save_local_directory, reticulate::py$submission$title, "-", lubridate::today(), ".rds"))
+    readr::write_rds(ds,
+                     file = paste0(save_local_directory,
+                                   gsub("\\.|\\/", "", reticulate::py$submission$title) |> substr(start = 1, stop = 60),
+                                   "-",
+                                   lubridate::today(),
+                                   ".rds")
+    )
     cli::cli_alert_success(paste0("Saved '", reticulate::py$submission$title,  ".RDS' to ", save_local_directory))
   }
 

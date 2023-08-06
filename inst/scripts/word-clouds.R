@@ -9,7 +9,11 @@ date <- "Nov-26-2022"
 team_info <- cfbfastR::cfbd_team_info()
 
 # NEW
-file_list <- list.files(path = paste0("./data/", date, "/"), pattern = "*.csv")
+# file_list <- list.files(path = paste0("./data/", date, "/"), pattern = "*.csv")
+file_list <- list.files(here("data", "reddit-comment-data", "cfb", "2023-offseason"), pattern = "*.rds", full.names = T)
+
+comments_ <- lapply(list_data, readr::read_rds) |>
+  dplyr::bind_rows()
 
 comments_ <- lapply(paste0("./data/", date, "/", file_list), read_csv)
 names(comments_) <- gsub(file_list, pattern = "\\..*", replacement = "")
@@ -48,7 +52,8 @@ comments <- comments_ |>
       TRUE ~ "Neutral / Both / Neither"
     )
   ) |>
-  ungroup()
+  ungroup() |>
+  select(-c(home, away, ref_complaint, salt_detected, choke_detected, faction))
 
 # WORDCLOUD ====
 # Pick a flair, game, or flair faction
@@ -81,30 +86,52 @@ chosen_color <- team_info |>
 comments |>
   filter(
     # flair_one == chosen_flair,
-    home == "Alabama",
+    # home == "Alabama",
     # faction != "Away Team Fan"
-    time > ymd_hms("2022-11-26 22:08:43"),
-    time < ymd_hms("2022-11-26 22:12:43"),
+    # time > ymd_hms("2022-11-26 22:08:43"),
+    # time < ymd_hms("2022-11-26 22:12:43"),
   ) |>
   mutate(text = body,
          text = str_remove_all(text, "game"), # This is always the #1 word so I removed it
          text = str_remove_all(text, "&amp;|&lt;|&gt;"),
          text = str_remove_all(text, "\\s?(f|ht)(tp)(s?)(://)([^\\.]*)[\\.|/](\\S*)"),
-         text = str_remove_all(text, "[^\x01-\x7F]")) |> 
+         text = str_remove_all(text, "[^\x01-\x7F]")) |>
   unnest_tokens(word, text, token = "words") |>
   filter(!word %in% stop_words$word,
          !word %in% str_remove_all(stop_words$word, "'"),
          str_detect(word, "[a-z]"),
-         !str_detect(word, "^#"),         
+         !str_detect(word, "^#"),
          !str_detect(word, "@\\S+")) |>
-  count(word, sort = TRUE) |> 
+  count(word, sort = TRUE) |>
   with(wordcloud(word, n, random.order = FALSE, max.words = 75,
-                 color = "red"
+                 # color = "red"
                  ))
 
 
+# fuck _____
+fuck_pattern <- "(?i)(?<=\\bfuck\\s).*?(?=\\.|,|$|\\?|\\-|but|lol|lmao|too)"
+
+comments |>
+  mutate(
+    fuck = str_extract_all(body, fuck_pattern) |> tolower() |> str_replace_all("[[:punct:]]", "")
+  ) |>
+  unnest(fuck) |>
+  count(fuck, sort = T) |>
+  print(n = 20)
+  # slice_head(n = 20) |>
+  # knitr::kable() |>
+  # clipr::write_clip()
 
 
+authors <- comments |>
+  group_by(author, flair_one) |>
+  summarize(n_comments = n()) |>
+  group_by(author) |>
+  summarize(n_comments = sum(n_comments, na.rm = T),
+            flairs = paste(flair_one[!flair_one == "NULL"], collapse = ", "))
 
-
-
+authors |>
+  slice_max(order_by = n_comments,
+            n = 10) |>
+  knitr::kable() |>
+  clipr::write_clip()
