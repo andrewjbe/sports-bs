@@ -4,17 +4,17 @@
 \alias{cfb_generate_imp_map}
 \title{Generate a "Classic" Imperialism Map for a given CFB season / week ==========}
 \usage{
-cfb_generate_imp_map(season = 2022, week = 1, output_file)
+cfb_generate_imp_map(season = 2022, end_week = 1, output_file, no_ak_pr = TRUE)
 }
 \arguments{
 \item{season}{the year of the map you want to generate}
 
-\item{week}{the week of the map you want to generate}
-
 \item{output_file}{the file you want to save the map image to, ends with .png}
+
+\item{week}{the week of the map you want to generate}
 }
 \value{
-An image of the CFB "Classic" Imperialism Map
+Saves an image of the CFB "Classic" Imperialism Map and returns the data
 }
 \description{
 Generate a "Classic" Imperialism Map for a given CFB season / week ==========

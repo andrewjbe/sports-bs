@@ -4,16 +4,16 @@
 \alias{generate_report_cbb}
 \title{Generate a report based on a single game thread from r/Collegebasketball ====}
 \usage{
-generate_report_cbb(thread_data, alt_color = FALSE)
+generate_report_cbb(thread_data, alt_color = FALSE, year, output_file)
 }
 \arguments{
 \item{thread_data}{a locally saved .RDS file of reddit comment data}
 
 \item{alt_color}{whether or not the home team should use their alt color}
 
-\item{output_file}{the file to save the resulting image}
-
 \item{year}{the cbb season during which the game took place}
+
+\item{output_file}{the file to save the resulting image}
 }
 \value{
 A dataframe of the reddit comments
