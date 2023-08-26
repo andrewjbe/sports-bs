@@ -13,7 +13,6 @@ scrape_reddit_url <- function(thread_url, save_locally = FALSE, save_local_direc
 
   thread_short_name <- gsub(".*/r/", "r/", thread_url)
   cli::cli_h1(paste0("Scraping comments from ", substr(thread_short_name, 1, 60), "..."))
-  cli::cli_alert_info(paste0("N comments: ", reticulate::py$n_comments))
 
   tictoc::tic()
   thread_url <<- thread_url
@@ -21,6 +20,8 @@ scrape_reddit_url <- function(thread_url, save_locally = FALSE, save_local_direc
   secret <<- Sys.getenv("REDDIT_SECRET")
 
   reticulate::py_run_file("./R/reddit_scraper.py")
+
+  cli::cli_alert_info(paste0("N comments: ", reticulate::py$n_comments))
 
   ds <- suppressWarnings(reticulate::py$final) |>
     dplyr::as_tibble() |>
@@ -43,7 +44,12 @@ scrape_reddit_url <- function(thread_url, save_locally = FALSE, save_local_direc
     cli::cli_alert_success(paste0("Saved '", reticulate::py$submission$title,  ".RDS' to ", save_local_directory))
   }
 
-  rm(thread_url)
+  try({
+    rm(thread_url)
+    rm(secret)
+    rm(client_id)
+  })
+
   return(ds)
 
 }

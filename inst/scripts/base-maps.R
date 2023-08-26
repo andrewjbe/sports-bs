@@ -68,13 +68,35 @@ base_map_fbs_grouped <- base_map_fbs_counties |>
   ) |>
   st_cast("MULTIPOLYGON")
 
+# no alaska version
+base_map_fbs_grouped_no_ak <- base_map_fbs_counties |>
+  filter(STATEFP != "02",
+         STATEFP != "72") |>
+  group_by(school) |>
+  summarise(
+    n_counties = n(),
+    sum_land = sum(ALAND) * 0.000000386102, # Convert sq meters to sq miles
+    sum_water = sum(AWATER) * 0.000000386102,
+    sum_total = sum_land + sum_water,
+    total_pop = sum(population, na.rm = T)
+  ) |>
+  st_cast("MULTIPOLYGON")
+
 # # Check in mapview:
 # mapview::mapview(base_map_fbs_grouped,
 #                  zcol = "school")
 
 # Save to RDS ------------------------------------------------------------------
 readr::write_rds(base_map_fbs_grouped, "./data/map-files/base_map_fbs_grouped.rds")
+readr::write_rds(base_map_fbs_grouped_no_ak, "./data/map-files/base_map_fbs_grouped_no_ak.rds")
 
+# Splitting Washington / Alaska so there are two logos -------------------------
+# .shp versions:
+sf::write_sf(base_map_fbs_grouped, "./data/map-files/base_map_fbs_grouped.shp")
+sf::write_sf(base_map_fbs_grouped_no_ak, "./data/map-files/base_map_fbs_grouped_no_ak.shp")
+
+sf::read_sf("./data/map-files/base_map_fbs_grouped_no_ak_wa_logo_fix.shp") |>
+  readr::write_rds("./data/map-files/base_map_fbs_grouped_no_ak_wa_logo_fix.rds")
 
 # Base map 2: All counties -----------------------------------------------------
 states <- tigris::states()

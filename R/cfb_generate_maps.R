@@ -4,18 +4,19 @@
 #' @param week the week of the map you want to generate
 #' @param output_file the file you want to save the map image to, ends with .png
 #'
-#' @returns An image of the CFB "Classic" Imperialism Map
+#' @returns Saves an image of the CFB "Classic" Imperialism Map and returns the data
 #' @export
 
 
-cfb_generate_imp_map <- function(season = 2022, end_week = 1, output_file){
+cfb_generate_imp_map <- function(season = 2022, end_week = 1, output_file, no_ak_pr = TRUE){
 
   cli::cli_h1("Generating 'Classic' Imperialism map...")
 
   cli::cli_alert_info("Preparing data...")
 
   # Preparing data -------------------------------------------------------------
-  base_map <- readr::read_rds("./data/map-files/base_map_fbs_grouped.rds")
+  base_map <- readr::read_rds("./data/map-files/base_map_fbs_grouped_no_ak_wa_logo_fix.rds")
+  base_map_no_ak <- readr::read_rds("./data/map-files/base_map_fbs_grouped_no_ak.rds")
   styling <- readr::read_csv("./data/map-files/cfb-map-styling.csv", show_col_types = FALSE)
   counties <- readr::read_rds("./data/map-files/counties_shifted.rds")
   states <- readr::read_rds("./data/map-files/states_shifted.rds")
@@ -75,10 +76,24 @@ cfb_generate_imp_map <- function(season = 2022, end_week = 1, output_file){
                                      school),
                      by = "school")
 
+  counties_grouped_no_ak <- base_map_no_ak |>
+    dplyr::mutate(home_school = school) |>
+    dplyr::left_join(ds_teams |>
+                       dplyr::select(home_mascot = mascot,
+                                     home_conference = conference,
+                                     home_city = city,
+                                     school),
+                     by = "school")
+
   # Loop through all the games in the season so far
   if(end_week > 0) {
     for(i in (1:nrow(ds_results))){
       counties_grouped <- counties_grouped |>
+        dplyr::mutate(
+          school = dplyr::if_else(school == ds_results$loser[i], ds_results$winner[i], school)
+        )
+
+      counties_grouped_no_ak <- counties_grouped_no_ak |>
         dplyr::mutate(
           school = dplyr::if_else(school == ds_results$loser[i], ds_results$winner[i], school)
         )
@@ -91,14 +106,19 @@ cfb_generate_imp_map <- function(season = 2022, end_week = 1, output_file){
                        dplyr::select(school, logo_chosen, color_chosen),
                      by = "school")
 
+  counties_grouped_no_ak <- counties_grouped_no_ak |>
+    dplyr::left_join(ds_teams |>
+                       dplyr::select(school, logo_chosen, color_chosen),
+                     by = "school")
+
   cli::cli_alert_info("Generating map...")
 
   # The map itself -------------------------------------------------------------
   # Logos and sizing
   logoIcons.os <- leaflet::icons(
     iconUrl = counties_grouped$logo_chosen,
-    iconWidth = (as.numeric(log(sf::st_area(counties_grouped))) - 21) * 22,
-    iconHeight = (as.numeric(log(sf::st_area(counties_grouped))) - 21) * 22
+    iconWidth = (as.numeric(log(sf::st_area(counties_grouped))) - 21) * 44,
+    iconHeight = (as.numeric(log(sf::st_area(counties_grouped))) - 21) * 44
   )
 
   # Colors
@@ -121,11 +141,11 @@ cfb_generate_imp_map <- function(season = 2022, end_week = 1, output_file){
                                                           zoomControl = TRUE,
                                                           zoomSnap = 0.25,
                                                           zoomDelta = 1),
-                        height = 2000,
-                        width = 3200) |>
+                        height = 4000,
+                        width = 6400) |>
     leaflet::setView(lng = -98.64580,
                      lat = 38.05909,
-                     zoom = 5) |>
+                     zoom = 6) |>
     leaflet::addPolygons(data = counties_grouped,
                          smoothFactor = 0.2,
                          color = "white",
@@ -163,8 +183,8 @@ cfb_generate_imp_map <- function(season = 2022, end_week = 1, output_file){
 
   webshot2::webshot(url = "./temp_files/temp.html",
                     file = output_file,
-                    vwidth = 3200,
-                    vheight = 2000)
+                    vwidth = 6400,
+                    vheight = 4000)
 
 
   # Adding text, logo, etc.
@@ -172,20 +192,48 @@ cfb_generate_imp_map <- function(season = 2022, end_week = 1, output_file){
   h <- as.numeric(dim(img)[1])
   w <- as.numeric(dim(img)[2])
 
-  text_to_plot <- tibble::tibble(x = 0.6,
-                                 y = 0.9,
-                                 text = paste0("CFB Imperialism Map: \n",  season, " season, week ", end_week))
+  leader_logo <- counties_grouped_no_ak |>
+    dplyr::group_by(school) |>
+    dplyr::reframe(total_domain = sum(sum_total),
+                   school = school,
+                   logo_chosen = logo_chosen,
+                   color_chosen = color_chosen) |>
+    dplyr::distinct() |>
+    dplyr::slice_max(order_by = total_domain, n = 1) |>
+    dplyr::select(school, logo_chosen, color_chosen)
+
+
+  text_to_plot <- tibble::tibble(x = 0.63,
+                                 y = 0.952,
+                                 text = paste0("CFB IMPERIALISM MAP | ",  season,
+                                               " season, week ", end_week)
+                                 )
 
   final_img <- ggplot2::ggplot(data = text_to_plot) +
     ggplot2::annotation_raster(img, xmin = 0, xmax = 1, ymin = 0, ymax = 1) +
+    ggplot2::annotation_raster(png::readPNG("./inst/www/cfb-imp-map-frame.png"),
+                               xmin = 0, xmax = 1, ymin = 0, ymax = 1) +
     ggplot2::geom_text(ggplot2::aes(x = x, y = y, label = text),
-                       size = 1800,
-                       family = "Open Sans Extrabold",
-                       fontface = "bold") +
-    ggimage::geom_image(ggplot2::aes(image = "./inst/www/cfb-imp-map-logo-named-alt.png", x = 0.085, y = 0.85), size = 0.090, asp = 1.6) +
+                       size = 4000,
+                       color = "#161616",
+                       family = "Open Sans Extrabold") +
+    # Leader logo
+    ggplot2::geom_point(ggplot2::aes(x = 0.899, y = 0.1653),
+                                   color = dplyr::pull(leader_logo, var = color_chosen),
+                        size = 2.4 * 10^4,
+                        alpha = 0.9) +
+    ggimage::geom_image(ggplot2::aes(x = 0.899, y = 0.1653,
+                                     image = dplyr::pull(leader_logo, var = logo_chosen)),
+                        size = 0.111, by = "height") +
+    # Replaced below w/ an all-inclusive frame as another raster annotation
+    # ggimage::geom_image(ggplot2::aes(image = "./inst/www/cfb-imp-map-logo-mod.png",
+    #                                  x = 0.11, y = 0.85),
+    #                     size = 0.14, asp = 1.6) +
+    # ggimage::geom_image(ggplot2::aes(image = "./inst/www/cfb-imp-map-header.png", x = 0.085, y = 0.85), size = 0.090, asp = 1.6) +
     ggplot2::xlim(0,1) +
     ggplot2::ylim(0,1) +
-    ggthemes::theme_map()
+    ggthemes::theme_map() +
+    ggplot2::guides(fill = "none")
 
   # Saving, trimming, and compressing
   ggplot2::ggsave(paste0(output_file),
@@ -206,6 +254,18 @@ cfb_generate_imp_map <- function(season = 2022, end_week = 1, output_file){
   # TODO: Upload to imgur for sharing?
 
   # TODO: Generate text for accompanying post (including imgur links) and return?
+  if(no_ak_pr){
+    data <- counties_grouped_no_ak |>
+      st_drop_geometry()
+
+    return(data)
+  } else {
+    data <- counties_grouped |>
+      st_drop_geometry()
+
+    return(data)
+  }
+
   # Then all I'd have to do is run one function each week and then paste the output over
 
 }

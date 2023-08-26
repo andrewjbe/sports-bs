@@ -24,7 +24,7 @@ ds <- ds_ |>
 #   View()
 
 ds |>
-  filter(team %in% c("Alabama", "Oklahoma", "Tulane", "Kansas", "USC")) |>
+  filter(team %in% c("Air Force")) |>
   # filter(team %in% c("Oklahoma")) |>
   ggplot(aes(x = week, y = elo_rating_post, color = team)) +
   geom_line() +
