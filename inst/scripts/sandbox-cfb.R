@@ -93,7 +93,7 @@ all_logs |>
 # ==============================================================================
 # Results
 
-list_data <- list.files(here("data", "reddit-comment-data", "cfb", "2023-offseason"), pattern = "*.rds", full.names = T)
+list_data <- list.files(here("data", "reddit-comment-data", "cfb", "2023"), pattern = "*.rds", full.names = T)
 
 all_data <- lapply(list_data, readr::read_rds) |>
   dplyr::bind_rows()
@@ -105,6 +105,11 @@ all_data |>
                       y = n)) +
   geom_point() +
   geom_line()
+
+all_data |>
+  count(title, sort = T) |>
+  print(n = 30)
+
 
 # re-alignment graph pac-12 -> b10 --------------------------------------------0
 

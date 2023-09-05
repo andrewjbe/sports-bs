@@ -4,17 +4,12 @@
 \alias{cfb_rankings_drew_elo_top}
 \title{Generate Top 25 ELO rankings for a given week}
 \usage{
-cfb_rankings_drew_elo_top(
-  year = 2022,
-  years_lookback = 5,
-  week = 1,
-  n_results = 25
-)
+cfb_rankings_drew_elo_top(elos, year = 2022, week = 1, n_results = 25)
 }
 \arguments{
-\item{year}{A given CFB season}
+\item{elos}{The number of previous years to include in elo scores}
 
-\item{years_lookback}{The number of previous years to include in elo scores}
+\item{year}{A given CFB season}
 
 \item{week}{A given CFB week}
 

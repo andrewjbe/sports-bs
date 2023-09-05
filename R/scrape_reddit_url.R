@@ -21,6 +21,12 @@ scrape_reddit_url <- function(thread_url, save_locally = FALSE, save_local_direc
 
   reticulate::py_run_file("./R/reddit_scraper.py")
 
+  # Check if there were any comments
+  if(nrow(reticulate::py$final) == 0) {
+    cli::cli_alert_warning("This thread had no non-removed comments.")
+    return(tibble())
+  }
+
   cli::cli_alert_info(paste0("N comments: ", reticulate::py$n_comments))
 
   ds <- suppressWarnings(reticulate::py$final) |>
@@ -44,11 +50,13 @@ scrape_reddit_url <- function(thread_url, save_locally = FALSE, save_local_direc
     cli::cli_alert_success(paste0("Saved '", reticulate::py$submission$title,  ".RDS' to ", save_local_directory))
   }
 
-  try({
+  try(expr = {
     rm(thread_url)
     rm(secret)
     rm(client_id)
-  })
+  },
+  silent = TRUE) |>
+    suppressWarnings()
 
   return(ds)
 

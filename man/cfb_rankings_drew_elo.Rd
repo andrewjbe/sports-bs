@@ -4,7 +4,7 @@
 \alias{cfb_rankings_drew_elo}
 \title{Generate rankings based on performance scores}
 \usage{
-cfb_rankings_drew_elo(year = 2022, years_lookback = 5)
+cfb_rankings_drew_elo(year = 2022, years_lookback = 3)
 }
 \arguments{
 \item{year}{A given CFB season}

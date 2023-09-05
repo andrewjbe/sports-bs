@@ -8,7 +8,7 @@ cfb_rankings_elo_new_score(
   team_rating,
   expected_score,
   observed_score,
-  k_factor = 40
+  k_factor = 60
 )
 }
 \arguments{
