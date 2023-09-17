@@ -42,9 +42,9 @@ scrape_reddit_url <- function(thread_url, save_locally = FALSE, save_local_direc
     # TODO: change today() to date of thread posting (I think it would be like py$submission$date or something)
     readr::write_rds(ds,
                      file = paste0(save_local_directory,
-                                   gsub("\\.|\\/", "", reticulate::py$submission$title) |> substr(start = 1, stop = 60),
+                                   gsub("\\.|\\/\amp;", "", reticulate::py$submission$title) |> substr(start = 1, stop = 60),
                                    "-",
-                                   lubridate::today(),
+                                   reticulate::py$post_date,
                                    ".rds")
     )
     cli::cli_alert_success(paste0("Saved '", reticulate::py$submission$title,  ".RDS' to ", save_local_directory))

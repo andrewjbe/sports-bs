@@ -44,7 +44,7 @@ thread_name <- comments_ |>
 # Cleaning ---------------------------------------------------------------------
 comments_clean <- comments_ |>
   mutate(
-    time = as_datetime(time_unix),
+    time = as_datetime(time_unix, tz = "America/Chicago"),
     ref_complaint = if_else(grepl(
       " REF | REFS|REFS |REFFING|REFEREE|OFFICIAL|OFFICIATING|OFFICIATED|REFFING|REFBALL|RIGGED|RIGGING|THE FIX|FUCKING FLAG|DAMN FLAG|TERRIBLE FLAG|BAD FLAG|BULLSHIT FLAG|AWFUL FLAG|BS FLAG|FUCKING CALL|DAMN CALL|TERRIBLE CALL|BAD CALL|BULLSHIT CALL|AWFUL CALL|BS CALL|FUCKING SPOT|DAMN SPOT|TERRIBLE SPOT|BAD SPOT|BULLSHIT SPOT|AWFUL SPOT|BS SPOT|HOSED|ROBBED",
       body, ignore.case = TRUE), 
@@ -217,7 +217,7 @@ thread_timeline_data |>
   scale_y_continuous(labels = scales::comma) +
   labs(title = paste0(str_remove_all(thread_name, "\\[Game Thread\\]|.csv"), "\n Game Thread Timeline"),
        subtitle = "Total comments posted per 10 minute interval, by commenter's primary flair",
-       x = "Comment time (10 minute chunks)",
+       x = "Comment time (10 minute chunks, CST)",
        y = "Total comments",
        fill = "Commenter Faction") +
   theme_fivethirtyeight() +
@@ -279,7 +279,7 @@ ggplot(aes(x = min, y = n,
                       ref_timeline_data$end_date)) +
   labs(title = paste0(str_remove_all(thread_name, "\\[Game Thread\\]|.csv"), "\nRef Complaint Timeline"),
        subtitle = "Total ref complaints posted per 10 minute interval, by commenter's primary flair",
-       x = "Comment time (10 minute chunks)",
+       x = "Comment time (10 minute chunks, CST)",
        y = "Total comments\ncomplaining about refs",
        fill = "Commenter Faction") +
   theme_fivethirtyeight() +
@@ -301,6 +301,13 @@ ggplot(aes(x = min, y = n,
 
 ```{r, fig.height=6, out.width='90%'}
 
+home_abbr <- tolower(gsub("(?<=[A-Z])[^A-Z]+", "", home_team_name, perl = TRUE))
+home_abbr2 <- paste0(home_abbr, "u")
+home_abbr3 <- paste0("u", home_abbr)
+away_abbr <- tolower(gsub("(?<=[A-Z])[^A-Z]+", "", away_team_name, perl = TRUE))
+away_abbr2 <- paste0(away_abbr, "u")
+away_abbr3 <- paste0("u", away_abbr)
+
 top_words <- comments |>
   # filter(
   #   flair_one == chosen_flair,
@@ -320,9 +327,11 @@ top_words <- comments |>
   group_by(faction) |>
   count(word, sort = TRUE) |>
   filter(
-    word != "game",
-    # word != tolower(home_team_name),
-    # word != tolower(away_team_name)
+    word != "game", word != "lol",
+    word != tolower(home_team_name),
+    word != tolower(away_team_name),
+    word != home_abbr & word != home_abbr2 & word != home_abbr3,
+    word != away_abbr & word != away_abbr2 & word != away_abbr3
   ) |>
   slice_max(order_by = n, n = 10,
             with_ties = FALSE) |>

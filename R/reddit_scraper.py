@@ -1,11 +1,11 @@
 import praw
 import csv
 import time
-from datetime import date
+import datetime
 import pandas as pd
 
 chosen_url = r.thread_url # r is the current R environment via {reticulate}
-current_date = date.today().strftime('%b-%d-%Y')
+current_date = datetime.datetime.today().strftime('%b-%d-%Y')
 
 reddit = praw.Reddit(
     client_id=r.client_id,
@@ -16,6 +16,8 @@ reddit = praw.Reddit(
 submission = reddit.submission(url = chosen_url)
 
 n_comments = submission.num_comments
+
+post_date = str(datetime.datetime.utcfromtimestamp(submission.created_utc).date())
 
 while True:
       try:

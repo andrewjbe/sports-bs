@@ -72,7 +72,7 @@ remaining <- to_scrape |>
   filter(!title_formatted %in% list_files_formatted)
 
 to_scrape_final <- remaining |>
-  arrange(date_utc)
+  arrange(timestamp)
 
 ds <- tibble()
 log <- tibble()
