@@ -4,7 +4,7 @@
 
 ### Disclaimer
 
-I'm putting this into package format to make sharing code easier, but I don't think I'm going to have the time to actually ensure this package will work / be installable on all setups, so I apologize if it doesn't work on yours. I'm currently using R 4.2.2 on Linux (Pop!\_OS 22.04 LTS x86\_64), for reference.
+I'm putting this into package format to make sharing code easier, but I don't think I'm going to have the time to actually ensure this package will work / be installable on all setups, so I apologize if it doesn't work on yours. I'm currently using R 4.3.1 on Linux (Pop!\_OS 22.04 LTS x86\_64), for reference.
 
 ### Functionality
 
