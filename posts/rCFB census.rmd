@@ -1,4 +1,12 @@
-library(RedditExtractoR)
+---
+title: "r/CFB Census"
+output:
+  md_document:
+    variant: markdown_github
+date: "2023-09-26"
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
 library(dplyr)
 library(tidyr)
 library(tibble)
@@ -26,54 +34,17 @@ gt_data <- all_data |>
 pgt_data <- all_data |>
   filter(str_detect(title, "\\[Postgame Thread"))
 
-# Coverage checks --------------------------------------------------------------
-
-# Repeats
-test_repeat_data <- list.files(here("data", "reddit-comment-data", "cfb", "2023"),
-                        pattern = "*.rds", full.names = T, recursive = T) |>
-  str_replace("-2023.*", "") |>
-  str_replace(".*/", "")
-
-n_repeats <- test_repeat_data[duplicated(test_repeat_data)]
-
-if(length(n_repeats) != 0){
-  for(i in seq(from = 1, to = 10)){
-    cli::cli_alert_danger("There's some repeat data in there! This is why you should write to a database!")
-  }
-}
-
-# Comments per thread
-gt_data |>
-  count(title, sort = T) |>
-  print(n = 30)
-
-gt_data |>
-  count(day = lubridate::floor_date(lubridate::as_datetime(time_unix), "1 hours")) |>
-  ggplot2::ggplot(aes(x = day,
-                      y = n)) +
-  geom_point() +
-  geom_line() +
-  labs(
-    title = "r/CFB [Game Thread] comments per hour",
-    subtitle = "2023 season through Sep. 25",
-    caption = "data scraped at 4AM each night using PRAW for Python"
-  ) +
-  scale_y_continuous(labels = scales::comma) +
-  ggthemes::theme_fivethirtyeight()
-
- # Cleaning data ----------------------------------------------------------------
-
 clean_rcfb_comments <- function(data) {
 
   swear_strings <- paste("(?i)\\b(fuc(k|c|))\\b",
-                         "\\b(wtf)\\b",
-                         "\\b(ass|hole|es|)\\b",
-                         "damn",
-                         "shit",
-                         "\\b(hell)\\b",
-                         "bitch",
-                         "bastard",
-                         sep = "|")
+                    "\\b(wtf)\\b",
+                    "\\b(ass(hole|es|))\\b",
+                    "damn",
+                    "shit",
+                    "\\b(hell)\\b",
+                    "bitch",
+                    "bastard",
+                    sep = "|")
   ref_strings <- paste("(?i)\\b(ref(s|erees|effing|efball|))\\b", # ref, refs, referees, reffing, refball, etc.
                        "\\b(officials)\\b", # officials -- singluar has too many false positives
                        "\\b(flag(s|))\\b", # flag(s)
@@ -138,142 +109,46 @@ gt_data_clean <- all_data_clean |>
 pgt_data_clean <- all_data_clean |>
   filter(str_detect(title, "\\[Postgame Thread"))
 
-# Exploration ==================================================================
-
 # Total threads:
 n_gts <- gt_data_clean |> count(title, sort = T) |> nrow() |> format(big.mark = ",")
 n_pgts <- pgt_data_clean |> count(title, sort = T) |> nrow() |> format(big.mark = ",")
 n_all <- all_data_clean |> count(title, sort = T) |> nrow() |> format(big.mark = ",")
 
-# Top threads ------------------------------------------------------------------
+```
 
-pgt_data_clean |>
-  group_by(title_clean) |>
-  summarize(
-    n_comments = n(),
-    n_comments_formatted = format(n_comments, big.mark = ",")
-  ) |>
-  slice_max(order_by = n_comments, n = 20) |>
-  select(-n_comments) |>
-  knitr::kable()
+# What is this?
 
+As a side project, I decided to scrape every comment from every game thread this season. I've done this here and there in the past, but I've never done it over a whole season. I've got my setup fully automated to scrape every thread with "[Game Thread]" in the title at 4AM every night, and it's been a success over the first few weeks.
+
+So, I thought it would be fun to share what I've got so far. I used the data to come up with two things that I thought were kinda fun:
+
+-   A "r/CFB flair census", which counts the number of unique users with each primary flair (i.e. how big is each fanbase on the sub). I've always wondered about this.
+    -   I also used the data to see which fanbase swears the least/most, who comments the most often, and a few other honorifics that you can either take pride in or mock your rivals for.
+    -   You can also see each flair's #1 most talkative fan! If you work hard, you could see your name up there at the end of the season.
+-   A "r/CFB posting leaderboard", which tracks which individual poster has commented in game threads the most throughout the whole season. Sadly I did not make the top 25.
+    -   I also crowned the #1 sicko, as measured by unique number of threads participated in. Something else to aspire to!
+
+# The data
+
+So far, I've scraped `r n_gts` game threads with `r nrow(gt_data_clean) |> format(big.mark = ",")` total comments. I actually also have the post game threads as well, which expands the total number of comments to `r nrow(all_data_clean) |> format(big.mark = ",")`, but for now I'm just going to focus on the game threads. In my mind it makes sense to treat them as separate things, but if anyone wants to see any of this with the combined / PGT-only data, just let me know.
+
+Here's a fun graph that shows how many comments people left per hour throughout the whole season: [GRAPH: comments per hour](https://imgur.com/8jnETSl)
+
+Here's a table with the top ten game threads so far this year by total comments. Colorado seems to be popular for some reason, not sure why.
+
+```{r table6, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 gt_data_clean |>
-  group_by(title_clean) |>
-  summarize(
-    n_comments = n(),
-    n_comments_formatted = format(n_comments, big.mark = ",")
-  ) |>
-  slice_max(order_by = n_comments, n = 10) |>
-  select(title_clean, n_comments_formatted) |>
-  knitr::kable()
+  count(title_clean, sort = T) |>
+  slice_max(order_by = n,
+            n = 10) |>
+  mutate(n = format(n, big.mark = ",")) |>
+  rename("Thread" = title_clean,
+         "Total Comments" = n) |>
+  knitr::kable(format = "pipe")
 
-# Top posters ------------------------------------------------------------------
+```
 
-all_data_clean |>
-  group_by(author) |>
-  summarize(
-    n_comments = n(),
-    n_comments_formatted = format(n_comments, big.mark = ","),
-    avg_score = mean(score, na.rm = T),
-    n_unique_threads = n_distinct(title_clean, na.rm = T)
-  ) |>
-  slice_max(order_by = n_comments,
-            n = 50) |>
-  # filter(str_detect(author, "asas")) |>
-  select(-n_comments) |>
-  knitr::kable()
-
-# "Sicko Award"
-all_data_clean |>
-  filter(author != "RivalryBot") |>
-  group_by(author) |>
-  summarize(
-    n_comments = n(),
-    n_comments_formatted = format(n_comments, big.mark = ","),
-    avg_score = mean(score, na.rm = T),
-    n_unique_threads = n_distinct(title_clean, na.rm = T)
-  ) |>
-  slice_max(order_by = n_unique_threads,
-            n = 10)
-
-# Score dropoff ----------------------------------------------------------------
-
-# pgt_data_clean |>
-#   group_by(title_clean) |>
-#   mutate(
-#     min_comment_time = min(time_cst),
-#     t_since_start = as.integer(difftime(time_cst, min_comment_time, units = "mins"))
-#   ) |>
-#   ggplot(aes(x = t_since_start)) +
-#   scale_x_log10() +
-#   geom_histogram()
-
-pgt_data_clean |>
-  group_by(title_clean) |>
-  mutate(
-    min_comment_time = min(time_cst),
-    t_since_start = as.integer(difftime(time_cst, min_comment_time, units = "secs"))
-  ) |>
-  ggplot(aes(x = t_since_start,
-             y = score,
-             color = score)) +
-  # Annotations
-  # annotate(geom = "text",
-  #          x = 0.9, y = 5000, hjust = 0,
-  #          label = "first comment in each PGT") +
-  # geom_curve(
-  #   aes(x = 1.5, y = 4800, xend = 0, yend = 4300),
-  #   arrow = arrow(type = "closed", length = unit(0.1, "inches")),
-  #   lineend = "round", color = "black", curvature = -0.2
-  # ) +
-  annotate(geom = "text",
-           x = 800, y = 4000,
-           label = "More low-score comments") +
-  geom_segment(
-    aes(x = 750, y = 3800, xend = 850, yend = 3800),
-    color = "black",
-    arrow = arrow(type = "closed", length = unit(0.1, "inches"))
-  ) +
-  annotate(geom = "text",
-           x = 60, y = 3000, angle = 90, vjust = -0.3, hjust = 0,
-           label = "1 min. since PGT posted") +
-  geom_vline(xintercept = 60, linetype = "dashed") +
-  annotate(geom = "text",
-           x = 60 * 10, y = 3000, angle = 90, vjust = -0.3, hjust = 0,
-           label = "10 min. since PGT posted") +
-  geom_vline(xintercept = 60 * 10, linetype = "dashed") +
-  geom_point(size = 1.5) +
-  # Scales
-  # scale_x_log10(labels = scales::comma,
-  #               breaks = c(0, 1, 2, 3, 4, 5, 10, 100, 1000, 100000)) +
-  scale_x_continuous(limits = c(0, 60 * 15)) +
-  scale_y_continuous(labels = scales::comma) +
-  scale_color_gradient2(low = "blue",
-                        mid = "orange",
-                        high = "red",
-                        midpoint = 1800) +
-  guides(color = "none") +
-  labs(
-    title = "EVERYBODY GET IN HERE!!!",
-    subtitle = "r/CFB [Post Game Thread] comment score vs. comment speed",
-    x = "Seconds between PGT post time
-    and comment post time",
-    y = "Final comment score",
-    caption = "data scraped using PRAW for Python, graphs made with R
-    includes all PGTs so far in 2023 season"
-  ) +
-  ggthemes::theme_solarized() +
-  theme(
-    axis.text = element_text(color = "black"),
-    axis.title = element_text(color = "black"),
-    plot.title = element_text(color = "black",
-                              face = "bold"),
-    plot.subtitle = element_text(color = "black"),
-    plot.caption = element_text(color = "black"),
-    # panel.grid.major = element_blank(),
-    panel.grid.minor = element_blank()
-  )
-
+```{r calc, echo=FALSE, warning=FALSE, message=FALSE}
 # Census =======================================================================
 
 unique_users <- gt_data_clean |>
@@ -288,7 +163,7 @@ unique_users <- gt_data_clean |>
     all_primary_flairs = paste0(unique(flair_one), collapse = ", "),
     all_secondary_flairs = paste0(unique(flair_two), collapse = ", "),
     flair_list = list(unique(flair_one)),
-    # TODO: replace this with something where instead of first() it's
+    # TODO: replace this with something where instead of first() it's explicitly
     # looping through and pulling out the first one that's not "Unflaired"
     counted_flair = purrr::map_chr(flair_list, first),
     flaired_up = if_else(str_detect(all_primary_flairs, ","), TRUE, FALSE),
@@ -313,25 +188,17 @@ summary_users_formatted  <- summary_users |>
     # p_ads = paste0(100 * round(p_ads, 4), "%")
   ) |>
   slice_max(order_by = n_comments, n = 25) |>
-  select(c(rank, author, counted_flair, n_comments_formatted, avg_score, n_unique_threads,
-           p_swears,
-           p_ref_comps,
-           # p_ads
-           )) |>
-  rename(
+  select(
     "Rank" = rank,
     "Poster" = author,
     "Primary Flair" = counted_flair,
     "Total Comments" = n_comments_formatted,
-    "Avg. Score" = avg_score,
+    # "Avg. Score" = avg_score,
     "Unique Threads" = n_unique_threads,
     "% Comments w/ Swears" = p_swears,
     "% Comments w/ Ref Complaints" = p_ref_comps,
     # "% Comments w/ Ad Complaints" = p_ads
   )
-
-summary_users_formatted
-
 
 # Flair breakdown --------------------------------------------------------------
 summary_flair <- unique_users |>
@@ -368,9 +235,14 @@ summary_flair_formatted <- summary_flair |>
   ) |>
   # Add top user
   left_join(top_users, by = "counted_flair") |>
-  mutate(counted_flair = if_else(counted_flair == "Unflaired", "🤮 Unflaired 🤮", counted_flair)) |>
+  filter(counted_flair != "Unflaired") |>
+  mutate(
+    # counted_flair = if_else(counted_flair == "Unflaired", "🤮 Unflaired 🤮", counted_flair),
+    rank = paste0("#", row_number())
+    ) |>
   # slice_max(n = 100, order_by = n_unique_users) |>
-  rename(
+  select(
+    "Rank" = rank,
     "Primary Flair" = counted_flair,
     "Unique Users" = n_unique_users,
     "Total Comments" = n_total_comments,
@@ -391,111 +263,120 @@ summary_flaired_up <- unique_users |>
               select(counted_flair, n_unique_users)) |>
   mutate(new_flairs_percap = n / n_unique_users)
 
-# Final post ===================================================================
+```
 
-# Main flair table, all w/ at least 50 users -----------------------------------
+# r/CFB flair census
+
+The first question I wanted to answer was "how big is each fanbase?" To determine this, I took every username that left a comment in a game thread this year, and classified them by their most recent primary flair. Also, just to save space, I cut it off at flairs with 50+ unique users. Feel free to ask if you're curious about a smaller school's numbers.
+
+The first table here shows the results, sorted by total unique users:
+
+## Flair census
+
+```{r table1, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 summary_flair_formatted |>
-  knitr::kable() |>
-  clipr::write_clip()
+  knitr::kable(format = "pipe")
+```
 
-# Lowest / most swears
-summary_flair |>
-  filter(n_unique_users >= 50) |>
-  slice_max(order_by = p_swears,
-            n = 10) |>
-  transmute("Flair" = counted_flair,
-            "Total Comments" = format(n_total_comments, big.mark = ","),
-            "% Comments w/ Swears" = paste0(100 * round(p_swears, 4), "%")
-  )
+Alabama is only putting up a paltry 3.58 upvotes per post. Is the Saban era finally over?
 
-summary_flair |>
-  filter(n_unique_users >= 50) |>
-  slice_max(order_by = -p_swears,
-            n = 10) |>
-  transmute("Flair" = counted_flair,
-            "Total Comments" = format(n_total_comments, big.mark = ","),
-            "% Comments w/ Swears" = paste0(100 * round(p_swears, 4), "%")
-  )
+## Top 10 most / least chatty flair
 
-# Lowest / most ref complaints
-summary_flair |>
-  filter(n_unique_users >= 50) |>
-  slice_max(order_by = p_ref_comps,
-            n = 10) |>
-  transmute("Flair" = counted_flair,
-            "Total Comments" = format(n_total_comments, big.mark = ","),
-            "% Comments w/ Ref Mentions" = paste0(100 * round(p_ref_comps, 4), "%")
-  )
-
-summary_flair |>
-  filter(n_unique_users >= 50) |>
-  slice_max(order_by = -p_ref_comps,
-            n = 10) |>
-  transmute("Flair" = counted_flair,
-            "Total Comments" = format(n_total_comments, big.mark = ","),
-            "% Comments w/ Ref Mentions" = paste0(100 * round(p_ref_comps, 4), "%")
-  )
-
-# Comments per User
+```{r table1_5, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 summary_flair |>
   filter(n_unique_users >= 50) |>
   slice_max(order_by = avg_comments_per_user,
             n = 10) |>
-  transmute("Flair" = counted_flair,
+  mutate(rank = paste0("#", row_number())) |>
+  transmute("Rank" = rank,
+            "Flair" = counted_flair,
             "Total Comments" = format(n_total_comments, big.mark = ","),
             "Comments per User" = format(round(avg_comments_per_user, 1), big.mark = ",")
-  )
+  ) |>
+  knitr::kable(format = "pipe")
 
 summary_flair |>
   filter(n_unique_users >= 50) |>
   slice_max(order_by = -avg_comments_per_user,
             n = 10) |>
-  transmute("Flair" = counted_flair,
+  mutate(rank = paste0("#", row_number())) |>
+  transmute("Rank" = rank,
+            "Flair" = counted_flair,
             "Total Comments" = format(n_total_comments, big.mark = ","),
             "Comments per User" = format(round(avg_comments_per_user, 1), big.mark = ",")
-  )
+  ) |>
+  knitr::kable(format = "pipe")
+```
 
+## Top 10 most / least swears
 
-# Main user table, top 25 by total comments posted -----------------------------
+```{r table2, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+summary_flair |>
+  filter(n_unique_users >= 50) |>
+  slice_max(order_by = p_swears,
+            n = 10) |>
+  mutate(rank = paste0("#", row_number())) |>
+  transmute("Rank" = rank,
+            "Flair" = counted_flair,
+            "Total Comments" = format(n_total_comments, big.mark = ","),
+            "% Comments w/ Swears" = paste0(100 * round(p_swears, 4), "%")
+  ) |>
+  knitr::kable(format = "pipe")
+
+summary_flair |>
+  filter(n_unique_users >= 50) |>
+  slice_max(order_by = -p_swears,
+            n = 10) |>
+  mutate(rank = paste0("#", row_number())) |>
+  transmute("Rank" = rank,
+            "Flair" = counted_flair,
+            "Total Comments" = format(n_total_comments, big.mark = ","),
+            "% Comments w/ Swears" = paste0(100 * round(p_swears, 4), "%")
+  ) |>
+  knitr::kable(format = "pipe")
+```
+
+Classic BYU.
+
+## Most ref complaints per comment
+
+```{r table3, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+summary_flair |>
+  filter(n_unique_users >= 50) |>
+  slice_max(order_by = p_ref_comps,
+            n = 10) |>
+  mutate(rank = paste0("#", row_number())) |>
+  transmute("Rank" = rank,
+            "Flair" = counted_flair,
+            "Total Comments" = format(n_total_comments, big.mark = ","),
+            "% Comments w/ Ref Mentions" = paste0(100 * round(p_ref_comps, 4), "%")
+  ) |>
+  knitr::kable(format = "pipe")
+```
+
+I actually checked before last week, and Oklahoma rocketed up from ~50th place to the top ten in the Cincinnati game alone.
+
+# r/CFB 2023 Leaderboards
+
+And finally, the big reveal: who is in the lead to claim this year's National Champion of posting? Here are the top 25 so far this season:
+
+```{r table4, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 summary_users_formatted |>
-  knitr::kable()
+  knitr::kable(format = "pipe")
+```
 
-# Sicko
+Additionally, here's the official Sicko Award Top Ten, as it stands now:
+
+```{r table5, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 summary_users |>
   filter(author != "RivalryBot") |>
   slice_max(order_by = n_unique_threads,
             n = 10) |>
   mutate(rank = paste0("#", row_number())) |>
-  select(rank, author, counted_flair, n_unique_threads, n_comments)
+  select(rank, author, counted_flair, n_unique_threads, n_comments) |>
+  knitr::kable(format = "pipe")
+```
 
+---
 
-
-
-
-# Game reports =================================================================
-
-data <- "/home/andrew/Documents/GitHub/sportsBs/data/reddit-comment-data/cfb/2023/[Game Thread] Colorado State @ Colorado (10:00 PM ET)-2023-09-17.rds"
-name <- "Colorado State @ Colorado"
-
-sportsBs::generate_report_cfb(thread_data = data,
-                              year = 2023,
-                              output_file = paste0("./posts/game-reports/", name, ".png"))
-
-cu_csu <- read_rds(data)
-cu_csu_clean <- clean_rcfb_comments(cu_csu) |>
-  mutate(
-    prime_detected = grepl("(?i)prime|deion|dion|dieon|deon|coach prime|coach sanders", body),
-  )
-
-sum(cu_csu_clean$prime_detected) / nrow(cu_csu_clean)
-
-sum(cu_csu_clean$swear) / nrow(cu_csu_clean)
-
-cu_csu_clean |>
-  filter(flair_one != "Colorado" & flair_one != "Colorado State") |>
-  count(flair_one, sort = T)
-
-
-cu_csu_clean |>
-  filter(score < 1) |>
-  count(flair_one, sort = T)
+I hope you found this interesting! I'm going to keep this going for the rest of the season, so please let me know if there's anything else you'd like me to track. Thanks for reading!
