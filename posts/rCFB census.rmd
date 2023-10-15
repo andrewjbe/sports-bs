@@ -18,7 +18,7 @@ library(fs)
 
 devtools::load_all()
 
-# Load data --------------------------------------------------------------------
+# Load data -------------------------------------------------------------------
 
 list_data <- list.files(here("data", "reddit-comment-data", "cfb", "2023"),
                         pattern = "*.rds", full.names = T, recursive = T)
@@ -34,71 +34,85 @@ gt_data <- all_data |>
 pgt_data <- all_data |>
   filter(str_detect(title, "\\[Postgame Thread"))
 
-clean_rcfb_comments <- function(data) {
-
-  swear_strings <- paste("(?i)\\b(fuc(k|c|))\\b",
-                    "\\b(wtf)\\b",
-                    "\\b(ass(hole|es|))\\b",
-                    "damn",
-                    "shit",
-                    "\\b(hell)\\b",
-                    "bitch",
-                    "bastard",
-                    sep = "|")
-  ref_strings <- paste("(?i)\\b(ref(s|erees|effing|efball|))\\b", # ref, refs, referees, reffing, refball, etc.
-                       "\\b(officials)\\b", # officials -- singluar has too many false positives
-                       "\\b(flag(s|))\\b", # flag(s)
-                       # "\\b(calls)\\b", # calls -- others have too many false positives
-                       "\\b(whistle(s|))\\b", # whistle(s)
-                       "the fix", # the fix, fixed
-                       "\\b(rigging|rig|rigged)\\b", # rig, rigged, rigging
-                       # "\\b(spot|spotted|spots)\\b", # spot, spots, spotted
-                       "\\b(hosed|jobbed|robbed)\\b", # hosed, jobbed, robbed
-                       sep = "|")
-  ad_strings <- paste("(?i)\\b(ad|ads|advertisements)\\b",
-                      "\\b(commercial|comer.*al|commer.*al)\\b",
-                      "\\b(progressive|all state|cheez|att|at&t|lilly|fansville|fansvile|dr\\. pepper|dr pepper|burger king)\\b",
-                      sep = "|")
-
-data_clean <- data |>
-    mutate(
-      # Cleaning
-      time = as_datetime(time_unix),
-      time_cst = lubridate::as_datetime(time_unix) |> with_tz("America/Chicago"),
-      flair = trimws(str_remove(flair, "\\:[^()]*\\:")),
-      flair = if_else(flair == "NULL", "No Flair", flair), # No flairs
-      flair = if_else(flair == "Go to https://flair.redditcfb.com to get your flair!", "/r/CFB", flair),
-      title_clean = trimws(str_remove_all(title, "\\([^)]*\\)|\\[[^]]*\\]|\\d+|[^A-Za-z@\\s]")),
-      # Ref complaints
-      ref_complaint = if_else(str_detect(body, ref_strings), TRUE, FALSE),
-      # Swears
-      swear = if_else(str_detect(body, swear_strings), TRUE, FALSE),
-      # Commercials
-      ad_complaint = if_else(str_detect(body, ad_strings), TRUE, FALSE)
-    ) |>
-    # separate(col = flair, sep = " • ", into = c("flair_one", "flair_two")) |>
-    separate(col = title_clean, sep = " (@|Defeats) ", into = c("away", "home"), remove = FALSE) |>
-    separate_wider_delim(cols = flair,
-                         delim = " • ",
-                         names = c("flair_one", "flair_two"),
-                         too_few = "align_start",
-                         cols_remove = F
-    ) |>
-    # separate_wider_delim(cols = title_clean,
-    #                      delim = "@|defeats",
-    #                      names = c("away", "home"),
-    #                      too_few = "align_start",
-    #                      cols_remove = F
-    # ) |>
-    mutate(
-      flair_one = if_else(is.na(flair_one) | flair_one == "", "Unflaired", flair_one),
-      away = str_remove(away, "\\[Game Thread]"),
-      away = trimws(str_replace_all(away, pattern = "[^a-zA-Z ]", "")),
-      home = str_remove(home, " \\s*\\([^\\)]+\\)"),
-      home = trimws(str_replace_all(home, pattern = "[^a-zA-Z ]", ""))
-    ) # |> suppressWarnings()
-
+make_flair <- function(flair_text) {
+  # alt_flair_list <- "Paper Bag|Team Chaos|"
+  case_when(
+    flair_text == "Unflaired" ~ paste0(" 🤡"),
+    flair_text == "Paper Bag" ~ "[Paper Bag](#l/paperbag)",
+    flair_text == "Team Chaos" ~ "[Team Chaos](#l/chaos)",
+    # str_detect(flair_text, alt_flair_list) ~ paste0("[", flair_text, "]",
+    #               "(#l/", tolower(str_remove_all(flair_text, "\\s|\\&")), ")"),
+    TRUE ~ paste0("[", flair_text, "]", 
+                  "(#f/", tolower(str_remove_all(flair_text, "\\s|\\&")), ")")
+  )
 }
+
+# clean_rcfb_comments <- function(data) {
+# 
+#   swear_strings <- paste("(?i)\\b(fuc(k.*|c|))\\b",
+#                          "\\b(wtf)\\b",
+#                          "\\b(ass(hole|es|))\\b",
+#                          "damn",
+#                          "shit",
+#                          "\\b(hell)\\b",
+#                          "bitch",
+#                          "bastard",
+#                          sep = "|")
+#   ref_strings <- paste("(?i)\\b(ref(s|erees|effing|efball|))\\b", # ref, refs, referees, reffing, refball, etc.
+#                        "\\b(officials)\\b", # officials -- singluar has too many FPs
+#                        "\\b(flag(s|))\\b", # flag(s)
+#                        "\\b(ump(s|ire|ires))\\b", # ump / umps
+#                        # "\\b(calls)\\b", # calls -- others have too many false positives
+#                        "\\b(whistle(s|))\\b", # whistle(s)
+#                        "the fix", # the fix, fixed
+#                        "\\b(rigging|rig|rigged)\\b", # rig, rigged, rigging
+#                        # "\\b(spot|spotted|spots)\\b", # spot, spots, spotted
+#                        "\\b(hosed|jobbed|robbed)\\b", # hosed, jobbed, robbed
+#                        sep = "|")
+#   ad_strings <- paste("(?i)\\b(ad|ads|advertisements)\\b",
+#                       "\\b(commercial|comer.*al|commer.*al)\\b",
+#                       "\\b(progressive|all state|cheez|att|at&t|lilly|fansville|fansvile|dr\\. pepper|dr pepper|burger king)\\b",
+#                       sep = "|")
+#   
+#   data_clean <- data |>
+#     mutate(
+#       # Cleaning
+#       time = as_datetime(time_unix),
+#       time_cst = lubridate::as_datetime(time_unix) |> with_tz("America/Chicago"),
+#       flair = trimws(str_remove(flair, "\\:[^()]*\\:")),
+#       flair = if_else(flair == "NULL", "No Flair", flair), # No flairs
+#       flair = if_else(flair == "Go to https://flair.redditcfb.com to get your flair!", "/r/CFB", flair),
+#       title_clean = trimws(str_remove_all(title, "\\([^)]*\\)|\\[[^]]*\\]|\\d+|[^A-Za-z@\\s]")),
+#       # Ref complaints
+#       ref_complaint = if_else(str_detect(body, ref_strings), TRUE, FALSE),
+#       # Swears
+#       swear = if_else(str_detect(body, swear_strings), TRUE, FALSE),
+#       # Commercials
+#       ad_complaint = if_else(str_detect(body, ad_strings), TRUE, FALSE)
+#     ) |>
+#     # separate(col = flair, sep = " • ", into = c("flair_one", "flair_two")) |>
+#     separate(col = title_clean, sep = " (@|Defeats|vs) ", into = c("away", "home"), remove = FALSE) |>
+#     separate_wider_delim(cols = flair,
+#                          delim = " • ",
+#                          names = c("flair_one", "flair_two"),
+#                          too_few = "align_start",
+#                          cols_remove = F
+#     ) |>
+#     # separate_wider_delim(cols = title_clean,
+#     #                      delim = "@|defeats",
+#     #                      names = c("away", "home"),
+#     #                      too_few = "align_start",
+#     #                      cols_remove = F
+#     # ) |>
+#     mutate(
+#       flair_one = if_else(is.na(flair_one) | flair_one == "", "Unflaired", flair_one),
+#       away = str_remove(away, "\\[Game Thread]"),
+#       away = trimws(str_replace_all(away, pattern = "[^a-zA-Z ]", "")),
+#       home = str_remove(home, " \\s*\\([^\\)]+\\)"),
+#       home = trimws(str_replace_all(home, pattern = "[^a-zA-Z ]", ""))
+#     ) # |> suppressWarnings()
+# 
+# }
 
 all_data_clean <- all_data |>
   clean_rcfb_comments()
@@ -211,10 +225,11 @@ summary_flair <- unique_users |>
     p_swears = sum(n_swears) / n_total_comments,
     p_ref_comps = sum(n_ref_comps) / n_total_comments,
     # p_ads = sum(n_ads) / n_total_comments
+  ) |>
+  ungroup() |>
+  mutate(
+    flair_pic = make_flair(counted_flair)
   )
-  # arrange(desc(n_unique_users)) |>
-  # slice_max(n = 100, order_by = n_unique_users) |>
-  # Formatting
 
 top_users <- unique_users |>
   group_by(counted_flair) |>
@@ -228,21 +243,21 @@ summary_flair_formatted <- summary_flair |>
   filter(n_unique_users >= 50) |>
   arrange(desc(n_unique_users)) |>
   mutate(
-    across(.cols = !c(counted_flair, p_swears, p_ref_comps),
+    across(.cols = !c(flair_pic, counted_flair, p_swears, p_ref_comps),
            .fns = ~format(round(.x, 2), big.mark = ",")),
     p_swears = paste0(100 * round(p_swears, 4), "%"),
-    p_ref_comps = paste0(100 * round(p_ref_comps, 4), "%")
+    p_ref_comps = paste0(100 * round(p_ref_comps, 4), "%"),
   ) |>
   # Add top user
   left_join(top_users, by = "counted_flair") |>
   filter(counted_flair != "Unflaired") |>
   mutate(
-    # counted_flair = if_else(counted_flair == "Unflaired", "🤮 Unflaired 🤮", counted_flair),
     rank = paste0("#", row_number())
     ) |>
   # slice_max(n = 100, order_by = n_unique_users) |>
   select(
     "Rank" = rank,
+    "Logo" = flair_pic,
     "Primary Flair" = counted_flair,
     "Unique Users" = n_unique_users,
     "Total Comments" = n_total_comments,
@@ -289,8 +304,10 @@ summary_flair |>
             n = 10) |>
   mutate(rank = paste0("#", row_number())) |>
   transmute("Rank" = rank,
+            "Logo" = flair_pic,
             "Flair" = counted_flair,
             "Total Comments" = format(n_total_comments, big.mark = ","),
+            # "Total Users" = format(n_unique_users, big.mark = ","),
             "Comments per User" = format(round(avg_comments_per_user, 1), big.mark = ",")
   ) |>
   knitr::kable(format = "pipe")
@@ -301,6 +318,7 @@ summary_flair |>
             n = 10) |>
   mutate(rank = paste0("#", row_number())) |>
   transmute("Rank" = rank,
+            "Logo" = flair_pic,
             "Flair" = counted_flair,
             "Total Comments" = format(n_total_comments, big.mark = ","),
             "Comments per User" = format(round(avg_comments_per_user, 1), big.mark = ",")
@@ -317,6 +335,7 @@ summary_flair |>
             n = 10) |>
   mutate(rank = paste0("#", row_number())) |>
   transmute("Rank" = rank,
+            "Logo" = flair_pic,
             "Flair" = counted_flair,
             "Total Comments" = format(n_total_comments, big.mark = ","),
             "% Comments w/ Swears" = paste0(100 * round(p_swears, 4), "%")
@@ -329,6 +348,7 @@ summary_flair |>
             n = 10) |>
   mutate(rank = paste0("#", row_number())) |>
   transmute("Rank" = rank,
+            "Logo" = flair_pic,
             "Flair" = counted_flair,
             "Total Comments" = format(n_total_comments, big.mark = ","),
             "% Comments w/ Swears" = paste0(100 * round(p_swears, 4), "%")
@@ -347,6 +367,7 @@ summary_flair |>
             n = 10) |>
   mutate(rank = paste0("#", row_number())) |>
   transmute("Rank" = rank,
+            "Logo" = flair_pic,
             "Flair" = counted_flair,
             "Total Comments" = format(n_total_comments, big.mark = ","),
             "% Comments w/ Ref Mentions" = paste0(100 * round(p_ref_comps, 4), "%")
