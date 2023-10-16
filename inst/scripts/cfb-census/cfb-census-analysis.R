@@ -63,9 +63,18 @@ gt_data |>
 
  # Cleaning data ----------------------------------------------------------------
 
+make_flair <- function(flair_text) {
+
+  if(flair_text == "Unflaired") {
+    return(paste0("🤡 Unflaired"))
+  } else {
+    return(paste0("[", flair_text, "](#f/", tolower(str_remove_all(flair_text, "\\s")), ")"))
+  }
+}
+
 clean_rcfb_comments <- function(data) {
 
-  swear_strings <- paste("(?i)\\b(fuc(k|c|))\\b",
+  swear_strings <- paste("(?i)\\b(fuc(k.*|c|))\\b",
                          "\\b(wtf)\\b",
                          "\\b(ass|hole|es|)\\b",
                          "damn",

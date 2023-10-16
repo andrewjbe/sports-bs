@@ -22,23 +22,28 @@ urls <- find_thread_urls(
 to_scrape <- urls |>
   as_tibble() |>
   filter(
-    # grepl("\\[Game Thread]", title),
-    # grepl("@|vs.", title),
+    grepl("\\[Game Thread]", title),
+    grepl("@|vs.", title),
     ymd(date_utc) >= ymd("2023-08-05")
   ) |>
   mutate(
     title_formatted = gsub("\\.|\\/", "", title) |>
       substr(start = 1, stop = 60) |>
-      str_replace_all("[^a-zA-Z0-9]", ""),
+      str_replace_all("[^a-zA-Z0-9]", "") |>
+      str_replace_all("&amp;", "&"),
     date_time = as.POSIXct(timestamp, origin = "1970-01-01", tz = "CST")
   )
 
-list_files <- list.files(here("data", "reddit-comment-data", "cfb", "2023-offseason")) |>
-  str_replace("-2023.*", "")
+# list_files <- list.files(here("data", "reddit-comment-data", "cfb", "2023-offseason")) |>
+#   str_replace("-2023.*", "")
+list_files <- list.files(here("data", "reddit-comment-data", "cfb", "2023"),
+                        pattern = "*.rds", full.names = T, recursive = T) |>
+  str_remove_all("-2023.*|.*week-\\d/|.*2023/")
 
 list_files_formatted <- list_files |>
   substr(start = 1, stop = 60) |>
-  str_replace_all("[^a-zA-Z0-9]", "")
+  str_replace_all("[^a-zA-Z0-9]", "") |>
+  str_replace_all("&amp;", "&")
 
 remaining <- to_scrape |>
   filter(!title_formatted %in% list_files_formatted)
@@ -54,7 +59,7 @@ for(i in c(1:nrow(to_scrape))){
 
   temp <- sportsBs::scrape_reddit_url(
     save_locally = TRUE,
-    save_local_directory = here("data", "reddit-comment-data", "cfb", "2023-offseason/"),
+    save_local_directory = here("data", "reddit-comment-data", "cfb", "2023/"),
     thread_url = to_scrape$url[i]
   )
 

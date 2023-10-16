@@ -5,9 +5,9 @@ title-block-banner: www/turf-wide-dark.png
 format: html
 editor: visual
 params:
-  data:
+  data: "/home/andrew/Documents/GitHub/sportsBs/data/reddit-comment-data/cfb/2023/week-3/[Game Thread] Colorado State @ Colorado (10:00 PM ET)-2023-09-17.rds"
   alt_color: FALSE
-  yr:
+  yr: 2023
 editor_options: 
   chunk_output_type: console
 ---
@@ -22,6 +22,7 @@ library(htmltools)
 library(tidytext)
 # library(wordcloud)
 library(stringr)
+devtools::load_all(".")
 
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE, 
                       out.width="85%", fig.align = "center")
@@ -43,40 +44,50 @@ thread_name <- comments_ |>
 
 # Cleaning ---------------------------------------------------------------------
 comments_clean <- comments_ |>
-  mutate(
-    time = as_datetime(time_unix, tz = "America/Chicago"),
-    ref_complaint = if_else(grepl(
-      " REF | REFS|REFS |REFFING|REFEREE|OFFICIAL|OFFICIATING|OFFICIATED|REFFING|REFBALL|RIGGED|RIGGING|THE FIX|FUCKING FLAG|DAMN FLAG|TERRIBLE FLAG|BAD FLAG|BULLSHIT FLAG|AWFUL FLAG|BS FLAG|FUCKING CALL|DAMN CALL|TERRIBLE CALL|BAD CALL|BULLSHIT CALL|AWFUL CALL|BS CALL|FUCKING SPOT|DAMN SPOT|TERRIBLE SPOT|BAD SPOT|BULLSHIT SPOT|AWFUL SPOT|BS SPOT|HOSED|ROBBED",
-      body, ignore.case = TRUE), 
-      TRUE, FALSE),
-    flair = trimws(str_remove(flair, "\\:[^()]*\\:")),
-    flair = if_else(flair == "NULL", "No Flair", flair)
-  ) |>
-  separate(col = flair, sep = " • ", into = c("flair_one", "flair_two")) |>
-  separate(col = title, sep = " @ ", into = c("away", "home"), remove = FALSE) |>
-  mutate(
-    away = str_remove(away, "\\[Game Thread]"),
-    away = trimws(str_replace_all(away, pattern = "[^a-zA-Z ]", "")),
-    home = str_remove(home, " \\s*\\([^\\)]+\\)"),
-    home = trimws(str_replace_all(home, pattern = "[^a-zA-Z ]", "")),
-  ) |>
-  # FLAIR FIXES 
-  mutate(
-    home = case_when(
-      home == "Texas AM" ~ "Texas A&M",
-      TRUE ~ home
-    )
-  ) |>
-  group_by(title) |>
+  sportsBs::clean_rcfb_comments() |>
   mutate(
     faction = case_when(
       flair_one == home ~ "Home Team Fan",
       flair_one == away ~ "Away Team Fan",
       TRUE ~ "Neutral / Both / Neither"
-    ),
-    flair_one = if_else(is.na(flair_one), "No Flair", flair_one)
-  ) |>
-  ungroup()
+    )
+  )
+
+
+  # mutate(
+  #   time = as_datetime(time_unix, tz = "America/Chicago"),
+  #   ref_complaint = if_else(grepl(
+  #     " REF | REFS|REFS |REFFING|REFEREE|OFFICIAL|OFFICIATING|OFFICIATED|REFFING|REFBALL|RIGGED|RIGGING|THE FIX|FUCKING FLAG|DAMN FLAG|TERRIBLE FLAG|BAD FLAG|BULLSHIT FLAG|AWFUL FLAG|BS FLAG|FUCKING CALL|DAMN CALL|TERRIBLE CALL|BAD CALL|BULLSHIT CALL|AWFUL CALL|BS CALL|FUCKING SPOT|DAMN SPOT|TERRIBLE SPOT|BAD SPOT|BULLSHIT SPOT|AWFUL SPOT|BS SPOT|HOSED|ROBBED",
+  #     body, ignore.case = TRUE),
+  #     TRUE, FALSE),
+  #   flair = trimws(str_remove(flair, "\\:[^()]*\\:")),
+  #   flair = if_else(flair == "NULL", "No Flair", flair)
+  # ) |>
+  # separate(col = flair, sep = " • ", into = c("flair_one", "flair_two")) |>
+  # separate(col = title, sep = " @ | vs. ", into = c("away", "home"), remove = FALSE) |>
+  # mutate(
+  #   away = str_remove(away, "\\[Game Thread]"),
+  #   away = trimws(str_replace_all(away, pattern = "[^a-zA-Z ]", "")),
+  #   home = str_remove(home, " \\s*\\([^\\)]+\\)"),
+  #   home = trimws(str_replace_all(home, pattern = "[^a-zA-Z ]", "")),
+  # ) |>
+  # # FLAIR FIXES
+  # mutate(
+  #   home = case_when(
+  #     home == "Texas AM" ~ "Texas A&M",
+  #     TRUE ~ home
+  #   )
+  # ) |>
+  # group_by(title) |>
+  # mutate(
+  #   faction = case_when(
+  #     flair_one == home ~ "Home Team Fan",
+  #     flair_one == away ~ "Away Team Fan",
+  #     TRUE ~ "Neutral / Both / Neither"
+  #   ),
+  #   flair_one = if_else(is.na(flair_one), "No Flair", flair_one)
+  # ) |>
+  # ungroup()
 
 # Game schedule data -----------------------------------------------------------
 sched <- cfbfastR::espn_cfb_schedule(year = params$yr) |>
@@ -87,14 +98,53 @@ sched <- cfbfastR::espn_cfb_schedule(year = params$yr) |>
       TRUE ~ home_team_location
     )
   ) |>
-  filter(home_team_location %in% comments_clean$home,
-         away_team_location %in% comments_clean$away)
+  filter(home_team_location %in% comments_clean$home | home_team_location %in% comments_clean$away,
+         away_team_location %in% comments_clean$away | away_team_location %in% comments_clean$home)
 
-# Final Dataset ----------------------------------------------------------------
+# Final Datasets ----------------------------------------------------------------
 comments <- comments_clean |>
-  left_join(sched, by = c("home" = "home_team_location")) |>
-  mutate(start_date = parse_datetime(start_date),
-         end_date = start_date + hours(4) + minutes(30)) 
+  # left_join(sched, by = c("home" = "home_team_location")) |>
+  mutate(
+    start_date = sched$start_date[1],
+    start_date = parse_datetime(start_date),
+    end_date = start_date + hours(4) + minutes(30)
+    ) 
+
+unique_users <- comments |>
+  group_by(author) |>
+  summarize(
+    n_comments = n(),
+    n_comments_formatted = format(n_comments, big.mark = ","),
+    avg_score = mean(score, na.rm = T),
+    n_downvoted = sum(score < 1, na.rm = T),
+    p_downvoted = n_downvoted / n_comments,
+    n_unique_threads = n_distinct(title_clean, na.rm = T),
+    all_primary_flairs = paste0(unique(flair_one), collapse = ", "),
+    all_secondary_flairs = paste0(unique(flair_two), collapse = ", "),
+    flair_list = list(unique(flair_one)),
+    # TODO: replace this with something where instead of first() it's explicitly
+    # looping through and pulling out the first one that's not "Unflaired"
+    counted_flair = purrr::map_chr(flair_list, first),
+    flaired_up = if_else(str_detect(all_primary_flairs, ","), TRUE, FALSE),
+    n_swears = sum(swear, na.rm = T),
+    p_swears = sum(n_swears) / n_comments,
+    n_ref_comps = sum(ref_complaint, na.rm = T),
+    p_ref_comps = sum(n_ref_comps) / n_comments,
+    n_ads = sum(ad_complaint, na.rm = T),
+    p_ads = sum(n_ads) / n_comments
+  )
+
+summary_flair <- unique_users |>
+  group_by(counted_flair) |>
+  summarize(
+    n_unique_users = n(),
+    n_total_comments = sum(n_comments, na.rm = T),
+    avg_comments_per_user = n_total_comments / n_unique_users,
+    avg_avg_score = mean(avg_score, na.rm = T),
+    p_swears = sum(n_swears) / n_total_comments,
+    p_ref_comps = sum(n_ref_comps) / n_total_comments,
+    # p_ads = sum(n_ads) / n_total_comments
+  ) 
 
 # QOL dataframes ---
 home_team_name <- comments |> distinct(home) |> pull(var = home)
@@ -114,7 +164,7 @@ away_team_color <- team_info[which(team_info$school == away_team_name), ]$color
  
 top_flair_summary <- comments |> count(flair_one) |> slice_max(order_by = n, n = 1)
 top_flair_logo <- team_info[which(team_info$school == top_flair_summary |> pull(var = flair_one)), ]$logo
-if(top_flair_summary |> pull(var = flair_one) == "No Flair"){
+if(top_flair_summary |> pull(var = flair_one) == "Unflaired"){
   top_flair_logo <- "./www/clown.png"
 }
 
@@ -139,7 +189,7 @@ if(length(top_ref_complainer) > 1){
 }
 
 top_ref_complainer_logo <- team_info[which(team_info$school == top_ref_complainer), ]$logo
-if(top_ref_complainer == "No Flair"){
+if(top_ref_complainer == "Unflaired"){
   top_ref_complainer_logo <- "./www/clown.png"
 }
 if(is_empty(top_ref_complainer_logo)){
@@ -234,6 +284,30 @@ thread_timeline_data |>
         plot.title = element_text(hjust = 0.5),
         plot.subtitle = element_text(hjust = 0.5))
 
+```
+
+```{r team_thread_timeline, fig.height=1.5}
+comments |>
+  filter(faction != "Neutral / Both / Neither") |>
+  count(
+    faction,
+    start_date,
+    end_date,
+    min = floor_date(time, "10 minutes")
+  ) |>
+  filter(min > start_date - minutes(30),
+         min < end_date + minutes(30)) |>
+  ggplot(aes(x = min, 
+             y = n,
+             color = faction)) +
+  geom_line(linewidth = 1.5) +
+  theme_fivethirtyeight() +
+  scale_color_manual(labels = c(away_team_name, home_team_name),
+                     values = c(away_team_color, home_team_color)) +
+  # scale_color_manual(breaks = c("Away Team Fan", "Home Team Man", "Neutral / Both / Neither"),
+  #                    values = c(away_team_color_alt, home_team_color_alt, "#D3D3D3")) +
+  guides(color = "none")
+
 # comments |>
 #   filter(faction != "Neutral / Both / Neither") |>
 #   count(time = floor_date(time, "10 minutes"), faction) |>
@@ -247,13 +321,42 @@ thread_timeline_data |>
 #        x = "Time",
 #        y = "Comments / 10 minutes")
 
+# More comment analysis (holy shit this is so messy jeez):
+
+top_swear_flair <- summary_flair |> 
+  filter(n_total_comments > 0.03 * nrow(comments)) |> 
+  slice_max(order_by = p_swears, n = 1)
+
+top_neutral <- summary_flair |>
+  filter(counted_flair != away_team_name,
+         counted_flair != home_team_name,
+         counted_flair != "Unflaired") |>
+  slice_max(order_by = n_total_comments, n = 5) |>
+  mutate(counted_flair = paste0(counted_flair, " (", format(n_total_comments, big.mark = ","), ")")) |>
+  pull(var = counted_flair) |>
+  paste(collapse = ", ")
+
+unflaired_n <- summary_flair |>
+  filter(counted_flair == "Unflaired") |>
+  mutate(
+    n_total_comments = paste0(format(n_total_comments, big.mark = ","), 
+                              " (", round(100 * n_total_comments / nrow(comments), 2), "% of total)")
+  ) |>
+  pull(var = n_total_comments) 
+
 ```
 
-## 🤡 Referee Complaint Analysis
+## ⌨️ Comment Analysis
 
--   **Total Complaints:** `r total_ref_complaints |> format(big.mark = ",")` (`r 100 * percent_ref_complaints`% of all comments) -- RATING: \[`r ref_complaint_rating`\]
+-   🤡  **Total Ref Complaints:** `r total_ref_complaints |> format(big.mark = ",")` (`r 100 * percent_ref_complaints`% of all comments) -- RATING: \[`r ref_complaint_rating`\]
 
--   **Top Complainers:** `r top_ref_complainer` ![](`r top_ref_complainer_logo`){style="height: 25px; width: 25px;"} (`r (100 * top_ref_complainer_data |> pull(var = n_complaints) / comments |> filter(ref_complaint) |> nrow()) |> round(2)`% of all complaints and `r (100 * top_ref_complainer_data |> pull(var = n_complaints) / nrow(comments)) |> round(2)`% of all comments)
+-   🗯️  **Top Ref Complainers:** `r top_ref_complainer` ![](`r top_ref_complainer_logo`){style="height: 25px; width: 25px;"} (`r (100 * top_ref_complainer_data |> pull(var = n_complaints) / comments |> filter(ref_complaint) |> nrow()) |> round(2)`% of all complaints and `r (100 * top_ref_complainer_data |> pull(var = n_complaints) / nrow(comments)) |> round(2)`% of all comments)
+
+-   🤬  **Highest Swear %:** Of flairs making up at least 3% of the comments in the thread, **`r top_swear_flair$counted_flair[1]` flairs** had the highest swear rate, with `r 100 * top_swear_flair$p_swears[1] |> round(4)`% of their comments containing a foul-mouthed remark.
+
+-   👀  **Top Five Most Common Neutral Flairs:** `r top_neutral`
+
+-   🤮  **Total Unflaired Comments:** `r unflaired_n`
 
 ```{r ref_complaint_timeline}
 ref_timeline_data <- comments |> 
@@ -297,7 +400,7 @@ ggplot(aes(x = min, y = n,
         plot.subtitle = element_text(hjust = 0.5))
 ```
 
-## 🗣 Most Common Words Analysis
+## 🗣 Most Common Words
 
 ```{r, fig.height=6, out.width='90%'}
 
@@ -309,11 +412,6 @@ away_abbr2 <- paste0(away_abbr, "u")
 away_abbr3 <- paste0("u", away_abbr)
 
 top_words <- comments |>
-  # filter(
-  #   flair_one == chosen_flair,
-  #   home == "Ohio State",
-  #   # faction != "Away Team Fan"
-  # ) |>
   mutate(text = body,
          text = str_remove_all(text, "&amp;|&lt;|&gt;"),
          text = str_remove_all(text, "\\s?(f|ht)(tp)(s?)(://)([^\\.]*)[\\.|/](\\S*)"),
@@ -338,7 +436,7 @@ top_words <- comments |>
   mutate(reorder_word = reorder_within(word, n, faction))
 
 top_words |>
-  filter(faction != "Neutral / Both / Neither") |>
+  # filter(faction != "Neutral / Both / Neither") |>
   ggplot(aes(x = reorder_word,
              y = n,
              fill = faction)) +
