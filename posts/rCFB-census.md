@@ -80,99 +80,89 @@ The first table here shows the results, sorted by total unique users:
 
 | Rank | Logo                                     | Primary Flair     | Unique Users | Total Comments | Comments per User | Avg. Comment Score | % of Comments w/ Swears | % of Comments w/ Ref Complaints | Top Poster                            |
 |:--|:------|:------|:----|:-----|:------|:------|:--------|:----------|:------------|
-| #1   | [Ohio State](#f/ohiostate)               | Ohio State        | 2,333        | 75,689         | 32.44             | 7.47               | 10.02%                  | 2.61%                           | MD90\_\_ (1,347 comments)             |
-| #2   | [Michigan](#f/michigan)                  | Michigan          | 2,265        | 79,684         | 35.18             | 8.57               | 8.81%                   | 1.82%                           | Elbit_Curt_Sedni (1,387 comments)     |
-| #3   | [Georgia](#f/georgia)                    | Georgia           | 1,539        | 60,655         | 39.41             | 7.77               | 11.1%                   | 2.27%                           | DiarrheaForDays (1,865 comments)      |
-| #4   | [Texas](#f/texas)                        | Texas             | 1,463        | 37,851         | 25.87             | 12.79              | 10.6%                   | 2.45%                           | cn0285 (988 comments)                 |
-| #5   | [/r/CFB](#f//r/cfb)                      | /r/CFB            | 1,431        | 16,231         | 11.34             | 4.96               | 11.19%                  | 2.54%                           | IEatDeFish (688 comments)             |
-| #6   | [Oklahoma](#f/oklahoma)                  | Oklahoma          | 1,290        | 53,110         | 41.17             | 8.85               | 11.19%                  | 2.63%                           | WanderLeft (1,414 comments)           |
-| #7   | [Alabama](#f/alabama)                    | Alabama           | 1,258        | 35,935         | 28.57             | 8.06               | 11.04%                  | 2.81%                           | Dellav8r (768 comments)               |
-| #8   | [Penn State](#f/pennstate)               | Penn State        | 1,032        | 28,227         | 27.35             | 10.02              | 8.46%                   | 2.18%                           | BikiniATroll (2,302 comments)         |
-| #9   | [Nebraska](#f/nebraska)                  | Nebraska          | 1,025        | 22,621         | 22.07             | 9.02               | 10.07%                  | 1.86%                           | Panchoisthedog (638 comments)         |
-| #10  | [Notre Dame](#f/notredame)               | Notre Dame        | 995          | 35,320         | 35.50             | 9.08               | 11.25%                  | 3.07%                           | ddottay (839 comments)                |
-| #11  | [Florida State](#f/floridastate)         | Florida State     | 968          | 41,981         | 43.37             | 7.53               | 10.93%                  | 2.83%                           | Ajp_iii (1,767 comments)              |
-| #12  | [Texas A&M](#f/texasam)                  | Texas A&M         | 939          | 26,930         | 28.68             | 9.80               | 10.54%                  | 3.1%                            | FightingFarrier18 (1,410 comments)    |
-| #13  | [Oregon](#f/oregon)                      | Oregon            | 934          | 34,692         | 37.14             | 6.27               | 10.7%                   | 2.84%                           | Sportacles (771 comments)             |
-| #14  | [Florida](#f/florida)                    | Florida           | 929          | 19,678         | 21.18             | 10.76              | 10.51%                  | 2.59%                           | ElSorcho (537 comments)               |
-| #15  | [Tennessee](#f/tennessee)                | Tennessee         | 910          | 25,597         | 28.13             | 7.22               | 12.68%                  | 3.83%                           | EWall100 (901 comments)               |
-| #16  | [LSU](#f/lsu)                            | LSU               | 746          | 20,781         | 27.86             | 7.58               | 13.44%                  | 2.56%                           | SnooBeans5570 (864 comments)          |
-| #17  | [USC](#f/usc)                            | USC               | 733          | 25,112         | 34.26             | 6.58               | 10.2%                   | 2.24%                           | ReturnOfDaSnack420 (491 comments)     |
-| #18  | [Washington](#f/washington)              | Washington        | 733          | 20,348         | 27.76             | 9.10               | 9.61%                   | 2.33%                           | Pollaski (924 comments)               |
-| #19  | [Iowa](#f/iowa)                          | Iowa              | 726          | 27,008         | 37.20             | 10.51              | 11.45%                  | 2.44%                           | elgenie (1,246 comments)              |
-| #20  | [Clemson](#f/clemson)                    | Clemson           | 693          | 22,315         | 32.20             | 7.00               | 9.5%                    | 2.26%                           | bigmike1877 (861 comments)            |
-| #21  | [Michigan State](#f/michiganstate)       | Michigan State    | 689          | 20,911         | 30.35             | 8.30               | 9.87%                   | 1.29%                           | twat_swat22 (875 comments)            |
-| #22  | [Wisconsin](#f/wisconsin)                | Wisconsin         | 635          | 14,832         | 23.36             | 9.10               | 10.08%                  | 2.91%                           | OldVeterinarian9 (456 comments)       |
-| #23  | [Auburn](#f/auburn)                      | Auburn            | 589          | 17,058         | 28.96             | 7.32               | 9.66%                   | 1.68%                           | Kodyaufan2 (1,402 comments)           |
-| #24  | [South Carolina](#f/southcarolina)       | South Carolina    | 530          | 16,079         | 30.34             | 20.31              | 10.13%                  | 1.81%                           | jthomas694 (745 comments)             |
-| #25  | [Utah](#f/utah)                          | Utah              | 528          | 24,037         | 45.52             | 9.85               | 11.68%                  | 2.15%                           | NeuroTheManiacal (1,174 comments)     |
-| #26  | [Colorado](#f/colorado)                  | Colorado          | 494          | 12,310         | 24.92             | 10.08              | 10.61%                  | 1.59%                           | N3phewJemima (737 comments)           |
-| #27  | [UCF](#f/ucf)                            | UCF               | 489          | 18,712         | 38.27             | 6.23               | 10.99%                  | 1.87%                           | Tarlcabot18 (1,366 comments)          |
-| #28  | [Virginia Tech](#f/virginiatech)         | Virginia Tech     | 472          | 16,995         | 36.01             | 7.98               | 7.56%                   | 2.67%                           | qbit1010 (690 comments)               |
-| #29  | [Minnesota](#f/minnesota)                | Minnesota         | 466          | 9,834          | 21.10             | 8.21               | 10.75%                  | 2.26%                           | bringbacktheaxe2 (406 comments)       |
-| #30  | [Arkansas](#f/arkansas)                  | Arkansas          | 462          | 11,433         | 24.75             | 8.11               | 11.41%                  | 2.95%                           | CommodoreN7 (577 comments)            |
-| #31  | [Oklahoma State](#f/oklahomastate)       | Oklahoma State    | 411          | 13,038         | 31.72             | 8.27               | 9.84%                   | 1.56%                           | huttts999 (934 comments)              |
-| #32  | [West Virginia](#f/westvirginia)         | West Virginia     | 401          | 11,009         | 27.45             | 7.33               | 12.66%                  | 2.05%                           | fuckconcrete (1,170 comments)         |
-| #33  | [Georgia Tech](#f/georgiatech)           | Georgia Tech      | 386          | 9,876          | 25.59             | 14.10              | 10.86%                  | 2.27%                           | thank_burdell (540 comments)          |
-| #34  | [Texas Tech](#f/texastech)               | Texas Tech        | 379          | 15,305         | 40.38             | 7.01               | 12.13%                  | 2.84%                           | FuckTheLonghorns (634 comments)       |
-| #35  | [Washington State](#f/washingtonstate)   | Washington State  | 368          | 15,070         | 40.95             | 9.69               | 10.94%                  | 2.05%                           | F-18EBestHornet (1,768 comments)      |
-| #36  | [Iowa State](#f/iowastate)               | Iowa State        | 364          | 11,368         | 31.23             | 8.05               | 8.54%                   | 1.76%                           | loyalsons4evertrue (1,734 comments)   |
-| #37  | [Kentucky](#f/kentucky)                  | Kentucky          | 359          | 13,717         | 38.21             | 6.30               | 13.79%                  | 2.31%                           | leakymemo (1,497 comments)            |
-| #38  | [Kansas](#f/kansas)                      | Kansas            | 354          | 11,757         | 33.21             | 5.95               | 12.8%                   | 3.45%                           | jayhawk_cowboy (527 comments)         |
-| #39  | [Oregon State](#f/oregonstate)           | Oregon State      | 353          | 11,943         | 33.83             | 9.33               | 10.73%                  | 2.95%                           | Training-Joke-2120 (760 comments)     |
-| #40  | [Purdue](#f/purdue)                      | Purdue            | 345          | 10,008         | 29.01             | 8.58               | 10.54%                  | 2.36%                           | CoachRyanWalters (642 comments)       |
-| #41  | [Miami](#f/miami)                        | Miami             | 342          | 10,356         | 30.28             | 8.67               | 11.85%                  | 3.3%                            | TheBoook (1,056 comments)             |
-| #42  | [Missouri](#f/missouri)                  | Missouri          | 340          | 9,204          | 27.07             | 10.74              | 9.46%                   | 2.13%                           | superworriedspursfan (901 comments)   |
-| #43  | [North Carolina](#f/northcarolina)       | North Carolina    | 324          | 11,388         | 35.15             | 8.39               | 10.83%                  | 2.74%                           | MayeForTheWin (964 comments)          |
-| #44  | [Illinois](#f/illinois)                  | Illinois          | 298          | 9,069          | 30.43             | 9.52               | 9.8%                    | 2.86%                           | Zloggt (711 comments)                 |
-| #45  | [Kansas State](#f/kansasstate)           | Kansas State      | 289          | 6,879          | 23.80             | 8.22               | 9.65%                   | 2.3%                            | theurge14 (439 comments)              |
-| #46  | [NC State](#f/ncstate)                   | NC State          | 285          | 10,048         | 35.26             | 7.96               | 12.64%                  | 2.26%                           | D1N2Y (1,018 comments)                |
-| #47  | [Cincinnati](#f/cincinnati)              | Cincinnati        | 282          | 8,496          | 30.13             | 8.14               | 11.05%                  | 2.11%                           | Pitiful-Bumblebee775 (696 comments)   |
-| #48  | [BYU](#f/byu)                            | BYU               | 267          | 11,549         | 43.25             | 7.32               | 4.29%                   | 1.52%                           | AeroStatikk (1,397 comments)          |
-| #49  | [UCLA](#f/ucla)                          | UCLA              | 266          | 7,963          | 29.94             | 8.35               | 9.69%                   | 2.39%                           | JoshFB4 (617 comments)                |
-| #50  | [Baylor](#f/baylor)                      | Baylor            | 260          | 10,503         | 40.40             | 9.57               | 10.48%                  | 1.89%                           | thebaylorweedinhaler (1,616 comments) |
-| #51  | [California](#f/california)              | California        | 239          | 5,560          | 23.26             | 9.81               | 9.53%                   | 2.97%                           | MrConceited (354 comments)            |
-| #52  | [Rutgers](#f/rutgers)                    | Rutgers           | 239          | 8,409          | 35.18             | 8.15               | 8.54%                   | 2.68%                           | thibbs23 (814 comments)               |
-| #53  | [Pittsburgh](#f/pittsburgh)              | Pittsburgh        | 232          | 5,401          | 23.28             | 8.00               | 10.81%                  | 2.22%                           | Lovelylives (359 comments)            |
-| #54  | [Ole Miss](#f/olemiss)                   | Ole Miss          | 229          | 7,956          | 34.74             | 11.00              | 12.58%                  | 2.58%                           | HopefulReb76 (751 comments)           |
-| #55  | [Arizona State](#f/arizonastate)         | Arizona State     | 228          | 6,452          | 28.30             | 8.08               | 9.44%                   | 2.5%                            | DillyDillySzn (837 comments)          |
-| #56  | [Maryland](#f/maryland)                  | Maryland          | 227          | 6,081          | 26.79             | 11.30              | 10.29%                  | 1.99%                           | SEND_ME_YOUR_CAULK (610 comments)     |
-| #57  | [Louisville](#f/louisville)              | Louisville        | 205          | 8,069          | 39.36             | 10.96              | 10.2%                   | 2.31%                           | LukarWarrior (766 comments)           |
-| #58  | [Indiana](#f/indiana)                    | Indiana           | 198          | 6,117          | 30.89             | 8.46               | 11.43%                  | 2.01%                           | JonnyTactical (381 comments)          |
-| #59  | [Virginia](#f/virginia)                  | Virginia          | 196          | 4,862          | 24.81             | 10.84              | 9.61%                   | 1.79%                           | Eight_Trace (1,035 comments)          |
-| #60  | [Houston](#f/houston)                    | Houston           | 184          | 6,066          | 32.97             | 6.43               | 12.38%                  | 2.31%                           | Key_Spinach (689 comments)            |
-| #61  | [TCU](#f/tcu)                            | TCU               | 184          | 5,230          | 28.42             | 10.42              | 11.28%                  | 1.7%                            | an0m_x (385 comments)                 |
-| #62  | [Appalachian State](#f/appalachianstate) | Appalachian State | 177          | 5,938          | 33.55             | 5.66               | 11.52%                  | 1.72%                           | ChonkyWumpus (396 comments)           |
-| #63  | [Arizona](#f/arizona)                    | Arizona           | 174          | 5,612          | 32.25             | 7.75               | 11.21%                  | 2.99%                           | GracefulFaller (643 comments)         |
-| #64  | [Syracuse](#f/syracuse)                  | Syracuse          | 161          | 3,403          | 21.14             | 5.65               | 11.2%                   | 4.47%                           | JohnWickisBehindU (280 comments)      |
-| #65  | [Boise State](#f/boisestate)             | Boise State       | 159          | 8,196          | 51.55             | 5.51               | 11.71%                  | 1.73%                           | -Gnostic28 (748 comments)             |
-| #66  | [Mississippi State](#f/mississippistate) | Mississippi State | 158          | 4,678          | 29.61             | 6.87               | 9.34%                   | 2.12%                           | Ok_Swimmer634 (592 comments)          |
-| #67  | [Duke](#f/duke)                          | Duke              | 143          | 3,797          | 26.55             | 7.11               | 8.72%                   | 2.34%                           | AnotherUnfunnyName (260 comments)     |
-| #68  | [Paper Bag](#l/paperbag)                 | Paper Bag         | 139          | 10,318         | 74.23             | 7.90               | 10.07%                  | 2.32%                           | aMiracleAtJordanHare (1,829 comments) |
-| #69  | [USF](#f/usf)                            | USF               | 119          | 2,691          | 22.61             | 7.11               | 9.7%                    | 1.34%                           | NebraskaAvenue (252 comments)         |
-| #70  | [James Madison](#f/jamesmadison)         | James Madison     | 118          | 2,859          | 24.23             | 8.40               | 8.67%                   | 3.08%                           | AnarchNova (220 comments)             |
-| #71  | [Stanford](#f/stanford)                  | Stanford          | 115          | 4,380          | 38.09             | 7.75               | 7.44%                   | 1.94%                           | InVodkaVeritas (1,302 comments)       |
-| #72  | [Team Chaos](#l/chaos)                   | Team Chaos        | 108          | 3,212          | 29.74             | 12.43              | 10.93%                  | 1.99%                           | Doomas\_ (384 comments)               |
-| #73  | [Colorado State](#f/coloradostate)       | Colorado State    | 107          | 3,409          | 31.86             | 13.41              | 14.9%                   | 0.94%                           | Staind075 (425 comments)              |
-| #74  | [Northwestern](#f/northwestern)          | Northwestern      | 96           | 1,810          | 18.85             | 11.71              | 8.67%                   | 2.15%                           | serbeardless (225 comments)           |
-| #75  | [Boston College](#f/bostoncollege)       | Boston College    | 90           | 2,001          | 22.23             | 8.98               | 7.9%                    | 0.6%                            | AchtungKessel (290 comments)          |
-| #76  | [Tulane](#f/tulane)                      | Tulane            | 86           | 1,665          | 19.36             | 7.23               | 10.33%                  | 3%                              | jdprager (398 comments)               |
-| #77  | [SMU](#f/smu)                            | SMU               | 83           | 2,162          | 26.05             | 9.06               | 8.83%                   | 0.97%                           | virus_apparatus (952 comments)        |
-| #78  | [Wyoming](#f/wyoming)                    | Wyoming           | 75           | 2,430          | 32.40             | 6.58               | 15.23%                  | 1.32%                           | AZBiGii (590 comments)                |
-| #79  | [Fresno State](#f/fresnostate)           | Fresno State      | 66           | 2,246          | 34.03             | 7.94               | 9.93%                   | 1.02%                           | eagledog (595 comments)               |
-| #80  | [San Diego State](#f/sandiegostate)      | San Diego State   | 66           | 2,137          | 32.38             | 5.52               | 8.7%                    | 2.67%                           | wrexy_619 (565 comments)              |
-| #81  | [Texas State](#f/texasstate)             | Texas State       | 66           | 1,808          | 27.39             | 6.56               | 14.71%                  | 1.99%                           | 420Nebraska420 (466 comments)         |
-| #82  | [UTSA](#f/utsa)                          | UTSA              | 66           | 1,515          | 22.95             | 5.80               | 14.39%                  | 2.77%                           | TheReal210Kiddd (291 comments)        |
-| #83  | [Georgia Southern](#f/georgiasouthern)   | Georgia Southern  | 64           | 1,248          | 19.50             | 7.08               | 13.14%                  | 2.48%                           | Gre-er (254 comments)                 |
-| #84  | [Wake Forest](#f/wakeforest)             | Wake Forest       | 64           | 1,559          | 24.36             | 6.11               | 10.07%                  | 2.82%                           | Bigdeacenergy (396 comments)          |
-| #85  | [Connecticut](#f/connecticut)            | Connecticut       | 62           | 1,518          | 24.48             | 6.04               | 9.42%                   | 2.17%                           | 5WinsIn5Days (213 comments)           |
-| #86  | [Memphis](#f/memphis)                    | Memphis           | 58           | 781            | 13.47             | 5.44               | 9.73%                   | 2.56%                           | i_run_from_problems (100 comments)    |
-| #87  | [Army](#f/army)                          | Army              | 55           | 1,647          | 29.95             | 4.40               | 7.47%                   | 2.31%                           | ubbergoat (619 comments)              |
-| #88  | [North Texas](#f/northtexas)             | North Texas       | 55           | 1,121          | 20.38             | 8.29               | 9.63%                   | 2.23%                           | arbitrator06 (228 comments)           |
-| #89  | [ECU](#f/ecu)                            | ECU               | 53           | 1,479          | 27.91             | 5.48               | 9.06%                   | 2.57%                           | ILM_Ryan (159 comments)               |
-| #90  | [Marshall](#f/marshall)                  | Marshall          | 52           | 1,746          | 33.58             | 5.45               | 8.65%                   | 1.37%                           | Small_Bet_9433 (318 comments)         |
-| #91  | [Vanderbilt](#f/vanderbilt)              | Vanderbilt        | 51           | 860            | 16.86             | 7.39               | 11.51%                  | 2.21%                           | KiwiRich8880 (214 comments)           |
-| #92  | [Hawai’i](#f/hawai'i)                    | Hawai’i           | 50           | 2,168          | 43.36             | 8.54               | 8.76%                   | 2.17%                           | barak181 (268 comments)               |
-| #93  | [Utah State](#f/utahstate)               | Utah State        | 50           | 2,041          | 40.82             | 6.53               | 7.35%                   | 2.94%                           | IlonggoProgrammer (783 comments)      |
+| #1   | [Ohio State](#f/ohiostate)               | Ohio State        | 1,938        | 67,520         | 34.84             | 3.77               | 9.99%                   | 2.81%                           | MD90\_\_ (1,325 comments)             |
+| #2   | [Michigan](#f/michigan)                  | Michigan          | 1,927        | 72,448         | 37.60             | 4.06               | 8.88%                   | 1.95%                           | Elbit_Curt_Sedni (1,358 comments)     |
+| #3   | [Georgia](#f/georgia)                    | Georgia           | 1,350        | 55,560         | 41.16             | 4.24               | 11.2%                   | 2.4%                            | DiarrheaForDays (1,784 comments)      |
+| #4   | [/r/CFB](#f//r/cfb)                      | /r/CFB            | 1,182        | 14,455         | 12.23             | 3.16               | 10.99%                  | 2.77%                           | IEatDeFish (674 comments)             |
+| #5   | [Texas](#f/texas)                        | Texas             | 1,108        | 31,869         | 28.76             | 3.91               | 10.69%                  | 2.57%                           | cn0285 (961 comments)                 |
+| #6   | [Oklahoma](#f/oklahoma)                  | Oklahoma          | 1,067        | 46,339         | 43.43             | 4.56               | 11.21%                  | 2.76%                           | WanderLeft (1,343 comments)           |
+| #7   | [Alabama](#f/alabama)                    | Alabama           | 1,048        | 31,795         | 30.34             | 3.61               | 11.13%                  | 2.81%                           | Dellav8r (746 comments)               |
+| #8   | [Penn State](#f/pennstate)               | Penn State        | 869          | 25,140         | 28.93             | 4.30               | 8.51%                   | 2.34%                           | BikiniATroll (2,168 comments)         |
+| #9   | [Nebraska](#f/nebraska)                  | Nebraska          | 863          | 19,916         | 23.08             | 3.95               | 10.02%                  | 1.98%                           | Panchoisthedog (636 comments)         |
+| #10  | [Notre Dame](#f/notredame)               | Notre Dame        | 850          | 31,263         | 36.78             | 4.44               | 11.27%                  | 3.24%                           | ddottay (809 comments)                |
+| #11  | [Florida State](#f/floridastate)         | Florida State     | 836          | 37,578         | 44.95             | 3.87               | 11.24%                  | 3.04%                           | Ajp_iii (1,760 comments)              |
+| #12  | [Oregon](#f/oregon)                      | Oregon            | 793          | 31,005         | 39.10             | 3.58               | 10.83%                  | 3.06%                           | Sportacles (753 comments)             |
+| #13  | [Texas A&M](#f/texasam)                  | Texas A&M         | 793          | 23,945         | 30.20             | 4.24               | 10.71%                  | 3.09%                           | FightingFarrier18 (1,381 comments)    |
+| #14  | [Tennessee](#f/tennessee)                | Tennessee         | 746          | 23,262         | 31.18             | 4.27               | 12.88%                  | 3.9%                            | EWall100 (823 comments)               |
+| #15  | [Florida](#f/florida)                    | Florida           | 721          | 16,870         | 23.40             | 4.06               | 10.44%                  | 2.77%                           | ElSorcho (524 comments)               |
+| #16  | [LSU](#f/lsu)                            | LSU               | 625          | 18,674         | 29.88             | 3.76               | 13.56%                  | 2.72%                           | SnooBeans5570 (829 comments)          |
+| #17  | [Iowa](#f/iowa)                          | Iowa              | 618          | 24,416         | 39.51             | 4.04               | 11.45%                  | 2.37%                           | elgenie (1,207 comments)              |
+| #18  | [Clemson](#f/clemson)                    | Clemson           | 608          | 20,390         | 33.54             | 4.34               | 9.58%                   | 2.4%                            | bigmike1877 (851 comments)            |
+| #19  | [USC](#f/usc)                            | USC               | 605          | 22,472         | 37.14             | 3.67               | 10.07%                  | 2.4%                            | ReturnOfDaSnack420 (485 comments)     |
+| #20  | [Washington](#f/washington)              | Washington        | 591          | 17,913         | 30.31             | 4.11               | 9.8%                    | 2.39%                           | Pollaski (911 comments)               |
+| #21  | [Michigan State](#f/michiganstate)       | Michigan State    | 569          | 19,255         | 33.84             | 4.28               | 9.74%                   | 1.32%                           | twat_swat22 (867 comments)            |
+| #22  | [Wisconsin](#f/wisconsin)                | Wisconsin         | 537          | 13,204         | 24.59             | 4.11               | 10.19%                  | 2.86%                           | OldVeterinarian9 (443 comments)       |
+| #23  | [Auburn](#f/auburn)                      | Auburn            | 508          | 15,562         | 30.63             | 3.98               | 9.65%                   | 1.78%                           | Kodyaufan2 (1,374 comments)           |
+| #24  | [South Carolina](#f/southcarolina)       | South Carolina    | 465          | 14,572         | 31.34             | 3.99               | 10.17%                  | 1.92%                           | jthomas694 (718 comments)             |
+| #25  | [Utah](#f/utah)                          | Utah              | 447          | 21,554         | 48.22             | 4.48               | 11.88%                  | 2.22%                           | NeuroTheManiacal (1,147 comments)     |
+| #26  | [UCF](#f/ucf)                            | UCF               | 424          | 16,882         | 39.82             | 3.95               | 11.15%                  | 1.92%                           | Tarlcabot18 (1,298 comments)          |
+| #27  | [Colorado](#f/colorado)                  | Colorado          | 397          | 10,129         | 25.51             | 3.78               | 10.64%                  | 1.73%                           | N3phewJemima (732 comments)           |
+| #28  | [Virginia Tech](#f/virginiatech)         | Virginia Tech     | 393          | 15,300         | 38.93             | 4.32               | 7.61%                   | 2.85%                           | macncheeseface (667 comments)         |
+| #29  | [Arkansas](#f/arkansas)                  | Arkansas          | 391          | 10,172         | 26.02             | 4.17               | 11.55%                  | 3.15%                           | fancycheesus (453 comments)           |
+| #30  | [Minnesota](#f/minnesota)                | Minnesota         | 361          | 8,268          | 22.90             | 4.10               | 10.95%                  | 2.07%                           | bringbacktheaxe2 (393 comments)       |
+| #31  | [Oklahoma State](#f/oklahomastate)       | Oklahoma State    | 337          | 11,256         | 33.40             | 3.87               | 9.59%                   | 1.55%                           | huttts999 (924 comments)              |
+| #32  | [West Virginia](#f/westvirginia)         | West Virginia     | 329          | 9,901          | 30.09             | 4.33               | 12.47%                  | 2.14%                           | fuckconcrete (1,086 comments)         |
+| #33  | [Texas Tech](#f/texastech)               | Texas Tech        | 326          | 14,102         | 43.26             | 4.13               | 12.3%                   | 2.96%                           | vassago77379 (600 comments)           |
+| #34  | [Kansas](#f/kansas)                      | Kansas            | 308          | 10,739         | 34.87             | 4.01               | 12.84%                  | 3.45%                           | jayhawk_cowboy (512 comments)         |
+| #35  | [Kentucky](#f/kentucky)                  | Kentucky          | 303          | 12,613         | 41.63             | 3.72               | 14.06%                  | 2.44%                           | leakymemo (1,430 comments)            |
+| #36  | [Purdue](#f/purdue)                      | Purdue            | 301          | 9,169          | 30.46             | 3.86               | 10.74%                  | 2.44%                           | CoachRyanWalters (617 comments)       |
+| #37  | [Oregon State](#f/oregonstate)           | Oregon State      | 300          | 10,849         | 36.16             | 4.77               | 10.9%                   | 3.02%                           | Training-Joke-2120 (750 comments)     |
+| #38  | [Iowa State](#f/iowastate)               | Iowa State        | 299          | 10,026         | 33.53             | 3.76               | 8.56%                   | 1.65%                           | loyalsons4evertrue (1,627 comments)   |
+| #39  | [Washington State](#f/washingtonstate)   | Washington State  | 298          | 13,436         | 45.09             | 3.91               | 11.07%                  | 2.17%                           | F-18EBestHornet (1,588 comments)      |
+| #40  | [Georgia Tech](#f/georgiatech)           | Georgia Tech      | 293          | 8,475          | 28.92             | 4.72               | 11.08%                  | 2.38%                           | thank_burdell (502 comments)          |
+| #41  | [North Carolina](#f/northcarolina)       | North Carolina    | 281          | 10,127         | 36.04             | 4.00               | 10.84%                  | 2.87%                           | MayeForTheWin (943 comments)          |
+| #42  | [Miami](#f/miami)                        | Miami             | 278          | 9,255          | 33.29             | 3.67               | 11.7%                   | 3.53%                           | TheBoook (1,040 comments)             |
+| #43  | [Illinois](#f/illinois)                  | Illinois          | 252          | 7,859          | 31.19             | 3.93               | 10.06%                  | 2.89%                           | Puzzleheaded-Sky-111 (517 comments)   |
+| #44  | [Missouri](#f/missouri)                  | Missouri          | 251          | 7,812          | 31.12             | 3.93               | 9.7%                    | 2.34%                           | superworriedspursfan (850 comments)   |
+| #45  | [Kansas State](#f/kansasstate)           | Kansas State      | 235          | 5,955          | 25.34             | 4.15               | 9.82%                   | 2.38%                           | theurge14 (404 comments)              |
+| #46  | [Cincinnati](#f/cincinnati)              | Cincinnati        | 231          | 7,461          | 32.30             | 3.70               | 10.75%                  | 2.22%                           | Pitiful-Bumblebee775 (662 comments)   |
+| #47  | [NC State](#f/ncstate)                   | NC State          | 231          | 8,982          | 38.88             | 4.17               | 12.53%                  | 2.44%                           | D1N2Y (863 comments)                  |
+| #48  | [BYU](#f/byu)                            | BYU               | 225          | 10,371         | 46.09             | 4.34               | 4.4%                    | 1.59%                           | AeroStatikk (1,292 comments)          |
+| #49  | [Baylor](#f/baylor)                      | Baylor            | 225          | 9,372          | 41.65             | 3.88               | 10.64%                  | 1.95%                           | thebaylorweedinhaler (1,579 comments) |
+| #50  | [UCLA](#f/ucla)                          | UCLA              | 210          | 7,197          | 34.27             | 3.98               | 9.92%                   | 2.53%                           | JoshFB4 (576 comments)                |
+| #51  | [Rutgers](#f/rutgers)                    | Rutgers           | 202          | 7,422          | 36.74             | 4.17               | 8.64%                   | 2.82%                           | thibbs23 (802 comments)               |
+| #52  | [California](#f/california)              | California        | 197          | 4,877          | 24.76             | 4.63               | 9.45%                   | 3.18%                           | FrivolousMe (333 comments)            |
+| #53  | [Arizona State](#f/arizonastate)         | Arizona State     | 193          | 5,825          | 30.18             | 3.85               | 9.36%                   | 2.52%                           | DillyDillySzn (776 comments)          |
+| #54  | [Maryland](#f/maryland)                  | Maryland          | 185          | 5,453          | 29.48             | 3.78               | 10.49%                  | 2.11%                           | SEND_ME_YOUR_CAULK (555 comments)     |
+| #55  | [Ole Miss](#f/olemiss)                   | Ole Miss          | 182          | 7,268          | 39.93             | 3.58               | 12.74%                  | 2.71%                           | HopefulReb76 (751 comments)           |
+| #56  | [Pittsburgh](#f/pittsburgh)              | Pittsburgh        | 182          | 4,674          | 25.68             | 4.14               | 10.63%                  | 2.12%                           | Lovelylives (331 comments)            |
+| #57  | [Indiana](#f/indiana)                    | Indiana           | 159          | 5,537          | 34.82             | 3.82               | 11.58%                  | 2.13%                           | JonnyTactical (349 comments)          |
+| #58  | [Louisville](#f/louisville)              | Louisville        | 158          | 6,843          | 43.31             | 3.95               | 10.3%                   | 2.57%                           | LukarWarrior (695 comments)           |
+| #59  | [TCU](#f/tcu)                            | TCU               | 152          | 4,404          | 28.97             | 4.16               | 11.51%                  | 1.93%                           | an0m_x (369 comments)                 |
+| #60  | [Houston](#f/houston)                    | Houston           | 151          | 5,282          | 34.98             | 3.97               | 12.04%                  | 2.1%                            | Key_Spinach (635 comments)            |
+| #61  | [Virginia](#f/virginia)                  | Virginia          | 147          | 3,932          | 26.75             | 4.36               | 9.41%                   | 1.93%                           | Eight_Trace (920 comments)            |
+| #62  | [Appalachian State](#f/appalachianstate) | Appalachian State | 146          | 5,173          | 35.43             | 4.02               | 11.39%                  | 1.88%                           | ChonkyWumpus (384 comments)           |
+| #63  | [Boise State](#f/boisestate)             | Boise State       | 140          | 7,469          | 53.35             | 3.62               | 11.89%                  | 1.79%                           | -Gnostic28 (661 comments)             |
+| #64  | [Syracuse](#f/syracuse)                  | Syracuse          | 140          | 3,079          | 21.99             | 4.04               | 11.69%                  | 4.58%                           | JohnWickisBehindU (258 comments)      |
+| #65  | [Arizona](#f/arizona)                    | Arizona           | 139          | 4,965          | 35.72             | 3.74               | 11.26%                  | 2.98%                           | GracefulFaller (548 comments)         |
+| #66  | [Mississippi State](#f/mississippistate) | Mississippi State | 122          | 4,067          | 33.34             | 3.96               | 9.37%                   | 2.16%                           | Ok_Swimmer634 (536 comments)          |
+| #67  | [Duke](#f/duke)                          | Duke              | 116          | 3,181          | 27.42             | 4.28               | 8.8%                    | 2.36%                           | LylerTester99 (225 comments)          |
+| #68  | [Paper Bag](#l/paperbag)                 | Paper Bag         | 114          | 9,541          | 83.69             | 3.74               | 9.87%                   | 2.38%                           | aMiracleAtJordanHare (1,759 comments) |
+| #69  | [USF](#f/usf)                            | USF               | 99           | 2,225          | 22.47             | 4.17               | 9.39%                   | 1.35%                           | NebraskaAvenue (186 comments)         |
+| #70  | [Team Chaos](#l/chaos)                   | Team Chaos        | 96           | 2,911          | 30.32             | 3.81               | 11.23%                  | 1.99%                           | Doomas\_ (373 comments)               |
+| #71  | [James Madison](#f/jamesmadison)         | James Madison     | 95           | 2,336          | 24.59             | 5.20               | 8.52%                   | 3.42%                           | AnarchNova (195 comments)             |
+| #72  | [Colorado State](#f/coloradostate)       | Colorado State    | 91           | 3,061          | 33.64             | 5.81               | 14.51%                  | 0.98%                           | Staind075 (413 comments)              |
+| #73  | [Stanford](#f/stanford)                  | Stanford          | 81           | 3,827          | 47.25             | 3.98               | 7.53%                   | 2.17%                           | InVodkaVeritas (1,143 comments)       |
+| #74  | [Northwestern](#f/northwestern)          | Northwestern      | 69           | 1,546          | 22.41             | 3.56               | 8.15%                   | 2.2%                            | BabyFaceIT (208 comments)             |
+| #75  | [Boston College](#f/bostoncollege)       | Boston College    | 68           | 1,693          | 24.90             | 3.68               | 8.09%                   | 0.65%                           | AchtungKessel (266 comments)          |
+| #76  | [SMU](#f/smu)                            | SMU               | 66           | 1,700          | 25.76             | 3.84               | 8.76%                   | 1.18%                           | virus_apparatus (823 comments)        |
+| #77  | [Tulane](#f/tulane)                      | Tulane            | 66           | 1,324          | 20.06             | 3.62               | 10.12%                  | 3.25%                           | jdprager (349 comments)               |
+| #78  | [Wyoming](#f/wyoming)                    | Wyoming           | 62           | 2,002          | 32.29             | 3.35               | 15.33%                  | 1.55%                           | AZBiGii (579 comments)                |
+| #79  | [Georgia Southern](#f/georgiasouthern)   | Georgia Southern  | 54           | 1,106          | 20.48             | 3.82               | 13.74%                  | 2.71%                           | Gre-er (243 comments)                 |
+| #80  | [San Diego State](#f/sandiegostate)      | San Diego State   | 54           | 1,967          | 36.43             | 3.91               | 8.74%                   | 2.85%                           | wrexy_619 (557 comments)              |
+| #81  | [UTSA](#f/utsa)                          | UTSA              | 54           | 1,345          | 24.91             | 3.50               | 14.72%                  | 2.75%                           | TheReal210Kiddd (280 comments)        |
+| #82  | [Fresno State](#f/fresnostate)           | Fresno State      | 53           | 1,882          | 35.51             | 3.76               | 10.36%                  | 0.9%                            | eagledog (500 comments)               |
+| #83  | [Wake Forest](#f/wakeforest)             | Wake Forest       | 50           | 1,297          | 25.94             | 4.63               | 10.64%                  | 2.78%                           | Bigdeacenergy (353 comments)          |
 
 ## Top 10 most / least chatty flair
 
@@ -181,29 +171,29 @@ flair.
 
 | Rank | Logo                                   | Flair            | Total Comments | Comments per User |
 |:-----|:----------------|:----------------|:--------------|:-----------------|
-| #1   | [Paper Bag](#l/paperbag)               | Paper Bag        | 10,318         | 74.2              |
-| #2   | [Boise State](#f/boisestate)           | Boise State      | 8,196          | 51.5              |
-| #3   | [Utah](#f/utah)                        | Utah             | 24,037         | 45.5              |
-| #4   | [Florida State](#f/floridastate)       | Florida State    | 41,981         | 43.4              |
-| #5   | [Hawai’i](#f/hawai'i)                  | Hawai’i          | 2,168          | 43.4              |
-| #6   | [BYU](#f/byu)                          | BYU              | 11,549         | 43.3              |
-| #7   | [Oklahoma](#f/oklahoma)                | Oklahoma         | 53,110         | 41.2              |
-| #8   | [Washington State](#f/washingtonstate) | Washington State | 15,070         | 41.0              |
-| #9   | [Utah State](#f/utahstate)             | Utah State       | 2,041          | 40.8              |
-| #10  | [Baylor](#f/baylor)                    | Baylor           | 10,503         | 40.4              |
+| #1   | [Paper Bag](#l/paperbag)               | Paper Bag        | 9,541          | 83.7              |
+| #2   | [Boise State](#f/boisestate)           | Boise State      | 7,469          | 53.4              |
+| #3   | [Utah](#f/utah)                        | Utah             | 21,554         | 48.2              |
+| #4   | [Stanford](#f/stanford)                | Stanford         | 3,827          | 47.2              |
+| #5   | [BYU](#f/byu)                          | BYU              | 10,371         | 46.1              |
+| #6   | [Washington State](#f/washingtonstate) | Washington State | 13,436         | 45.1              |
+| #7   | [Florida State](#f/floridastate)       | Florida State    | 37,578         | 44.9              |
+| #8   | [Oklahoma](#f/oklahoma)                | Oklahoma         | 46,339         | 43.4              |
+| #9   | [Louisville](#f/louisville)            | Louisville       | 6,843          | 43.3              |
+| #10  | [Texas Tech](#f/texastech)             | Texas Tech       | 14,102         | 43.3              |
 
 | Rank | Logo                                   | Flair            | Total Comments | Comments per User |
 |:-----|:----------------|:----------------|:--------------|:-----------------|
-| #1   | 🤡                                     | Unflaired        | 116,725        | 7.1               |
-| #2   | [/r/CFB](#f//r/cfb)                    | /r/CFB           | 16,231         | 11.3              |
-| #3   | [Memphis](#f/memphis)                  | Memphis          | 781            | 13.5              |
-| #4   | [Vanderbilt](#f/vanderbilt)            | Vanderbilt       | 860            | 16.9              |
-| #5   | [Northwestern](#f/northwestern)        | Northwestern     | 1,810          | 18.9              |
-| #6   | [Tulane](#f/tulane)                    | Tulane           | 1,665          | 19.4              |
-| #7   | [Georgia Southern](#f/georgiasouthern) | Georgia Southern | 1,248          | 19.5              |
-| #8   | [North Texas](#f/northtexas)           | North Texas      | 1,121          | 20.4              |
-| #9   | [Minnesota](#f/minnesota)              | Minnesota        | 9,834          | 21.1              |
-| #10  | [Syracuse](#f/syracuse)                | Syracuse         | 3,403          | 21.1              |
+| #1   | 🤡                                     | Unflaired        | 102,740        | 7.9               |
+| #2   | [/r/CFB](#f//r/cfb)                    | /r/CFB           | 14,455         | 12.2              |
+| #3   | [Tulane](#f/tulane)                    | Tulane           | 1,324          | 20.1              |
+| #4   | [Georgia Southern](#f/georgiasouthern) | Georgia Southern | 1,106          | 20.5              |
+| #5   | [Syracuse](#f/syracuse)                | Syracuse         | 3,079          | 22.0              |
+| #6   | [Northwestern](#f/northwestern)        | Northwestern     | 1,546          | 22.4              |
+| #7   | [USF](#f/usf)                          | USF              | 2,225          | 22.5              |
+| #8   | [Minnesota](#f/minnesota)              | Minnesota        | 8,268          | 22.9              |
+| #9   | [Nebraska](#f/nebraska)                | Nebraska         | 19,916         | 23.1              |
+| #10  | [Florida](#f/florida)                  | Florida          | 16,870         | 23.4              |
 
 ## Top 10 most / least swears
 
@@ -215,29 +205,29 @@ fanbases:
 
 | Rank | Logo                               | Flair          | Total Comments | % Comments w/ Swears |
 |:-----|:--------------|:--------------|:--------------|:--------------------|
-| #1   | [Colorado State](#f/coloradostate) | Colorado State | 3,409          | 14.9%                |
-| #2   | [Kentucky](#f/kentucky)            | Kentucky       | 13,717         | 13.79%               |
-| #3   | [LSU](#f/lsu)                      | LSU            | 20,781         | 13.44%               |
-| #4   | [Kansas](#f/kansas)                | Kansas         | 11,757         | 12.8%                |
-| #5   | [Tennessee](#f/tennessee)          | Tennessee      | 25,597         | 12.68%               |
-| #6   | [West Virginia](#f/westvirginia)   | West Virginia  | 11,009         | 12.66%               |
-| #7   | [NC State](#f/ncstate)             | NC State       | 10,048         | 12.64%               |
-| #8   | [Ole Miss](#f/olemiss)             | Ole Miss       | 7,956          | 12.58%               |
-| #9   | [Houston](#f/houston)              | Houston        | 6,066          | 12.38%               |
-| #10  | [Texas Tech](#f/texastech)         | Texas Tech     | 15,305         | 12.13%               |
+| #1   | [Colorado State](#f/coloradostate) | Colorado State | 3,061          | 14.51%               |
+| #2   | [Kentucky](#f/kentucky)            | Kentucky       | 12,613         | 14.06%               |
+| #3   | [LSU](#f/lsu)                      | LSU            | 18,674         | 13.56%               |
+| #4   | [Tennessee](#f/tennessee)          | Tennessee      | 23,262         | 12.88%               |
+| #5   | [Kansas](#f/kansas)                | Kansas         | 10,739         | 12.84%               |
+| #6   | [Ole Miss](#f/olemiss)             | Ole Miss       | 7,268          | 12.74%               |
+| #7   | [NC State](#f/ncstate)             | NC State       | 8,982          | 12.53%               |
+| #8   | [West Virginia](#f/westvirginia)   | West Virginia  | 9,901          | 12.47%               |
+| #9   | [Texas Tech](#f/texastech)         | Texas Tech     | 14,102         | 12.3%                |
+| #10  | [Houston](#f/houston)              | Houston        | 5,282          | 12.04%               |
 
 | Rank | Logo                                     | Flair             | Total Comments | % Comments w/ Swears |
 |:-----|:----------------|:----------------|:-------------|:-------------------|
-| #1   | [BYU](#f/byu)                            | BYU               | 11,549         | 4.29%                |
-| #2   | [Stanford](#f/stanford)                  | Stanford          | 4,380          | 7.44%                |
-| #3   | [Virginia Tech](#f/virginiatech)         | Virginia Tech     | 16,995         | 7.56%                |
-| #4   | [Penn State](#f/pennstate)               | Penn State        | 28,227         | 8.46%                |
-| #5   | [Rutgers](#f/rutgers)                    | Rutgers           | 8,409          | 8.54%                |
-| #6   | [Iowa State](#f/iowastate)               | Iowa State        | 11,368         | 8.54%                |
-| #7   | [James Madison](#f/jamesmadison)         | James Madison     | 2,859          | 8.67%                |
-| #8   | [Duke](#f/duke)                          | Duke              | 3,797          | 8.72%                |
-| #9   | [Michigan](#f/michigan)                  | Michigan          | 79,684         | 8.81%                |
-| #10  | [Mississippi State](#f/mississippistate) | Mississippi State | 4,678          | 9.34%                |
+| #1   | [BYU](#f/byu)                            | BYU               | 10,371         | 4.4%                 |
+| #2   | [Stanford](#f/stanford)                  | Stanford          | 3,827          | 7.53%                |
+| #3   | [Virginia Tech](#f/virginiatech)         | Virginia Tech     | 15,300         | 7.61%                |
+| #4   | [Penn State](#f/pennstate)               | Penn State        | 25,140         | 8.51%                |
+| #5   | [Iowa State](#f/iowastate)               | Iowa State        | 10,026         | 8.56%                |
+| #6   | [Rutgers](#f/rutgers)                    | Rutgers           | 7,422          | 8.64%                |
+| #7   | [Duke](#f/duke)                          | Duke              | 3,181          | 8.8%                 |
+| #8   | [Michigan](#f/michigan)                  | Michigan          | 72,448         | 8.88%                |
+| #9   | [Arizona State](#f/arizonastate)         | Arizona State     | 5,825          | 9.36%                |
+| #10  | [Mississippi State](#f/mississippistate) | Mississippi State | 4,067          | 9.37%                |
 
 Classic BYU.
 
@@ -252,18 +242,18 @@ it’s close enough to do the job. Includes variations of terms like
 “whistle”, “the fix”, “rig”, etc. I also limited this to include only
 flairs with at least 2,500 total comments in the dataset.
 
-| Rank | Logo                             | Flair         | Total Comments | % Comments w/ Ref Mentions |
-|:-----|:-------------|:-------------|:--------------|:------------------------|
-| #1   | [Syracuse](#f/syracuse)          | Syracuse      | 3,403          | 4.47%                      |
-| #2   | [Tennessee](#f/tennessee)        | Tennessee     | 25,597         | 3.83%                      |
-| #3   | [Kansas](#f/kansas)              | Kansas        | 11,757         | 3.45%                      |
-| #4   | [Miami](#f/miami)                | Miami         | 10,356         | 3.3%                       |
-| #5   | [Texas A&M](#f/texasam)          | Texas A&M     | 26,930         | 3.1%                       |
-| #6   | [James Madison](#f/jamesmadison) | James Madison | 2,859          | 3.08%                      |
-| #7   | [Notre Dame](#f/notredame)       | Notre Dame    | 35,320         | 3.07%                      |
-| #8   | [Arizona](#f/arizona)            | Arizona       | 5,612          | 2.99%                      |
-| #9   | [California](#f/california)      | California    | 5,560          | 2.97%                      |
-| #10  | [Arkansas](#f/arkansas)          | Arkansas      | 11,433         | 2.95%                      |
+| Rank | Logo                        | Flair      | Total Comments | % Comments w/ Ref Mentions |
+|:-----|:-----------|:-----------|:---------------|:--------------------------|
+| #1   | [Syracuse](#f/syracuse)     | Syracuse   | 3,079          | 4.58%                      |
+| #2   | [Tennessee](#f/tennessee)   | Tennessee  | 23,262         | 3.9%                       |
+| #3   | [Miami](#f/miami)           | Miami      | 9,255          | 3.53%                      |
+| #4   | [Kansas](#f/kansas)         | Kansas     | 10,739         | 3.45%                      |
+| #5   | [Notre Dame](#f/notredame)  | Notre Dame | 31,263         | 3.24%                      |
+| #6   | [California](#f/california) | California | 4,877          | 3.18%                      |
+| #7   | [Arkansas](#f/arkansas)     | Arkansas   | 10,172         | 3.15%                      |
+| #8   | [Texas A&M](#f/texasam)     | Texas A&M  | 23,945         | 3.09%                      |
+| #9   | [Oregon](#f/oregon)         | Oregon     | 31,005         | 3.06%                      |
+| #10  | 🤡                          | Unflaired  | 102,740        | 3.05%                      |
 
 # r/CFB 2023 Leaderboards
 
@@ -272,31 +262,31 @@ National Champion of posting? Here are the top 25 so far this season:
 
 | Rank | Poster               | Primary Flair    | Total Comments | Unique Threads | % Comments w/ Swears | % Comments w/ Ref Complaints |
 |:---|:-----------|:---------|:--------|--------:|:-----------|:----------------|
-| #1   | BikiniATroll         | Penn State       | 2,302          |            114 | 6.13%                | 1.61%                        |
-| #2   | DiarrheaForDays      | Georgia          | 1,865          |             84 | 8.26%                | 2.73%                        |
-| #3   | aMiracleAtJordanHare | Paper Bag        | 1,829          |            118 | 10.5%                | 2.95%                        |
-| #4   | F-18EBestHornet      | Washington State | 1,768          |             98 | 17.99%               | 1.75%                        |
-| #5   | Ajp_iii              | Florida State    | 1,767          |             44 | 4.92%                | 7.02%                        |
-| #6   | loyalsons4evertrue   | Iowa State       | 1,734          |            164 | 3.46%                | 0.98%                        |
-| #7   | thebaylorweedinhaler | Baylor           | 1,616          |            114 | 10.58%               | 1.42%                        |
-| #8   | zenverak             | Georgia          | 1,584          |            191 | 4.23%                | 0.76%                        |
-| #9   | texas2089            | Florida State    | 1,553          |            104 | 17.97%               | 1.09%                        |
-| #10  | leakymemo            | Kentucky         | 1,497          |             96 | 30.73%               | 3.67%                        |
-| #11  | WanderLeft           | Oklahoma         | 1,414          |             78 | 5.59%                | 0.14%                        |
-| #12  | FightingFarrier18    | Texas A&M        | 1,410          |             45 | 5.53%                | 2.55%                        |
-| #13  | Kodyaufan2           | Auburn           | 1,402          |             93 | 0.07%                | 1.93%                        |
-| #14  | AeroStatikk          | BYU              | 1,397          |            118 | 1.43%                | 0.93%                        |
-| #15  | Elbit_Curt_Sedni     | Michigan         | 1,387          |             66 | 2.24%                | 5.19%                        |
-| #16  | StoopSign            | Paper Bag        | 1,375          |             80 | 5.6%                 | 2.4%                         |
-| #17  | Tarlcabot18          | UCF              | 1,366          |             59 | 6.88%                | 1.54%                        |
-| #18  | MD90\_\_             | Ohio State       | 1,347          |             30 | 2.23%                | 0.3%                         |
-| #19  | The_Soccer_Heretic   | Oklahoma         | 1,341          |            109 | 9.25%                | 2.68%                        |
-| #20  | Competitive-Rise-789 | Georgia          | 1,310          |             75 | 10.38%               | 2.67%                        |
-| #21  | InVodkaVeritas       | Stanford         | 1,302          |            117 | 4.3%                 | 2.07%                        |
-| #22  | MrNudeGuy            | Oklahoma         | 1,271          |            112 | 8.89%                | 2.28%                        |
-| #23  | Steelerboy43         | Michigan         | 1,262          |             84 | 7.29%                | 1.98%                        |
-| #24  | Jonjon428            | Unflaired        | 1,248          |             63 | 17.87%               | 3.04%                        |
-| #25  | elgenie              | Iowa             | 1,246          |             60 | 4.09%                | 1.2%                         |
+| #1   | BikiniATroll         | Penn State       | 2,168          |             98 | 5.95%                | 1.61%                        |
+| #2   | DiarrheaForDays      | Georgia          | 1,784          |             62 | 8.3%                 | 2.86%                        |
+| #3   | Ajp_iii              | Florida State    | 1,760          |             42 | 4.94%                | 7.05%                        |
+| #4   | aMiracleAtJordanHare | Paper Bag        | 1,759          |             91 | 10.63%               | 2.9%                         |
+| #5   | loyalsons4evertrue   | Iowa State       | 1,627          |            122 | 3.56%                | 0.98%                        |
+| #6   | F-18EBestHornet      | Washington State | 1,588          |             57 | 18.58%               | 1.76%                        |
+| #7   | thebaylorweedinhaler | Baylor           | 1,579          |             94 | 10.7%                | 1.39%                        |
+| #8   | zenverak             | Georgia          | 1,516          |            148 | 4.16%                | 0.79%                        |
+| #9   | texas2089            | Florida State    | 1,495          |             66 | 17.79%               | 1.14%                        |
+| #10  | leakymemo            | Kentucky         | 1,430          |             74 | 31.12%               | 3.85%                        |
+| #11  | FightingFarrier18    | Texas A&M        | 1,381          |             33 | 5.5%                 | 2.53%                        |
+| #12  | Kodyaufan2           | Auburn           | 1,374          |             81 | 0.07%                | 1.97%                        |
+| #13  | StoopSign            | Paper Bag        | 1,371          |             77 | 5.62%                | 2.41%                        |
+| #14  | Elbit_Curt_Sedni     | Michigan         | 1,358          |             57 | 2.21%                | 5.3%                         |
+| #15  | WanderLeft           | Oklahoma         | 1,343          |             53 | 5.58%                | 0.15%                        |
+| #16  | MD90\_\_             | Ohio State       | 1,325          |             24 | 2.26%                | 0.3%                         |
+| #17  | Tarlcabot18          | UCF              | 1,298          |             37 | 6.93%                | 1.54%                        |
+| #18  | AeroStatikk          | BYU              | 1,292          |             62 | 1.55%                | 1.01%                        |
+| #19  | Competitive-Rise-789 | Georgia          | 1,279          |             53 | 10.48%               | 2.74%                        |
+| #20  | Steelerboy43         | Michigan         | 1,226          |             67 | 7.34%                | 1.96%                        |
+| #21  | Jonjon428            | Unflaired        | 1,221          |             48 | 17.94%               | 2.95%                        |
+| #22  | fightin_blue_hens    | Delaware         | 1,220          |             66 | 4.59%                | 2.54%                        |
+| #23  | The_Soccer_Heretic   | Oklahoma         | 1,219          |             74 | 9.19%                | 2.46%                        |
+| #24  | MrNudeGuy            | Oklahoma         | 1,214          |             83 | 8.9%                 | 2.39%                        |
+| #25  | elgenie              | Iowa             | 1,207          |             43 | 3.89%                | 1.24%                        |
 
 BikiniATroll maintains a comfortable lead, as the only poster to break
 2k, and is on pace to close out the victory unless someone steps up.
@@ -304,18 +294,18 @@ Special shoutout to leakymemo for the impressive swear rate.
 
 Additionally, here’s the official Sicko Award Top Ten, as it stands now:
 
-| Rank | Author             | Flair          | N Threads | N Comments |
-|:-----|:-------------------|:---------------|----------:|:-----------|
-| #1   | Zloggt             | Illinois       |       325 | 711        |
-| #2   | Muffinnnnnnn       | Florida State  |       218 | 798        |
-| #3   | zenverak           | Georgia        |       191 | 1,584      |
-| #4   | loyalsons4evertrue | Iowa State     |       164 | 1,734      |
-| #5   | virus_apparatus    | SMU            |       141 | 952        |
-| #6   | ThompsonCreekTiger | Clemson        |       132 | 232        |
-| #7   | DDub04             | South Carolina |       128 | 491        |
-| #8   | ddottay            | Notre Dame     |       124 | 839        |
-| #9   | Davidellias        | Virginia Tech  |       123 | 315        |
-| #10  | Sportacles         | Oregon         |       121 | 771        |
+| Rank | Author               | Flair              | N Threads | N Comments |
+|:-----|:---------------------|:-------------------|----------:|:-----------|
+| #1   | zenverak             | Georgia            |       148 | 1,516      |
+| #2   | Muffinnnnnnn         | Florida State      |       136 | 668        |
+| #3   | loyalsons4evertrue   | Iowa State         |       122 | 1,627      |
+| #4   | Zloggt               | Illinois           |       121 | 427        |
+| #5   | Sportacles           | Oregon             |       111 | 753        |
+| #6   | BikiniATroll         | Penn State         |        98 | 2,168      |
+| #7   | ddottay              | Notre Dame         |        97 | 809        |
+| #8   | thebaylorweedinhaler | Baylor             |        94 | 1,579      |
+| #9   | aMiracleAtJordanHare | Paper Bag          |        91 | 1,759      |
+| #10  | Treehumper69         | Jacksonville State |        91 | 296        |
 
 This is still anyone’s game!
 
@@ -338,31 +328,31 @@ Here are the top 10 most common neutral commenters in USC threads:
 
 | Rank | Team | Commentor Flair                                     | Total Comments | Unique Users | Comments per Capita |
 |:----|:----|:------------------------|:-----------|:----------|---------------:|
-| #1   | USC  | [Army](#f/army) Army                                | 522            | 55           |                9.49 |
-| #2   | USC  | [Oklahoma](#f/oklahoma) Oklahoma                    | 6,634          | 1,290        |                5.14 |
-| #3   | USC  | [Oregon](#f/oregon) Oregon                          | 4,194          | 934          |                4.49 |
-| #4   | USC  | [Utah](#f/utah) Utah                                | 1,717          | 528          |                3.25 |
-| #5   | USC  | [Hawai’i](#f/hawai'i) Hawai’i                       | 157            | 50           |                3.14 |
-| #6   | USC  | [UCLA](#f/ucla) UCLA                                | 812            | 266          |                3.05 |
-| #7   | USC  | [Stanford](#f/stanford) Stanford                    | 314            | 115          |                2.73 |
-| #8   | USC  | [Team Chaos](#l/chaos) Team Chaos                   | 284            | 108          |                2.63 |
-| #9   | USC  | [Utah State](#f/utahstate) Utah State               | 128            | 50           |                2.56 |
-| #10  | USC  | [San Diego State](#f/sandiegostate) San Diego State | 153            | 66           |                2.32 |
+| #1   | USC  | [Oklahoma](#f/oklahoma) Oklahoma                    | 6,634          | 1,067        |                6.22 |
+| #2   | USC  | [Oregon](#f/oregon) Oregon                          | 4,194          | 793          |                5.29 |
+| #3   | USC  | [Stanford](#f/stanford) Stanford                    | 314            | 81           |                3.88 |
+| #4   | USC  | [UCLA](#f/ucla) UCLA                                | 812            | 210          |                3.87 |
+| #5   | USC  | [Utah](#f/utah) Utah                                | 1,717          | 447          |                3.84 |
+| #6   | USC  | [Team Chaos](#l/chaos) Team Chaos                   | 284            | 96           |                2.96 |
+| #7   | USC  | [San Diego State](#f/sandiegostate) San Diego State | 153            | 54           |                2.83 |
+| #8   | USC  | [Paper Bag](#l/paperbag) Paper Bag                  | 282            | 114          |                2.47 |
+| #9   | USC  | [Oregon State](#f/oregonstate) Oregon State         | 725            | 300          |                2.42 |
+| #10  | USC  | [Washington](#f/washington) Washington              | 1,319          | 591          |                2.23 |
 
 Here are the top 10 most common neutral commenters in Oklahoma threads:
 
 | Rank | Team     | Commentor Flair                                   | Total Comments | Unique Users | Comments per Capita |
 |:----|:-------|:----------------------|:-----------|:----------|---------------:|
-| #1   | Oklahoma | [Paper Bag](#l/paperbag) Paper Bag                | 319            | 139          |                2.29 |
-| #2   | Oklahoma | [Oklahoma State](#f/oklahomastate) Oklahoma State | 684            | 411          |                1.66 |
-| #3   | Oklahoma | [TCU](#f/tcu) TCU                                 | 305            | 184          |                1.66 |
-| #4   | Oklahoma | [Baylor](#f/baylor) Baylor                        | 390            | 260          |                1.50 |
-| #5   | Oklahoma | [UTSA](#f/utsa) UTSA                              | 71             | 66           |                1.08 |
-| #6   | Oklahoma | [SMU](#f/smu) SMU                                 | 81             | 83           |                0.98 |
-| #7   | Oklahoma | [Memphis](#f/memphis) Memphis                     | 54             | 58           |                0.93 |
-| #8   | Oklahoma | [Team Chaos](#l/chaos) Team Chaos                 | 98             | 108          |                0.91 |
-| #9   | Oklahoma | [Florida State](#f/floridastate) Florida State    | 795            | 968          |                0.82 |
-| #10  | Oklahoma | [Texas Tech](#f/texastech) Texas Tech             | 308            | 379          |                0.81 |
+| #1   | Oklahoma | [Paper Bag](#l/paperbag) Paper Bag                | 319            | 114          |                2.80 |
+| #2   | Oklahoma | [Oklahoma State](#f/oklahomastate) Oklahoma State | 684            | 337          |                2.03 |
+| #3   | Oklahoma | [TCU](#f/tcu) TCU                                 | 305            | 152          |                2.01 |
+| #4   | Oklahoma | [Baylor](#f/baylor) Baylor                        | 390            | 225          |                1.73 |
+| #5   | Oklahoma | [UTSA](#f/utsa) UTSA                              | 71             | 54           |                1.31 |
+| #6   | Oklahoma | [SMU](#f/smu) SMU                                 | 81             | 66           |                1.23 |
+| #7   | Oklahoma | [Team Chaos](#l/chaos) Team Chaos                 | 98             | 96           |                1.02 |
+| #8   | Oklahoma | [Florida State](#f/floridastate) Florida State    | 795            | 836          |                0.95 |
+| #9   | Oklahoma | [Texas Tech](#f/texastech) Texas Tech             | 308            | 326          |                0.94 |
+| #10  | Oklahoma | [Stanford](#f/stanford) Stanford                  | 67             | 81           |                0.83 |
 
 As the data shows, OU fans are the #1 most common neutral commentator in
 USC threads, whether you go by comments per capita or just raw totals.
@@ -381,33 +371,33 @@ at least on this sub.
 
 Here are the top 10 most common commenters in LSU threads:
 
-| Rank | Team | Commentor Flair                                     | Total Comments | Unique Users | Comments per Capita |
-|:----|:----|:------------------------|:-----------|:----------|---------------:|
-| #1   | LSU  | [Paper Bag](#l/paperbag) Paper Bag                  | 417            | 139          |                3.00 |
-| #2   | LSU  | [Texas State](#f/texasstate) Texas State            | 163            | 66           |                2.47 |
-| #3   | LSU  | [Ole Miss](#f/olemiss) Ole Miss                     | 457            | 229          |                2.00 |
-| #4   | LSU  | [Alabama](#f/alabama) Alabama                       | 1,788          | 1,258        |                1.42 |
-| #5   | LSU  | [Georgia](#f/georgia) Georgia                       | 2,058          | 1,539        |                1.34 |
-| #6   | LSU  | [Notre Dame](#f/notredame) Notre Dame               | 1,319          | 995          |                1.33 |
-| #7   | LSU  | [Tennessee](#f/tennessee) Tennessee                 | 1,172          | 910          |                1.29 |
-| #8   | LSU  | [San Diego State](#f/sandiegostate) San Diego State | 84             | 66           |                1.27 |
-| #9   | LSU  | [Kentucky](#f/kentucky) Kentucky                    | 419            | 359          |                1.17 |
-| #10  | LSU  | [Texas A&M](#f/texasam) Texas A&M                   | 1,048          | 939          |                1.12 |
+| Rank | Team | Commentor Flair                                            | Total Comments | Unique Users | Comments per Capita |
+|:----|:----|:-------------------------|:-----------|:---------|--------------:|
+| #1   | LSU  | [Paper Bag](#l/paperbag) Paper Bag                         | 417            | 114          |                3.66 |
+| #2   | LSU  | [Ole Miss](#f/olemiss) Ole Miss                            | 457            | 182          |                2.51 |
+| #3   | LSU  | [Alabama](#f/alabama) Alabama                              | 1,788          | 1,048        |                1.71 |
+| #4   | LSU  | [Tennessee](#f/tennessee) Tennessee                        | 1,172          | 746          |                1.57 |
+| #5   | LSU  | [San Diego State](#f/sandiegostate) San Diego State        | 84             | 54           |                1.56 |
+| #6   | LSU  | [Notre Dame](#f/notredame) Notre Dame                      | 1,319          | 850          |                1.55 |
+| #7   | LSU  | [Georgia](#f/georgia) Georgia                              | 2,058          | 1,350        |                1.52 |
+| #8   | LSU  | [Florida](#f/florida) Florida                              | 1,015          | 721          |                1.41 |
+| #9   | LSU  | [Mississippi State](#f/mississippistate) Mississippi State | 171            | 122          |                1.40 |
+| #10  | LSU  | [Kentucky](#f/kentucky) Kentucky                           | 419            | 303          |                1.38 |
 
 Here are the top 10 most common commenters in Notre Dame threads:
 
-| Rank | Team       | Commentor Flair                          | Total Comments | Unique Users | Comments per Capita |
-|:----|:---------|:------------------|:------------|:----------|---------------:|
-| #1   | Notre Dame | [Paper Bag](#l/paperbag) Paper Bag       | 653            | 139          |                4.70 |
-| #2   | Notre Dame | [Team Chaos](#l/chaos) Team Chaos        | 362            | 108          |                3.35 |
-| #3   | Notre Dame | [Army](#f/army) Army                     | 175            | 55           |                3.18 |
-| #4   | Notre Dame | [Michigan](#f/michigan) Michigan         | 5,845          | 2,265        |                2.58 |
-| #5   | Notre Dame | [Indiana](#f/indiana) Indiana            | 491            | 198          |                2.48 |
-| #6   | Notre Dame | [Utah State](#f/utahstate) Utah State    | 107            | 50           |                2.14 |
-| #7   | Notre Dame | [Oklahoma](#f/oklahoma) Oklahoma         | 2,659          | 1,290        |                2.06 |
-| #8   | Notre Dame | [Wake Forest](#f/wakeforest) Wake Forest | 122            | 64           |                1.91 |
-| #9   | Notre Dame | [Ohio State](#f/ohiostate) Ohio State    | 4,142          | 2,333        |                1.78 |
-| #10  | Notre Dame | [Illinois](#f/illinois) Illinois         | 479            | 298          |                1.61 |
+| Rank | Team       | Commentor Flair                                   | Total Comments | Unique Users | Comments per Capita |
+|:----|:--------|:---------------------|:-----------|:---------|--------------:|
+| #1   | Notre Dame | [Paper Bag](#l/paperbag) Paper Bag                | 653            | 114          |                5.73 |
+| #2   | Notre Dame | [Team Chaos](#l/chaos) Team Chaos                 | 362            | 96           |                3.77 |
+| #3   | Notre Dame | [Indiana](#f/indiana) Indiana                     | 491            | 159          |                3.09 |
+| #4   | Notre Dame | [Michigan](#f/michigan) Michigan                  | 5,845          | 1,927        |                3.03 |
+| #5   | Notre Dame | [Oklahoma](#f/oklahoma) Oklahoma                  | 2,659          | 1,067        |                2.49 |
+| #6   | Notre Dame | [Wake Forest](#f/wakeforest) Wake Forest          | 122            | 50           |                2.44 |
+| #7   | Notre Dame | [Ohio State](#f/ohiostate) Ohio State             | 4,142          | 1,938        |                2.14 |
+| #8   | Notre Dame | [Illinois](#f/illinois) Illinois                  | 479            | 252          |                1.90 |
+| #9   | Notre Dame | [North Carolina](#f/northcarolina) North Carolina | 500            | 281          |                1.78 |
+| #10  | Notre Dame | [Arizona State](#f/arizonastate) Arizona State    | 336            | 193          |                1.74 |
 
 Notre Dame does show up on LSU’s list, at #6 by comments per capita or
 #3 for total comments. So while it’s not quite as strong as OU’s hate,
