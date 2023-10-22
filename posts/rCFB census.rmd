@@ -157,7 +157,8 @@ gt_data_clean |>
 ```{r calc, echo=FALSE, warning=FALSE, message=FALSE}
 # Census =======================================================================
 
-unique_users <- gt_data_clean |>
+# unique_users <- gt_data_clean |>
+unique_users <- all_data_clean |>
   group_by(author) |>
   summarize(
     n_comments = n(),
