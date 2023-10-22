@@ -1,0 +1,99 @@
+---
+title: "r/CFB Rival Analysis"
+output:
+  md_document:
+    variant: markdown_github
+date: "2023-09-26"
+---
+
+# What is this?
+
+I've been scraping all the game threads on r/CFB this season so that I can take a look at which fanbases are biggest, do some analysis of how people comment, etc. I've received a few requests to get some numbers on how specific rivalries
+manifest in game threads -- specifically, USC / OU fans and Notre Dame /
+LSU fans wanted to know who was showing up to the others’ game threads
+to talk shit more often.
+
+I'm able to calculate this by looking at all the neutral commenters in each team's game threads so far (so for each game, I'm filtering out the team in question and the team they're playing), and then summing up the most frequently-appearing primary flairs. Because I also have the total number of users with each primary flair from the census itself
+
+```{r, special, echo=FALSE, message=FALSE, warning=FALSE}
+census_counts <- summary_flair |>
+  select(flair_one = counted_flair, n_unique_users)
+
+rivals <- gt_data_clean_longer |>
+  group_by(team, flair_one, opp) |>
+  summarize(
+    n_comments = n()
+  ) |>
+  left_join(census_counts) |>
+  filter(
+    n_unique_users >= 50
+  ) 
+
+rivals_sum <- rivals |>
+  ungroup() |>
+  filter(flair_one != team,
+         flair_one != opp,
+         flair_one != "Unflaired") |>
+  group_by(team, flair_one, n_unique_users) |>
+  transmute(
+    total_comments = sum(n_comments),
+    comments_percap = total_comments / n_unique_users
+  ) |>
+  distinct() |>
+  group_by(team) |>
+  # slice_max(order_by = total_comments, n = 10) |>
+    slice_max(order_by = comments_percap, n = 10) |>
+  transmute(
+    "Rank" = paste0("#", row_number()),
+    "Team" = team,
+    "Commentor Flair" = paste(make_flair(flair_one), flair_one),
+    "Total Comments" = format(total_comments, big.mark = ","),
+    "Unique Users" = format(n_unique_users, big.mark = ","),
+    "Comments per Capita" = round(comments_percap, 2)
+  ) |>
+  ungroup() |>
+  select(!team)
+
+```
+
+## USC vs. Oklahoma
+
+Here are the top 10 most common neutral commenters in USC threads:
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+rivals_sum |>
+  filter(Team == "USC") |>
+  knitr::kable(format = "pipe")
+```
+
+Here are the top 10 most common neutral commenters in Oklahoma threads:
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+rivals_sum |>
+  filter(Team == "Oklahoma") |>
+  knitr::kable(format = "pipe")
+```
+
+As the data shows, OU fans are the #1 most common neutral commentator in USC threads, whether you go by comments per capita or just raw totals. However, USC fans hardly ever show up in OU threads by comparison -- they don't make the top ten, and you actually have to go all the way down to #30 to find them.
+
+Thus, we can conclude that the hate seems to flow pretty clearly in one direction. This also probably has something to do with the relative success the teams have had this year (there's been more occasion for OU fans to pile onto USC so far than vice versa), but I think this is pretty conclusive proof that the OU / USC rivalry is largely one-sided, at least on this sub.
+
+## LSU vs. Notre Dame
+
+Here are the top 10 most common commenters in LSU threads:
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+rivals_sum |>
+  filter(Team == "LSU") |>
+  knitr::kable(format = "pipe")
+```
+
+Here are the top 10 most common commenters in Notre Dame threads:
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+rivals_sum |>
+  filter(Team == "Notre Dame") |>
+  knitr::kable(format = "pipe")
+```
+
+Notre Dame does show up on LSU's list, at #6 by comments per capita or #3 for total comments. So while it's not quite as strong as OU's hate, they definitely still seem to have some raw feelings toward ol' Cajun Kelly. LSU doesn't show up on here until #35 on the list, so like USC, they don't really seem to be reciprocating.
