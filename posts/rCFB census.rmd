@@ -14,6 +14,7 @@ library(lubridate)
 library(ggplot2)
 library(stringr)
 library(here)
+library(purrr)
 library(fs)
 
 devtools::load_all()
@@ -34,6 +35,24 @@ gt_data <- all_data |>
 pgt_data <- all_data |>
   filter(str_detect(title, "\\[Postgame Thread"))
 
+# Coverage checks --------------------------------------------------------------
+
+# Repeats
+test_repeat_data <- list.files(here("data", "reddit-comment-data", "cfb", "2023"),
+                        pattern = "*.rds", full.names = T, recursive = T) |>
+  str_replace("-2023.*", "") |>
+  str_replace(".*/", "")
+
+n_repeats <- test_repeat_data[duplicated(test_repeat_data)]
+
+if(length(n_repeats) != 0){
+  for(i in seq(from = 1, to = 10)){
+    cli::cli_alert_danger("There's some repeat data in there! This is why you should write to a database!")
+  }
+}
+
+# Clean data -------------------------------------------------------------------
+
 make_flair <- function(flair_text) {
   # alt_flair_list <- "Paper Bag|Team Chaos|"
   case_when(
@@ -47,106 +66,31 @@ make_flair <- function(flair_text) {
   )
 }
 
-# clean_rcfb_comments <- function(data) {
-# 
-#   swear_strings <- paste("(?i)\\b(fuc(k.*|c|))\\b",
-#                          "\\b(wtf)\\b",
-#                          "\\b(ass(hole|es|))\\b",
-#                          "damn",
-#                          "shit",
-#                          "\\b(hell)\\b",
-#                          "bitch",
-#                          "bastard",
-#                          sep = "|")
-#   ref_strings <- paste("(?i)\\b(ref(s|erees|effing|efball|))\\b", # ref, refs, referees, reffing, refball, etc.
-#                        "\\b(officials)\\b", # officials -- singluar has too many FPs
-#                        "\\b(flag(s|))\\b", # flag(s)
-#                        "\\b(ump(s|ire|ires))\\b", # ump / umps
-#                        # "\\b(calls)\\b", # calls -- others have too many false positives
-#                        "\\b(whistle(s|))\\b", # whistle(s)
-#                        "the fix", # the fix, fixed
-#                        "\\b(rigging|rig|rigged)\\b", # rig, rigged, rigging
-#                        # "\\b(spot|spotted|spots)\\b", # spot, spots, spotted
-#                        "\\b(hosed|jobbed|robbed)\\b", # hosed, jobbed, robbed
-#                        sep = "|")
-#   ad_strings <- paste("(?i)\\b(ad|ads|advertisements)\\b",
-#                       "\\b(commercial|comer.*al|commer.*al)\\b",
-#                       "\\b(progressive|all state|cheez|att|at&t|lilly|fansville|fansvile|dr\\. pepper|dr pepper|burger king)\\b",
-#                       sep = "|")
-#   
-#   data_clean <- data |>
-#     mutate(
-#       # Cleaning
-#       time = as_datetime(time_unix),
-#       time_cst = lubridate::as_datetime(time_unix) |> with_tz("America/Chicago"),
-#       flair = trimws(str_remove(flair, "\\:[^()]*\\:")),
-#       flair = if_else(flair == "NULL", "No Flair", flair), # No flairs
-#       flair = if_else(flair == "Go to https://flair.redditcfb.com to get your flair!", "/r/CFB", flair),
-#       title_clean = trimws(str_remove_all(title, "\\([^)]*\\)|\\[[^]]*\\]|\\d+|[^A-Za-z@\\s]")),
-#       # Ref complaints
-#       ref_complaint = if_else(str_detect(body, ref_strings), TRUE, FALSE),
-#       # Swears
-#       swear = if_else(str_detect(body, swear_strings), TRUE, FALSE),
-#       # Commercials
-#       ad_complaint = if_else(str_detect(body, ad_strings), TRUE, FALSE)
-#     ) |>
-#     # separate(col = flair, sep = " • ", into = c("flair_one", "flair_two")) |>
-#     separate(col = title_clean, sep = " (@|Defeats|vs) ", into = c("away", "home"), remove = FALSE) |>
-#     separate_wider_delim(cols = flair,
-#                          delim = " • ",
-#                          names = c("flair_one", "flair_two"),
-#                          too_few = "align_start",
-#                          cols_remove = F
-#     ) |>
-#     # separate_wider_delim(cols = title_clean,
-#     #                      delim = "@|defeats",
-#     #                      names = c("away", "home"),
-#     #                      too_few = "align_start",
-#     #                      cols_remove = F
-#     # ) |>
-#     mutate(
-#       flair_one = if_else(is.na(flair_one) | flair_one == "", "Unflaired", flair_one),
-#       away = str_remove(away, "\\[Game Thread]"),
-#       away = trimws(str_replace_all(away, pattern = "[^a-zA-Z ]", "")),
-#       home = str_remove(home, " \\s*\\([^\\)]+\\)"),
-#       home = trimws(str_replace_all(home, pattern = "[^a-zA-Z ]", ""))
-#     ) # |> suppressWarnings()
-# 
-# }
-
 all_data_clean <- all_data |>
-  clean_rcfb_comments()
+  sportsBs::clean_rcfb_comments()
 
 gt_data_clean <- all_data_clean |>
   filter(str_detect(title, "@|vs|v.s") & str_detect(title, "\\[Game Thread"))
 
-pgt_data_clean <- all_data_clean |>
-  filter(str_detect(title, "\\[Postgame Thread"))
+# pgt_data_clean <- all_data_clean |>
+#   filter(str_detect(title, "\\[Postgame Thread"))
 
 # Total threads:
 n_gts <- gt_data_clean |> count(title, sort = T) |> nrow() |> format(big.mark = ",")
-n_pgts <- pgt_data_clean |> count(title, sort = T) |> nrow() |> format(big.mark = ",")
+# n_pgts <- pgt_data_clean |> count(title, sort = T) |> nrow() |> format(big.mark = ",")
 n_all <- all_data_clean |> count(title, sort = T) |> nrow() |> format(big.mark = ",")
 
 ```
 
 # What is this?
 
-As a side project, I decided to scrape every comment from every game thread this season. I've done this here and there in the past, but I've never done it over a whole season. I've got my setup fully automated to scrape every thread with "[Game Thread]" in the title at 4AM every night, and it's been a success over the first few weeks.
-
-So, I thought it would be fun to share what I've got so far. I used the data to come up with two things that I thought were kinda fun:
-
--   A "r/CFB flair census", which counts the number of unique users with each primary flair (i.e. how big is each fanbase on the sub). I've always wondered about this.
-    -   I also used the data to see which fanbase swears the least/most, who comments the most often, and a few other honorifics that you can either take pride in or mock your rivals for.
-    -   You can also see each flair's #1 most talkative fan! If you work hard, you could see your name up there at the end of the season.
--   A "r/CFB posting leaderboard", which tracks which individual poster has commented in game threads the most throughout the whole season. Sadly I did not make the top 25.
-    -   I also crowned the #1 sicko, as measured by unique number of threads participated in. Something else to aspire to!
+As a side project, I decided to scrape every comment from every game thread this season. I decided to use the data to do a "r/CFB census" to see what I could learn about the different fanbases, and I posted the first update [here](https://old.reddit.com/r/CFB/comments/16srlyr/cfb_flair_census_update_scraping_every_game/) earlier in the season. Now that we're getting into the latter half, I thought I'd post another update.
 
 # The data
 
-So far, I've scraped `r n_gts` game threads with `r nrow(gt_data_clean) |> format(big.mark = ",")` total comments. I actually also have the post game threads as well, which expands the total number of comments to `r nrow(all_data_clean) |> format(big.mark = ",")`, but for now I'm just going to focus on the game threads. In my mind it makes sense to treat them as separate things, but if anyone wants to see any of this with the combined / PGT-only data, just let me know.
+So far, I've scraped `r n_gts` game threads with `r nrow(gt_data_clean) |> format(big.mark = ",")` total comments. I actually also have the post game threads as well, which expands the total number of comments to `r nrow(all_data_clean) |> format(big.mark = ",")`, but for now I'm just going to focus on the game threads. If you want to see what this post would look like if I included the PGTs too, you can see that [here]().
 
-Here's a fun graph that shows how many comments people left per hour throughout the whole season: [GRAPH: comments per hour](https://imgur.com/8jnETSl)
+Here's a fun graph that shows how many comments people left per hour throughout the whole season: [GRAPH: comments per hour]()
 
 Here's a table with the top ten game threads so far this year by total comments. Colorado seems to be popular for some reason, not sure why.
 
@@ -155,11 +99,58 @@ gt_data_clean |>
   count(title_clean, sort = T) |>
   slice_max(order_by = n,
             n = 10) |>
-  mutate(n = format(n, big.mark = ",")) |>
-  rename("Thread" = title_clean,
+  mutate(n = format(n, big.mark = ","),
+         rank = paste0("#", row_number())) |>
+  select("Rank" = rank,
+         "Thread" = title_clean,
          "Total Comments" = n) |>
   knitr::kable(format = "pipe")
+```
 
+This time, I also added up the total number of comments in all of each team's game threads this year in order to find the most talked-about team on r/CFB this year. The top team will absolutely shock you!
+
+```{r table7, echo=FALSE, message=FALSE, warning=FALSE} 
+
+gt_data_clean_longer <- gt_data_clean |>
+  rowwise() |>
+  mutate(both_teams = list(c(home, away))) |>
+  pivot_longer(cols = c(home, away), names_to = c("matchup"), values_to = "team") |>
+  rowwise() |>
+  mutate(
+    opp = if_else(both_teams[1] == team, both_teams[2], both_teams[1])
+  )
+
+pop <- gt_data_clean_longer |>
+  group_by(team) |>
+  summarize(
+    n_comments = n(),
+    n_threads = n_distinct(title),
+    comments_per_thread = n_comments / n_threads
+  )
+
+pop |>
+  slice_max(order_by = comments_per_thread, n = 10) |>
+  mutate(n_comments = format(n_comments, big.mark = ","),
+         comments_per_thread = format(round(comments_per_thread, 2), big.mark = ","),
+         rank = paste0("#", row_number())) |>
+  select("Rank" = rank,
+         "Team" = team,
+         "Avg. Comments per Game Thread" = comments_per_thread,
+         "Total Comments" = n_comments,
+         "Total Threads" = n_threads) |>
+  knitr::kable(format = "pipe")
+
+```
+
+Colorado has had exactly one (1) game thread so far with less than 15k comments (@ ASU). Here is their full slate thus far:
+
+```{r}
+gt_data_clean |> 
+  filter(home == "Colorado" | away == "Colorado") |> 
+  count("Thread" = title_clean) |> 
+  arrange(desc(n)) |> 
+  mutate(n = format(n, big.mark = ",")) |> 
+  rename("Total Comments" = n)
 ```
 
 ```{r calc, echo=FALSE, warning=FALSE, message=FALSE}
@@ -293,8 +284,6 @@ summary_flair_formatted |>
   knitr::kable(format = "pipe")
 ```
 
-Alabama is only putting up a paltry 3.58 upvotes per post. Is the Saban era finally over?
-
 ## Top 10 most / least chatty flair
 
 ```{r table1_5, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
@@ -328,9 +317,14 @@ summary_flair |>
 
 ## Top 10 most / least swears
 
+I scanned each comment for swear words, including all variations of "fuck", "wtf", "ass", "damn", "shit", "hell", "bitch", and "bastard". I also limited this to include only flairs with at least 2,500 total comments in the dataset. Here are the most and least foul-mouthed fanbases:
+
 ```{r table2, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 summary_flair |>
-  filter(n_unique_users >= 50) |>
+  filter(
+    n_total_comments >= 2500,
+    n_unique_users >= 50
+    ) |>
   slice_max(order_by = p_swears,
             n = 10) |>
   mutate(rank = paste0("#", row_number())) |>
@@ -343,7 +337,10 @@ summary_flair |>
   knitr::kable(format = "pipe")
 
 summary_flair |>
-  filter(n_unique_users >= 50) |>
+  filter(
+    n_total_comments >= 2500,
+    n_unique_users >= 50
+    ) |>
   slice_max(order_by = -p_swears,
             n = 10) |>
   mutate(rank = paste0("#", row_number())) |>
@@ -360,9 +357,14 @@ Classic BYU.
 
 ## Most ref complaints per comment
 
+I used a similar approach for this, scanning each comment for words indicating a ref complaint. This isn't perfect, because it misses vaguely worded things like "oh, come on" and can include some false positives like "the refs are doing a great job and I love them", but it's close enough to do the job. Includes variations of terms like "refs" (including "referees", "refball", etc.), "officials", "flag", "whistle", "the fix", "rig", etc. I also limited this to include only flairs with at least 2,500 total comments in the dataset.
+
 ```{r table3, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 summary_flair |>
-  filter(n_unique_users >= 50) |>
+  filter(
+    n_total_comments >= 2500,
+    n_unique_users >= 50
+    ) |>
   slice_max(order_by = p_ref_comps,
             n = 10) |>
   mutate(rank = paste0("#", row_number())) |>
@@ -375,28 +377,115 @@ summary_flair |>
   knitr::kable(format = "pipe")
 ```
 
-I actually checked before last week, and Oklahoma rocketed up from ~50th place to the top ten in the Cincinnati game alone.
-
 # r/CFB 2023 Leaderboards
 
 And finally, the big reveal: who is in the lead to claim this year's National Champion of posting? Here are the top 25 so far this season:
 
-```{r table4, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 summary_users_formatted |>
   knitr::kable(format = "pipe")
 ```
 
+BikiniATroll maintains a comfortable lead, and is on pace to close out the victory unless someone steps up. Special shoutout to leakymemo for the impressive swear rate.
+
 Additionally, here's the official Sicko Award Top Ten, as it stands now:
 
-```{r table5, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 summary_users |>
   filter(author != "RivalryBot") |>
   slice_max(order_by = n_unique_threads,
             n = 10) |>
-  mutate(rank = paste0("#", row_number())) |>
+  mutate(rank = paste0("#", row_number()),
+         n_comments = format(n_comments, big.mark = ",")) |>
   select(rank, author, counted_flair, n_unique_threads, n_comments) |>
   knitr::kable(format = "pipe")
 ```
+
+This is still anyone's game! 
+
+# Special research question -- why are you so obsessed with us?
+
+I got a few requests to get some numbers on how specific rivalries manifest in game threads. Specifically, USC / OU fans and Notre Dame / LSU fans wanted to know who was showing up to the others' game threads to talk shit more often. 
+
+I decided to calculate this with comments "per capita", i.e. looking at all of each team's game threads and finding the flair which left the most comments per unique users in the census. I've filtered out comments from non-neutrals and the unflaired, and also limited it to just flairs with at least 50 unique users.
+
+```{r, special, echo=FALSE, message=FALSE, warning=FALSE}
+census_counts <- summary_flair |>
+  select(flair_one = counted_flair, n_unique_users)
+
+rivals <- gt_data_clean_longer |>
+  group_by(team, flair_one, opp) |>
+  summarize(
+    n_comments = n()
+  ) |>
+  left_join(census_counts) |>
+  filter(
+    n_unique_users >= 50
+  ) 
+
+rivals_sum <- rivals |>
+  ungroup() |>
+  filter(flair_one != team,
+         flair_one != opp,
+         flair_one != "Unflaired") |>
+  group_by(team, flair_one, n_unique_users) |>
+  transmute(
+    total_comments = sum(n_comments),
+    comments_percap = total_comments / n_unique_users
+  ) |>
+  distinct() |>
+  group_by(team) |>
+  # slice_max(order_by = total_comments, n = 10) |>
+    slice_max(order_by = comments_percap, n = 10) |>
+  transmute(
+    "Rank" = paste0("#", row_number()),
+    "Team" = team,
+    "Commentor Flair" = paste(make_flair(flair_one), flair_one),
+    "Total Comments" = format(total_comments, big.mark = ","),
+    "Unique Users" = format(n_unique_users, big.mark = ","),
+    "Comments per Capita" = round(comments_percap, 2)
+  ) |>
+  ungroup() |>
+  select(!team)
+
+```
+
+## USC vs. Oklahoma
+
+Here are the top 10 most common neutral commenters in USC threads:
+
+```{r}
+rivals_sum |>
+  filter(Team == "USC") |>
+  knitr::kable(format = "pipe")
+```
+
+Here are the top 10 most common neutral commenters in Oklahoma threads:
+
+```{r}
+rivals_sum |>
+  filter(Team == "Oklahoma") |>
+  knitr::kable(format = "pipe")
+```
+
+## LSU vs. Notre Dame
+
+Here are the top 10 most common commenters in LSU threads:
+
+```{r}
+rivals_sum |>
+  filter(Team == "LSU") |>
+  knitr::kable(format = "pipe")
+```
+
+Here are the top 10 most common commenters in Notre Dame threads:
+
+```{r}
+rivals_sum |>
+  filter(Team == "Notre Dame") |>
+  knitr::kable(format = "pipe")
+```
+
 
 ---
 
