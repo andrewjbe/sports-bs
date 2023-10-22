@@ -12,7 +12,7 @@ thought I’d post another update.
 
 So far, I’ve scraped 827 game threads with 1,277,330 total comments. I
 actually also have the post game threads as well, which expands the
-total number of comments to 1,434,185, but for now I’m just going to
+total number of comments to 1,439,198, but for now I’m just going to
 focus on the game threads. If you want to see what this post would look
 like if I included the PGTs too, you can see that [here]().
 
@@ -55,25 +55,15 @@ team on r/CFB this year. The top team will absolutely shock you!
 Colorado has had exactly one (1) game thread so far with less than 15k
 comments (@ ASU). Here is their full slate thus far:
 
-``` r
-gt_data_clean |> 
-  filter(home == "Colorado" | away == "Colorado") |> 
-  count("Thread" = title_clean) |> 
-  arrange(desc(n)) |> 
-  mutate(n = format(n, big.mark = ",")) |> 
-  rename("Total Comments" = n)
-```
-
-    ## # A tibble: 7 × 2
-    ##   Thread                    `Total Comments`
-    ##   <chr>                     <chr>           
-    ## 1 Colorado State @ Colorado "52,055"        
-    ## 2 Colorado @ Oregon         "28,412"        
-    ## 3 Nebraska @ Colorado       "25,254"        
-    ## 4 Colorado @ TCU            "23,449"        
-    ## 5 USC @ Colorado            "18,905"        
-    ## 6 Stanford @ Colorado       "15,369"        
-    ## 7 Colorado @ Arizona State  " 1,989"
+| Thread                    | Total Comments |
+|:--------------------------|:---------------|
+| Colorado State @ Colorado | 52,055         |
+| Colorado @ Oregon         | 28,412         |
+| Nebraska @ Colorado       | 25,254         |
+| Colorado @ TCU            | 23,449         |
+| USC @ Colorado            | 18,905         |
+| Stanford @ Colorado       | 15,369         |
+| Colorado @ Arizona State  | 1,989          |
 
 # r/CFB flair census
 
@@ -175,6 +165,9 @@ The first table here shows the results, sorted by total unique users:
 | #83  | [Wake Forest](#f/wakeforest)             | Wake Forest       | 50           | 1,297          | 25.94             | 4.63               | 10.64%                  | 2.78%                           | Bigdeacenergy (353 comments)          |
 
 ## Top 10 most / least chatty flair
+
+This is measured by the number of comments per unique user made by each
+flair.
 
 | Rank | Logo                                   | Flair            | Total Comments | Comments per User |
 |:-----|:----------------|:----------------|:--------------|:-----------------|
@@ -295,24 +288,24 @@ National Champion of posting? Here are the top 25 so far this season:
 | #24  | MrNudeGuy            | Oklahoma         | 1,214          |             83 | 8.9%                 | 2.39%                        |
 | #25  | elgenie              | Iowa             | 1,207          |             43 | 3.89%                | 1.24%                        |
 
-BikiniATroll maintains a comfortable lead, and is on pace to close out
-the victory unless someone steps up. Special shoutout to leakymemo for
-the impressive swear rate.
+BikiniATroll maintains a comfortable lead, as the only poster to break
+2k, and is on pace to close out the victory unless someone steps up.
+Special shoutout to leakymemo for the impressive swear rate.
 
 Additionally, here’s the official Sicko Award Top Ten, as it stands now:
 
-| rank | author               | counted_flair      | n_unique_threads | n_comments |
-|:-----|:-------------------|:------------------|----------------:|:----------|
-| #1   | zenverak             | Georgia            |              148 | 1,516      |
-| #2   | Muffinnnnnnn         | Florida State      |              136 | 668        |
-| #3   | loyalsons4evertrue   | Iowa State         |              122 | 1,627      |
-| #4   | Zloggt               | Illinois           |              121 | 427        |
-| #5   | Sportacles           | Oregon             |              111 | 753        |
-| #6   | BikiniATroll         | Penn State         |               98 | 2,168      |
-| #7   | ddottay              | Notre Dame         |               97 | 809        |
-| #8   | thebaylorweedinhaler | Baylor             |               94 | 1,579      |
-| #9   | aMiracleAtJordanHare | Paper Bag          |               91 | 1,759      |
-| #10  | Treehumper69         | Jacksonville State |               91 | 296        |
+| Rank | Author               | Flair              | N Threads | N Comments |
+|:-----|:---------------------|:-------------------|----------:|:-----------|
+| #1   | zenverak             | Georgia            |       148 | 1,516      |
+| #2   | Muffinnnnnnn         | Florida State      |       136 | 668        |
+| #3   | loyalsons4evertrue   | Iowa State         |       122 | 1,627      |
+| #4   | Zloggt               | Illinois           |       121 | 427        |
+| #5   | Sportacles           | Oregon             |       111 | 753        |
+| #6   | BikiniATroll         | Penn State         |        98 | 2,168      |
+| #7   | ddottay              | Notre Dame         |        97 | 809        |
+| #8   | thebaylorweedinhaler | Baylor             |        94 | 1,579      |
+| #9   | aMiracleAtJordanHare | Paper Bag          |        91 | 1,759      |
+| #10  | Treehumper69         | Jacksonville State |        91 | 296        |
 
 This is still anyone’s game!
 
@@ -333,12 +326,6 @@ with at least 50 unique users.
 
 Here are the top 10 most common neutral commenters in USC threads:
 
-``` r
-rivals_sum |>
-  filter(Team == "USC") |>
-  knitr::kable(format = "pipe")
-```
-
 | Rank | Team | Commentor Flair                                     | Total Comments | Unique Users | Comments per Capita |
 |:----|:----|:------------------------|:-----------|:----------|---------------:|
 | #1   | USC  | [Oklahoma](#f/oklahoma) Oklahoma                    | 6,634          | 1,067        |                6.22 |
@@ -354,12 +341,6 @@ rivals_sum |>
 
 Here are the top 10 most common neutral commenters in Oklahoma threads:
 
-``` r
-rivals_sum |>
-  filter(Team == "Oklahoma") |>
-  knitr::kable(format = "pipe")
-```
-
 | Rank | Team     | Commentor Flair                                   | Total Comments | Unique Users | Comments per Capita |
 |:----|:-------|:----------------------|:-----------|:----------|---------------:|
 | #1   | Oklahoma | [Paper Bag](#l/paperbag) Paper Bag                | 319            | 114          |                2.80 |
@@ -373,15 +354,22 @@ rivals_sum |>
 | #9   | Oklahoma | [Texas Tech](#f/texastech) Texas Tech             | 308            | 326          |                0.94 |
 | #10  | Oklahoma | [Stanford](#f/stanford) Stanford                  | 67             | 81           |                0.83 |
 
+As the data shows, OU fans are the #1 most common neutral commentator in
+USC threads, whether you go by comments per capita or just raw totals.
+However, USC fans hardly ever show up in OU threads by comparison – they
+don’t make the top ten, and you actually have to go all the way down to
+#30 to find them.
+
+Thus, we can conclude that the hate seems to flow pretty clearly in one
+direction. This also probably has something to do with the relative
+success the teams have had this year (there’s been more occasion for OU
+fans to pile onto USC so far than vice versa), but I think this is
+pretty conclusive proof that the OU / USC rivalry is largely one-sided,
+at least on this sub.
+
 ## LSU vs. Notre Dame
 
 Here are the top 10 most common commenters in LSU threads:
-
-``` r
-rivals_sum |>
-  filter(Team == "LSU") |>
-  knitr::kable(format = "pipe")
-```
 
 | Rank | Team | Commentor Flair                                            | Total Comments | Unique Users | Comments per Capita |
 |:----|:----|:-------------------------|:-----------|:---------|--------------:|
@@ -398,12 +386,6 @@ rivals_sum |>
 
 Here are the top 10 most common commenters in Notre Dame threads:
 
-``` r
-rivals_sum |>
-  filter(Team == "Notre Dame") |>
-  knitr::kable(format = "pipe")
-```
-
 | Rank | Team       | Commentor Flair                                   | Total Comments | Unique Users | Comments per Capita |
 |:----|:--------|:---------------------|:-----------|:---------|--------------:|
 | #1   | Notre Dame | [Paper Bag](#l/paperbag) Paper Bag                | 653            | 114          |                5.73 |
@@ -416,6 +398,12 @@ rivals_sum |>
 | #8   | Notre Dame | [Illinois](#f/illinois) Illinois                  | 479            | 252          |                1.90 |
 | #9   | Notre Dame | [North Carolina](#f/northcarolina) North Carolina | 500            | 281          |                1.78 |
 | #10  | Notre Dame | [Arizona State](#f/arizonastate) Arizona State    | 336            | 193          |                1.74 |
+
+Notre Dame does show up on LSU’s list, at #6 by comments per capita or
+#3 for total comments. So while it’s not quite as strong as OU’s hate,
+they definitely still seem to have some raw feelings toward ol’ Cajun
+Kelly. LSU doesn’t show up on here until #35 on the list, so like USC,
+they don’t really seem to be reciprocating.
 
 ------------------------------------------------------------------------
 

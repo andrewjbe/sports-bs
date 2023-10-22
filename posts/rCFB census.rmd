@@ -144,13 +144,14 @@ pop |>
 
 Colorado has had exactly one (1) game thread so far with less than 15k comments (@ ASU). Here is their full slate thus far:
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 gt_data_clean |> 
   filter(home == "Colorado" | away == "Colorado") |> 
   count("Thread" = title_clean) |> 
   arrange(desc(n)) |> 
   mutate(n = format(n, big.mark = ",")) |> 
-  rename("Total Comments" = n)
+  rename("Total Comments" = n) |>
+  knitr::kable(format = "pipe")
 ```
 
 ```{r calc, echo=FALSE, warning=FALSE, message=FALSE}
@@ -286,6 +287,8 @@ summary_flair_formatted |>
 
 ## Top 10 most / least chatty flair
 
+This is measured by the number of comments per unique user made by each flair.
+
 ```{r table1_5, echo=FALSE, message=FALSE, warning=FALSE, results='asis'}
 summary_flair |>
   filter(n_unique_users >= 50) |>
@@ -386,7 +389,7 @@ summary_users_formatted |>
   knitr::kable(format = "pipe")
 ```
 
-BikiniATroll maintains a comfortable lead, and is on pace to close out the victory unless someone steps up. Special shoutout to leakymemo for the impressive swear rate.
+BikiniATroll maintains a comfortable lead, as the only poster to break 2k, and is on pace to close out the victory unless someone steps up. Special shoutout to leakymemo for the impressive swear rate.
 
 Additionally, here's the official Sicko Award Top Ten, as it stands now:
 
@@ -397,7 +400,11 @@ summary_users |>
             n = 10) |>
   mutate(rank = paste0("#", row_number()),
          n_comments = format(n_comments, big.mark = ",")) |>
-  select(rank, author, counted_flair, n_unique_threads, n_comments) |>
+  select("Rank" = rank, 
+         "Author" = author, 
+         "Flair" = counted_flair, 
+         "N Threads" = n_unique_threads, 
+         "N Comments" = n_comments) |>
   knitr::kable(format = "pipe")
 ```
 
@@ -454,7 +461,7 @@ rivals_sum <- rivals |>
 
 Here are the top 10 most common neutral commenters in USC threads:
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 rivals_sum |>
   filter(Team == "USC") |>
   knitr::kable(format = "pipe")
@@ -462,17 +469,21 @@ rivals_sum |>
 
 Here are the top 10 most common neutral commenters in Oklahoma threads:
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 rivals_sum |>
   filter(Team == "Oklahoma") |>
   knitr::kable(format = "pipe")
 ```
 
+As the data shows, OU fans are the #1 most common neutral commentator in USC threads, whether you go by comments per capita or just raw totals. However, USC fans hardly ever show up in OU threads by comparison -- they don't make the top ten, and you actually have to go all the way down to #30 to find them.
+
+Thus, we can conclude that the hate seems to flow pretty clearly in one direction. This also probably has something to do with the relative success the teams have had this year (there's been more occasion for OU fans to pile onto USC so far than vice versa), but I think this is pretty conclusive proof that the OU / USC rivalry is largely one-sided, at least on this sub.
+
 ## LSU vs. Notre Dame
 
 Here are the top 10 most common commenters in LSU threads:
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 rivals_sum |>
   filter(Team == "LSU") |>
   knitr::kable(format = "pipe")
@@ -480,12 +491,13 @@ rivals_sum |>
 
 Here are the top 10 most common commenters in Notre Dame threads:
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 rivals_sum |>
   filter(Team == "Notre Dame") |>
   knitr::kable(format = "pipe")
 ```
 
+Notre Dame does show up on LSU's list, at #6 by comments per capita or #3 for total comments. So while it's not quite as strong as OU's hate, they definitely still seem to have some raw feelings toward ol' Cajun Kelly. LSU doesn't show up on here until #35 on the list, so like USC, they don't really seem to be reciprocating.
 
 ---
 
